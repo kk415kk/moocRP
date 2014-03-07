@@ -1,0 +1,43 @@
+/***********
+ *	COLORS
+ ***********/
+body {
+  padding: 60px 40px 40px 40px;
+}
+.jumbotron {
+  text-align: center;
+}
+.jumbotron {
+  font-size: 1.5em;
+  letter-spacing: -1px;
+  margin-bottom: 30px;
+  text-align: center;
+  font-weight: normal;
+  color: gray;
+}
+.container .gray {
+  color: gray;
+}
+.form-signin {
+  max-width: 70%;
+  padding: 19px 29px 29px;
+  margin: 0 auto 20px;
+  margin-top: 20px;
+  background-color: #ececec;
+  border: 1px solid #236b8e;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+}
+.form-signin h2 {
+  text-align: center;
+  margin-top: 0px;
+}
+.form-signin input[type="text"],
+.form-signin input[type="password"],
+.form-signin input[type="email"] {
+  font-size: 16px;
+  height: auto;
+  margin-bottom: 15px;
+  padding: 7px 9px;
+}
