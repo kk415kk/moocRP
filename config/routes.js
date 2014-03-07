@@ -33,12 +33,21 @@ module.exports.routes = {
   // 
   // (This would also work if you had a file at: `/views/home.ejs`)
   '/': {
-    view: 'static/index'
+    view: 'home/index'
   },
 
   '/about': {
-    view: 'static/about'
+    view: 'home/about'
   },
+
+  '/login': {
+    view: 'user/login'
+  },
+
+  '/dashboard': {
+    controller: 'dashboard',
+    action: 'dashboard'
+  }
 
   /*
   // But what if you want your home page to display
@@ -84,7 +93,7 @@ module.exports.routes = {
   'post /signup': 'UserController.signup'
   */
 
-  'post /create': 'UserController.create'
+  //'post /create': 'UserController.create'
 
   /*
   // What about the ever-popular "vanity URLs" aka URL slugs?

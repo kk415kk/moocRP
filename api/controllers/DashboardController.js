@@ -16,15 +16,24 @@
  */
 
 module.exports = {
-    
-  
-
 
   /**
    * Overrides for the settings in `config/controllers.js`
    * (specific to DashboardController)
    */
   //_config: {}
-  
+  display: function(req, res, next) {
+    User.findOne(req.param('id'), function foundUser(err, user) {
+      if (err) {
+        return next[err];
+      }
+      if (!user) {
+        return next();
+      } 
+      res.view({
+        user: user
+      });
+    });
+  }  
   
 };

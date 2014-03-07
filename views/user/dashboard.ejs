@@ -1,1 +1,7 @@
-<h1>Welcome to your dashboard</h1>
+<div class="container">
+	<h1>Welcome to your dashboard, <%= user.first_name %></h1>
+	<hr>
+	<h3>Contact: <%= user.email %></h3>
+	<h3>Password: <%= user.password %></h3>
+	<a class="btn btn-medium btn-primary" href="/dashboard/edit/<%= user.id%>">Edit<a>
+</div>
