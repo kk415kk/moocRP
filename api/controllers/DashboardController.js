@@ -24,21 +24,25 @@ module.exports = {
   //_config: {}
   display: function(req, res, next) {
     if (req.session.authenticated) {
+      console.log(req.session);
       res.view({
         user: req.session.user
       });
     } else {
-      User.findOne(req.param('id'), function foundUser(err, user) {
-        if (err) {
-          return next[err];
-        }
-        if (!user) {
-          return next();
-        } 
-        res.view({
-          user: user
-        });
-      });
+      res.redirect('/user/login');
+
+
+      // User.findOne(req.param('id'), function foundUser(err, user) {
+      //   if (err) {
+      //     return next[err];
+      //   }
+      //   if (!user) {
+      //     return next();
+      //   } 
+      //   res.view({
+      //     user: user
+      //   });
+      // });
     }
   }  
   

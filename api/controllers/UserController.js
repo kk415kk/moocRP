@@ -28,9 +28,9 @@ module.exports = {
 
   // View for signup page
   signup: function(req, res) {
-    //if (req.session.authenticated) {
-    //  req.session.authenticated = false;
-    //}
+    // if (req.session.authenticated) {
+    //   req.session.authenticated = false;
+    // }
   	res.view();
   },
 
@@ -48,7 +48,7 @@ module.exports = {
         var newDateObj = new Date(oldDateObj.getTime() + 3600000); // one hour before expiring
         req.session.cookie.expires = newDateObj;
         req.session.authenticated = true;
-    		res.redirect('/dashboard/display/'+user.id);
+    		res.redirect('/dashboard/display/');
       }
   	});
   },
@@ -56,7 +56,7 @@ module.exports = {
   // Action when user clicks for login page
   login: function(req, res) {
     if (req.session.authenticated) {
-      res.redirect('/dashboard/display/'+req.session.user.id);
+      res.redirect('/dashboard/display/');
     } else {
       res.view();
     }
