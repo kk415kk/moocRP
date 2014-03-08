@@ -14,7 +14,7 @@
  *
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
-
+var passport = require('passport');
 module.exports = {
 
   /**
@@ -26,6 +26,8 @@ module.exports = {
   // After clicking "log in", this action verifies and sets the new session
   'new': function(req, res) {
 	console.log(req.session);
+	console.log('body');
+	console.log(req.body);
 	var bcrypt = require('bcrypt');
 
 	if (req.body.email) {
