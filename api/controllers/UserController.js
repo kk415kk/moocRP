@@ -42,7 +42,7 @@ module.exports = {
         req.session.flash = {
           err: err.ValidationError
         }
-        return res.redirect('/user/signup');
+        return res.redirect('/signup');
       } else {
         var oldDateObj = new Date();
         var newDateObj = new Date(oldDateObj.getTime() + 3600000); // one hour before expiring
@@ -67,6 +67,7 @@ module.exports = {
     if (req.session.authenticated) {
       req.session.user = null;
       req.session.authenticated = false;
+      req.session.cookie = null;
     } 
     res.redirect('/');
   }

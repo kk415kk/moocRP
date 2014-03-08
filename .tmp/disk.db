@@ -28,7 +28,8 @@
         "updatedAt": "2014-03-08T05:41:34.232Z",
         "id": 39
       }
-    ]
+    ],
+    "session": []
   },
   "schema": {
     "user": {
@@ -60,11 +61,35 @@
         "type": "datetime",
         "default": "NOW"
       }
+    },
+    "session": {
+      "email": {
+        "type": "string"
+      },
+      "password": {
+        "type": "string"
+      },
+      "id": {
+        "type": "integer",
+        "autoIncrement": true,
+        "defaultsTo": "AUTO_INCREMENT",
+        "primaryKey": true,
+        "unique": true
+      },
+      "createdAt": {
+        "type": "datetime",
+        "default": "NOW"
+      },
+      "updatedAt": {
+        "type": "datetime",
+        "default": "NOW"
+      }
     }
   },
   "counters": {
     "user": {
       "id": 39
-    }
+    },
+    "session": {}
   }
 }

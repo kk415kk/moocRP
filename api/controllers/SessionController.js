@@ -25,46 +25,36 @@ module.exports = {
 
   // After clicking "log in", this action verifies and sets the new session
   'new': function(req, res) {
-	console.log(req.session);
-	console.log('body');
-	console.log(req.body);
 	var bcrypt = require('bcrypt');
 
-	if (req.body.email) {
-		// Attempt to find email from User model
-		User.findOneByEmail(req.body.email).done(function(err, user) {
-			if (err) {
-				// If error, redirect to login page; update to flash message in future?
-				res.redirect('/user/login');
-			} else {
-				// If user is found, compare encrypted passwords
-				if (user) {
-					bcrypt.compare(req.body.password, user.password, function(err, match) {
-						if (err) {
-							res.redirect('/user/login');
-						} else {
-							if (match) {
-								var oldDateObj = new Date();
-								var newDateObj = new Date(oldDateObj.getTime() + 3600000); // one hour before expiring
-					 			req.session.cookie.expires = newDateObj;
-								req.session.authenticated = true;
-								req.session.user = user;
-								console.log(req.session.id);
+	// Attempt to find email from User model
+	User.findOneByEmail(req.body.email).done(function(err, user) {
+		if (err) {
+			// If error, redirect to login page; update to flash message in future?
+			res.redirect('/login');
+		} else {
+			// If user is found, compare encrypted passwords
+			if (user) {
+				bcrypt.compare(req.body.password, user.password, function(err, match) {
+					if (err) {
+						res.redirect('/login');
+					} else {
+						if (match) {
+							var oldDateObj = new Date();
+							var newDateObj = new Date(oldDateObj.getTime() + 3600000); // one hour before expiring
+				 			req.session.cookie.expires = newDateObj;
+							req.session.authenticated = true;
+							req.session.user = user;
 
-								res.redirect('/dashboard/display/');
-								console.log(req.session);
-							} 
+							res.redirect('/dashboard/display/');
+						} else {
+							res.redirect('/login');
 						}
-					});
-				} else {
-					console.log('incorrect attempt at login');
-					res.redirect('/user/login');
-				}
-			}
-		});
-	} else {
-		res.redirect('/user/login');
-	}
+					}
+				});
+			} 
+		}
+	});
   }
 
   

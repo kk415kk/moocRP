@@ -24,25 +24,12 @@ module.exports = {
   //_config: {}
   display: function(req, res, next) {
     if (req.session.authenticated) {
-      console.log(req.session);
+      console.log(req.session.user);
       res.view({
         user: req.session.user
       });
     } else {
-      res.redirect('/user/login');
-
-
-      // User.findOne(req.param('id'), function foundUser(err, user) {
-      //   if (err) {
-      //     return next[err];
-      //   }
-      //   if (!user) {
-      //     return next();
-      //   } 
-      //   res.view({
-      //     user: user
-      //   });
-      // });
+      res.redirect('/login');
     }
   }  
   
