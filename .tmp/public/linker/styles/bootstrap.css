@@ -4221,6 +4221,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-button:focus {
+  color: #ffffff;
   text-decoration: none;
   border-bottom: solid 4px #A0CFEC;
 }

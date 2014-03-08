@@ -47,8 +47,13 @@ module.exports.routes = {
 
   '/dashboard': {
     controller: 'dashboard',
-    action: 'dashboard'
-  }
+    action: 'display'
+  },
+
+  '/logout': {
+    controller: 'user',
+    action: 'logout'
+  },
 
   /*
   // But what if you want your home page to display

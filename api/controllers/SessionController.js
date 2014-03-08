@@ -16,15 +16,49 @@
  */
 
 module.exports = {
-    
-  
-
 
   /**
    * Overrides for the settings in `config/controllers.js`
    * (specific to SessionController)
    */
-  _config: {}
+  //_config: {}
+
+  // After clicking "log in", this action verifies and sets the new session
+  'new': function(req, res) {
+	console.log(req.session);
+	var bcrypt = require('bcrypt');
+
+	// Attempt to find email from User model
+	User.findOneByEmail(req.body.email).done(function(err, user) {
+		if (err) {
+			// If error, redirect to login page; update to flash message in future?
+			res.redirect('/user/login');
+		} else {
+			// If user is found, compare encrypted passwords
+			if (user) {
+				bcrypt.compare(req.body.password, user.password, function(err, match) {
+					if (err) {
+						res.redirect('/user/login');
+					} else {
+						if (match) {
+							var oldDateObj = new Date();
+							var newDateObj = new Date(oldDateObj.getTime() + 3600000); // one hour before expiring
+				 			req.session.cookie.expires = newDateObj;
+							req.session.authenticated = true;
+							req.session.user = user;
+							console.log(req.session.id);
+							res.redirect('/dashboard/display/'+user.id);
+							console.log(req.session);
+						} 
+					}
+				});
+			} else {
+				console.log('incorrect attempt at login');
+				res.redirect('/user/login');
+			}
+		}
+	});
+  }
 
   
 };

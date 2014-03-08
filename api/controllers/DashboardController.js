@@ -23,17 +23,23 @@ module.exports = {
    */
   //_config: {}
   display: function(req, res, next) {
-    User.findOne(req.param('id'), function foundUser(err, user) {
-      if (err) {
-        return next[err];
-      }
-      if (!user) {
-        return next();
-      } 
+    if (req.session.authenticated) {
       res.view({
-        user: user
+        user: req.session.user
       });
-    });
+    } else {
+      User.findOne(req.param('id'), function foundUser(err, user) {
+        if (err) {
+          return next[err];
+        }
+        if (!user) {
+          return next();
+        } 
+        res.view({
+          user: user
+        });
+      });
+    }
   }  
   
 };

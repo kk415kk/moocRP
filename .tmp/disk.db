@@ -9,6 +9,24 @@
         "createdAt": "2014-03-07T22:45:25.083Z",
         "updatedAt": "2014-03-07T22:45:25.083Z",
         "id": 37
+      },
+      {
+        "first_name": "kevin",
+        "last_name": "kao",
+        "email": "kevin@gmail.com",
+        "password": "$2a$10$gkTGi5aL4RTGCiOKKbQfyOYlj6uCszwneX1nMEG9n7wO0LFVHkVjm",
+        "createdAt": "2014-03-08T05:40:56.024Z",
+        "updatedAt": "2014-03-08T05:40:56.024Z",
+        "id": 38
+      },
+      {
+        "first_name": "kevin",
+        "last_name": "kao",
+        "email": "kevink@gmail.com",
+        "password": "$2a$10$epxBAqeHAt2fu8HItvKvUegODsDWtUN20h2dFUXJ1mnqpuh8ye8ea",
+        "createdAt": "2014-03-08T05:41:34.232Z",
+        "updatedAt": "2014-03-08T05:41:34.232Z",
+        "id": 39
       }
     ]
   },
@@ -46,7 +64,7 @@
   },
   "counters": {
     "user": {
-      "id": 37
+      "id": 39
     }
   }
 }
