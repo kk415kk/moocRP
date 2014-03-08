@@ -28,9 +28,10 @@ module.exports = {
 
   // View for signup page
   signup: function(req, res) {
-    // if (req.session.authenticated) {
-    //   req.session.authenticated = false;
-    // }
+    if (req.session.authenticated) {
+      res.redirect('/dashboard/display');
+      return;
+    }
   	res.view();
   },
 
@@ -67,7 +68,6 @@ module.exports = {
     if (req.session.authenticated) {
       req.session.user = null;
       req.session.authenticated = false;
-      req.session.cookie = null;
     } 
     res.redirect('/');
   }
