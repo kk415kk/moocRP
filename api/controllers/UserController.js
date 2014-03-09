@@ -32,14 +32,19 @@ module.exports = {
       res.redirect('/dashboard/display');
       return;
     }
+    req.session.lastPage = 'signup';
   	res.view();
   },
 
   // Action after user clicks "submit" for signup page
   create: function(req, res, next) {
+    // To prevent users from directly accessing this page through the URL
+    if (req.session.authenticated || !req.session.lastPage) {
+      return res.redirect('/signup');
+    }
+
   	User.create( req.params.all(), function userCreated(err, user) {
   		if (err) {
-        console.log(next(err));
         req.session.flash = {
           err: err.ValidationError
         }
@@ -49,6 +54,8 @@ module.exports = {
         var newDateObj = new Date(oldDateObj.getTime() + 3600000); // one hour before expiring
         req.session.cookie.expires = newDateObj;
         req.session.authenticated = true;
+        req.session.user = user;
+        req.session.lastPage = null;
     		res.redirect('/dashboard/display/');
       }
   	});

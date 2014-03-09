@@ -23,14 +23,9 @@ module.exports = {
    */
   //_config: {}
   display: function(req, res, next) {
-    if (req.session.authenticated) {
-      console.log(req.session.user);
-      res.view({
-        user: req.session.user
-      });
-    } else {
-      res.redirect('/login');
-    }
+    res.view({
+      user: req.session.user
+    });
   }  
   
 };

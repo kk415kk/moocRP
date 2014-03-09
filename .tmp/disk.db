@@ -27,6 +27,15 @@
         "createdAt": "2014-03-08T05:41:34.232Z",
         "updatedAt": "2014-03-08T05:41:34.232Z",
         "id": 39
+      },
+      {
+        "first_name": "Tom",
+        "last_name": "Tiger",
+        "email": "tom@gmail.com",
+        "password": "$2a$10$LZVgyLfAPdBDOXyWA42z.OLSY19SdvVp6XGJBIh2yq1z1sjshSvae",
+        "createdAt": "2014-03-09T01:28:55.410Z",
+        "updatedAt": "2014-03-09T01:28:55.410Z",
+        "id": 40
       }
     ],
     "session": []
@@ -88,7 +97,7 @@
   },
   "counters": {
     "user": {
-      "id": 39
+      "id": 40
     },
     "session": {}
   }

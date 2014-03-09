@@ -27,17 +27,22 @@ module.exports = {
   'new': function(req, res) {
 	var bcrypt = require('bcrypt');
 
+	// If either login field is empty, redirect to login page
+	if (!(req.body.email && req.body.password)) {
+		return res.redirect('/login');
+	}
+
 	// Attempt to find email from User model
 	User.findOneByEmail(req.body.email).done(function(err, user) {
 		if (err) {
 			// If error, redirect to login page; update to flash message in future?
-			res.redirect('/login');
+			return res.redirect('/login');
 		} else {
 			// If user is found, compare encrypted passwords
 			if (user) {
 				bcrypt.compare(req.body.password, user.password, function(err, match) {
 					if (err) {
-						res.redirect('/login');
+						return res.redirect('/login');
 					} else {
 						if (match) {
 							var oldDateObj = new Date();
@@ -46,13 +51,15 @@ module.exports = {
 							req.session.authenticated = true;
 							req.session.user = user;
 
-							res.redirect('/dashboard/display/');
+							return res.redirect('/dashboard/display/');
 						} else {
-							res.redirect('/login');
+							return res.redirect('/login');
 						}
 					}
 				});
-			} 
+			} else {
+				return res.redirect('/login');
+			}
 		}
 	});
   }
