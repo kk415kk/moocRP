@@ -35,10 +35,8 @@ module.exports = {
 	// Attempt to find email from User model
 	User.findOneByEmail(req.body.email).done(function(err, user) {
 		if (err) {
-			// If error, redirect to login page; update to flash message in future?
 			return res.redirect('/login');
 		} else {
-			// If user is found, compare encrypted passwords
 			if (user) {
 				bcrypt.compare(req.body.password, user.password, function(err, match) {
 					if (err) {
@@ -50,7 +48,6 @@ module.exports = {
 				 			req.session.cookie.expires = newDateObj;
 							req.session.authenticated = true;
 							req.session.user = user;
-
 							return res.redirect('/dashboard/display/');
 						} else {
 							return res.redirect('/login');

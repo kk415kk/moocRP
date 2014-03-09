@@ -45,9 +45,6 @@ module.exports = {
 
   	User.create( req.params.all(), function userCreated(err, user) {
   		if (err) {
-        req.session.flash = {
-          err: err.ValidationError
-        }
         return res.redirect('/signup');
       } else {
         var oldDateObj = new Date();

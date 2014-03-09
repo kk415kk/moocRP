@@ -1,16 +1,6 @@
 <div class="container">
-
 		<form action="/session/new" method="POST" class="form-signin">
 			<h2 class="form-signin-heading">Login</h2>
-
-			<!-- for flash messages; not currently working -->
-			<% if(flash && flash.err) { %>
-				<ul class="alert alert-success">
-			<% Object.keys(flash.err).forEach(function(error) { %>
-				<li><%- JSON.stringify(flash.err[error]) %></li>
-			<% }) %>
-			</ul>
-			<% } %>
 
 			Email: <input type="email" class="form-control" placeholder="email address" name="email">
 			Password: <input type="password" class="form-control" placeholder="password" name="password">
