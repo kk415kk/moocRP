@@ -462,7 +462,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Ubuntu", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 500;
   line-height: 1.1;
 }
@@ -4181,6 +4181,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-brand {
+  font-family: "Ubuntu";
   float: left;
   padding: 15px 15px;
   margin-right: 20px;
@@ -4204,6 +4205,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-button {
+  font-family: "Ubuntu";
   color: #ffffff;
   border-bottom: solid 4px transparent;
   text-decoration: none;

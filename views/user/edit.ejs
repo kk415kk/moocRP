@@ -1,0 +1,18 @@
+<form action="/user/update/<%= user.id %>" method="POST" class="form-signin">
+	<h2> Edit Profile </h2>
+	<label>Email: <input value="<%= user.email %>" name="email" type="text" class="form-control"/>
+	<label>Old Password: </label><input value="" name="oldpassword" type="password" class="form-control">
+	<label>New Password: </label><input value="" name="newpassword" type="password" class="form-control"/>
+	<label>Confirm New Password: </label><input value="" name="confirm" type="password" class="form-control"/>
+	<% if (session.authenticated && session.user.admin) { %>
+		<% if (user.admin) { %>
+			<input type="hidden" name="admin" value="unchecked">
+			<label class="checkbox"><input type="checkbox" name="admin" checked>Admin</label>
+		<% } else { %>
+			<input type="hidden" name="admin" value="unchecked">
+			<label class="checkbox"><input type="checkbox" name="admin">Admin</label>
+		<% } %> 
+	<% } %> 
+	<input type="submit" value="Proceed" class="btn btn-lg btn-primary btn-block"/>
+	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+</form>

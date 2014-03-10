@@ -23,7 +23,7 @@ module.exports = {
   //_config: {}
 
   // After clicking "log in", this action verifies and sets the new session
-  'new': function(req, res) {
+  new: function(req, res) {
 	var bcrypt = require('bcrypt');
 
 	// If either login field is empty, redirect to login page
@@ -58,6 +58,11 @@ module.exports = {
 			}
 		}
 	});
+  },
+
+  // Default page if user types in the URL slug /session
+  index: function(req, res) {
+  	res.redirect('/home');
   }
 
   

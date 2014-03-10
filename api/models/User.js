@@ -33,7 +33,11 @@ module.exports = {
     	type: 'string',
       required: 'true'
     },
-    // Only enable this when necessary to create an admin user
+
+    authorizer: {
+      type: 'boolean',
+      defaultsTo: false
+    },
     admin: {
       type: 'boolean',
       defaultsTo: false
@@ -44,6 +48,7 @@ module.exports = {
       var obj = this.toObject();
       delete obj.password;
       delete obj.confirmation;
+      //delete obj.authorizer;
       //delete obj.admin;
       delete obj._csrf;
       return obj;
@@ -58,6 +63,12 @@ module.exports = {
 
     if (!values.password || values.password != values.confirmation) {
       return next({err: ["Password doesn't match password confirmation."]});
+    }
+
+    // Comment out if other emails are allowed
+    var matchingBerkeleyEmail = /@berkeley.edu$/;
+    if (!matchingBerkeleyEmail.test(values.email)) {
+      return next({err: ["Only Berkeley email addresses are allowed."]});
     }
 
     bcrypt.genSalt(10, function(err, salt) {

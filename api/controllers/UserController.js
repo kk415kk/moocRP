@@ -26,16 +26,6 @@ module.exports = {
    */
   //_config: {},
 
-  // View for signup page
-  signup: function(req, res) {
-    if (req.session.authenticated) {
-      res.redirect('/dashboard');
-      return;
-    }
-    req.session.lastPage = 'signup';
-  	res.view();
-  },
-
   // Action after user clicks "submit" for signup page
   create: function(req, res, next) {
     // To prevent users from directly accessing this page through the URL
@@ -75,6 +65,54 @@ module.exports = {
     }
   }, 
 
+  edit: function(req, res, next) {
+    // Find the user from the id passed in via params
+    User.findOne(req.param('id'), function foundUser(err, user) {
+      if (err) return next(err);
+      if (!user) return next('User doesn\'t exist.');
+
+      res.view({
+        user: user
+      });
+    });
+  },  
+
+  index: function(req, res, next) {
+    if (req.session.authenticated && req.session.user && req.session.user.admin) {
+      return res.redirect('/admin/manageusers');
+    } else {
+      return res.redirect('/home');
+    }
+  },
+
+  // Action when user clicks for login page
+  login: function(req, res) {
+    if (req.session.authenticated) {
+      res.redirect('/dashboard');
+    } else {
+      res.view();
+    }
+  },
+
+  // Action when user clicks for logout page
+  logout: function(req, res) {
+    if (req.session.authenticated) {
+      req.session.user = null;
+      req.session.authenticated = false;
+    } 
+    res.redirect('/home');
+  },
+
+  // View for signup page
+  signup: function(req, res) {
+    if (req.session.authenticated) {
+      res.redirect('/dashboard');
+      return;
+    }
+    req.session.lastPage = 'signup';
+    res.view();
+  },
+
   // Used for making a user an admin or reg user
   switch: function(req, res, next) {
     if (!req.session.authenticated || !req.session.user || !req.session.user.admin) {
@@ -98,22 +136,9 @@ module.exports = {
     }
   },
 
-  // Action when user clicks for login page
-  login: function(req, res) {
-    if (req.session.authenticated) {
-      res.redirect('/dashboard');
-    } else {
-      res.view();
-    }
-  },
-
-  // Action when user clicks for logout page
-  logout: function(req, res) {
-    if (req.session.authenticated) {
-      req.session.user = null;
-      req.session.authenticated = false;
-    } 
-    res.redirect('/home');
+  // process the info from edit view
+  update: function(req, res, next) {
+    return next();
   }
 
 };
