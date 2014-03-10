@@ -33,6 +33,7 @@ module.exports = {
     	type: 'string',
       required: 'true'
     },
+    // Only enable this when necessary to create an admin user
     admin: {
       type: 'boolean',
       defaultsTo: false
@@ -43,6 +44,7 @@ module.exports = {
       var obj = this.toObject();
       delete obj.password;
       delete obj.confirmation;
+      //delete obj.admin;
       delete obj._csrf;
       return obj;
     }, 
@@ -69,10 +71,6 @@ module.exports = {
         next();
       });
     });
-  },
-
-  afterCreate: function(values, next) {
-    
   }
 
 };

@@ -4,8 +4,10 @@
 		<tr>
 			<th></th>
 			<th>ID</th>
-			<th>Name</th>
+			<th>First Name</th>
+			<th>Last Name</th>
 			<th>Email</th>
+			<th>Role</th>
 			<th></th>
 			<th></th>
 			<th></th>
@@ -14,9 +16,17 @@
 
 		<% _.each(users, function(user) { %>
 		<tr data-id="<%= user.id %>" data-model="user">
+			<td></td>
 			<td><%= user.id %></td>
-			<td><%= user.name %></td>
+			<td><%= user.first_name %></td>
+			<td><%= user.last_name %></td>
 			<td><%= user.email %></td>
+			<td><% if (user.admin) { %>
+					Administrator
+				<% } else { %>
+					Researcher
+				<% } %>
+			</td>
 			<td><a href="/user/show/<%= user.id %>" class="btn btn-sm btn-primary">Show</a></td>
 			<td><a href="/user/edit/<%= user.id %>" class="btn btn-sm btn-warning">Edit</a></td>
 
@@ -25,6 +35,12 @@
 				<input type="submit" class="btn btn-sm btn-danger" value="Delete"/>
 				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 			</form></td>
+			<% if (!user.admin) { %>
+				<td><a href="/user/switch/<%= user.id %>" class="btn btn-sm btn-primary">Make Admin</a></td>
+			<% } %>
+			<% if (user.admin) { %>
+				<td><a href="/user/switch/<%= user.id %>" class="btn btn-sm btn-primary">Remove Admin</a></td>
+			<% } %>
 		</tr> 
 
 		<% }) %>

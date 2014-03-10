@@ -23,6 +23,7 @@ module.exports = {
    */
   //_config: {}
   display: function(req, res, next) {
+    console.log(req.session.user);
     res.view({
       user: req.session.user
     });

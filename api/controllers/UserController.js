@@ -58,6 +58,46 @@ module.exports = {
   	});
   },
 
+  destroy: function(req, res, next) {
+    if (!req.session.authenticated || !req.session.user || !req.session.user.admin) {
+      return res.redirect('500');
+    } else {
+      User.findOne(req.param('id'), function foundUser(err, user) {
+        if (err) return next(err);
+        if (!user) return res.redirect('500');
+
+        User.destroy(req.param('id'), function userDestroyed(err) {
+          if (err) return next(err);
+        });
+
+        res.redirect('/admin/manageusers');
+      });
+    }
+  }, 
+
+  // Used for making a user an admin or reg user
+  switch: function(req, res, next) {
+    if (!req.session.authenticated || !req.session.user || !req.session.user.admin) {
+      return res.redirect('/dashboard');
+    } else {
+      User.findOne(req.param('id'), function foundUser(err, user) {
+        if (err) return next(err);
+        if (!user) return res.redirect('500');
+
+        if (user.admin) {
+          user.admin = false;
+        } else {
+          user.admin = true;
+        }
+        user.save(function (err) {
+          if (err) return next(err);
+        });
+
+        res.redirect('/admin/manageusers');
+      });
+    }
+  },
+
   // Action when user clicks for login page
   login: function(req, res) {
     if (req.session.authenticated) {

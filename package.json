@@ -1,25 +1,24 @@
 {
-    "name": "moocRPtest",
-    "private": true,
-    "version": "0.0.0",
-    "description": "a Sails application",
-    "dependencies": {
-        "sails": "0.9.9",
-        "grunt": "0.4.1",
-        "sails-disk": "~0.9.0",
-        "ejs": "0.8.4",
-        "optimist": "0.3.4",
-        "connect-flash" : "~0.1.1",     
-        "bcrypt" : "latest",
-        "passport" : "~0.1.17",         
-        "passport-local" : "~0.1.6"  
-    },
-    "scripts": {
-        "start": "node app.js",
-        "debug": "node debug app.js"
-    },
-    "main": "app.js",
-    "repository": "",
-    "author": "",
-    "license": ""
+  "name": "moocRPtest",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Developed for research purposes",
+  "dependencies": {
+    "sails": "0.9.9",
+    "grunt": "0.4.1",
+    "sails-disk": "~0.9.0",
+    "ejs": "0.8.4",
+    "optimist": "0.3.4",
+    "connect-flash": "~0.1.1",
+    "bcrypt": "latest",
+    "sails-mongo": "~0.9.7"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "debug": "node debug app.js"
+  },
+  "main": "app.js",
+  "repository": "http://www.github.com/kk415kk/moocRPtest.git",
+  "author": "Kevin Kao, Ananth Subramaniam",
+  "license": ""
 }

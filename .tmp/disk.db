@@ -2,40 +2,24 @@
   "data": {
     "user": [
       {
+        "first_name": "Kevin",
+        "last_name": "Kao",
+        "email": "kkao@berkeley.edu",
+        "password": "$2a$10$NoZvWBZP7qPw1QK3C0kCne02axHYK/ZzAtX4C3ClbIqSPOFIfoKBi",
+        "admin": true,
+        "createdAt": "2014-03-10T09:09:57.793Z",
+        "updatedAt": "2014-03-10T09:09:57.793Z",
+        "id": 42
+      },
+      {
         "first_name": "Bob",
         "last_name": "Butt",
         "email": "bob@gmail.com",
-        "password": "$2a$10$mnOWBdynaOSIH9v8l9UkneR3ISADxDvHNTqK97H1nagBNFIklhjom",
-        "createdAt": "2014-03-07T22:45:25.083Z",
-        "updatedAt": "2014-03-07T22:45:25.083Z",
-        "id": 37
-      },
-      {
-        "first_name": "kevin",
-        "last_name": "kao",
-        "email": "kevin@gmail.com",
-        "password": "$2a$10$gkTGi5aL4RTGCiOKKbQfyOYlj6uCszwneX1nMEG9n7wO0LFVHkVjm",
-        "createdAt": "2014-03-08T05:40:56.024Z",
-        "updatedAt": "2014-03-08T05:40:56.024Z",
-        "id": 38
-      },
-      {
-        "first_name": "kevin",
-        "last_name": "kao",
-        "email": "kevink@gmail.com",
-        "password": "$2a$10$epxBAqeHAt2fu8HItvKvUegODsDWtUN20h2dFUXJ1mnqpuh8ye8ea",
-        "createdAt": "2014-03-08T05:41:34.232Z",
-        "updatedAt": "2014-03-08T05:41:34.232Z",
-        "id": 39
-      },
-      {
-        "first_name": "Tom",
-        "last_name": "Tiger",
-        "email": "tom@gmail.com",
-        "password": "$2a$10$LZVgyLfAPdBDOXyWA42z.OLSY19SdvVp6XGJBIh2yq1z1sjshSvae",
-        "createdAt": "2014-03-09T01:28:55.410Z",
-        "updatedAt": "2014-03-09T01:28:55.410Z",
-        "id": 40
+        "password": "$2a$10$8ioT92sS49Ch8sL6SMgK0Ox2xoZMHdjRtQzheizXA0mB.diPZAWHG",
+        "admin": false,
+        "createdAt": "2014-03-10T09:43:10.095Z",
+        "updatedAt": "2014-03-10T09:43:10.095Z",
+        "id": 43
       }
     ],
     "session": []
@@ -97,7 +81,7 @@
   },
   "counters": {
     "user": {
-      "id": 40
+      "id": 43
     },
     "session": {}
   }
