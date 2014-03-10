@@ -48,7 +48,7 @@ module.exports = {
 				 			req.session.cookie.expires = newDateObj;
 							req.session.authenticated = true;
 							req.session.user = user;
-							return res.redirect('/dashboard/display/');
+							return res.redirect('/dashboard');
 						} else {
 							return res.redirect('/login');
 						}

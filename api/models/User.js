@@ -27,11 +27,15 @@ module.exports = {
     email: {
     	type: 'string',
     	email: true,
-      required: 'true'
+      required: 'true',
     },
     password: {
     	type: 'string',
       required: 'true'
+    },
+    admin: {
+      type: 'boolean',
+      defaultsTo: false
     },
 
     // Instance methods
@@ -65,5 +69,10 @@ module.exports = {
         next();
       });
     });
+  },
+
+  afterCreate: function(values, next) {
+    
   }
+
 };

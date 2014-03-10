@@ -4199,6 +4199,10 @@ textarea.input-group-sm > .input-group-btn > .btn {
   }
 }
 
+.navbar-text {
+  text-align: center;
+}
+
 .navbar-button {
   color: #ffffff;
   border-bottom: solid 4px transparent;

@@ -6,6 +6,7 @@
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 
+// Only included this file for the sake of removing the password while authenticating a session
 module.exports = {
 
   schema: true,

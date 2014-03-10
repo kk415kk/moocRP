@@ -29,7 +29,7 @@ module.exports = {
   // View for signup page
   signup: function(req, res) {
     if (req.session.authenticated) {
-      res.redirect('/dashboard/display');
+      res.redirect('/dashboard');
       return;
     }
     req.session.lastPage = 'signup';
@@ -53,7 +53,7 @@ module.exports = {
         req.session.authenticated = true;
         req.session.user = user;
         req.session.lastPage = null;
-    		res.redirect('/dashboard/display/');
+    		res.redirect('/dashboard');
       }
   	});
   },
@@ -61,7 +61,7 @@ module.exports = {
   // Action when user clicks for login page
   login: function(req, res) {
     if (req.session.authenticated) {
-      res.redirect('/dashboard/display/');
+      res.redirect('/dashboard');
     } else {
       res.view();
     }
@@ -73,7 +73,7 @@ module.exports = {
       req.session.user = null;
       req.session.authenticated = false;
     } 
-    res.redirect('/');
+    res.redirect('/home');
   }
 
 };

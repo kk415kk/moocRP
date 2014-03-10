@@ -39,11 +39,43 @@
 
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="/">moocRP</a>
-        <a class="navbar-button" href="/about">About</a>
-        <a class="navbar-button" href="/login">Login</a>
-        <a class="navbar-button" href="/dashboard">Dashboard</a>
-        <a class="navbar-button" href="/logout">Logout</a>
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/home">moocRP</a>
+        </div>
+        <div class="navbar-collapse collapse">
+
+          <a class="navbar-button" href="/about">About</a>
+
+          <!-- Can only see these when logged out -->
+          <div class="navbar-right">
+            <% if (!session.authenticated) { %>
+              <a class="btn btn-default navbar-btn navbar-right" href="/login">Login</a>
+            <% } %>
+          </div>
+          <!-- end section -->
+
+
+          <!-- Can only see these when logged in -->
+          <% if (session.authenticated) { %>
+          <a class="navbar-button" href="/dashboard">Dashboard</a>
+            <% if (session.user && session.user.admin) { %>
+              <a class="navbar-button" href="/admin/manageusers">User Administration</a>
+            <% } %>
+          <div class="navbar-right">
+            <% if (session.user && session.user.first_name) { %>
+              <div class="navbar-text">Logged in as <font color="lightblue"><%= session.user.first_name %></font></div>
+            <% } %>
+            <a class="btn btn-default navbar-btn navbar-right" href="/logout">Logout</a>
+          </div>
+          <% } %>
+          <!-- end section -->
+
+        </div>
       </div>
     </div>
 
@@ -54,7 +86,7 @@
       <hr>
       <footer class="footer">
         <div class="pull-right">
-          <div>Privacy Policy - Contact</div>
+          <div>Terms of Use - Privacy Policy - Contact</div>
         </div>
         <br>
         <div class="pull-right">
