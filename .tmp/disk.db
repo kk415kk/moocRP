@@ -31,6 +31,28 @@
         "createdAt": "2014-03-10T20:50:41.521Z",
         "updatedAt": "2014-03-10T20:50:41.521Z",
         "id": 44
+      },
+      {
+        "first_name": "John",
+        "last_name": "Jackson",
+        "email": "jj@berkeley.edu",
+        "password": "$2a$10$ae/AenDtXqpO8RHvqQ8nUOD0plSofxuJbI2vgSN4g./u5Expb3M2S",
+        "authorizer": false,
+        "admin": false,
+        "createdAt": "2014-03-11T09:31:08.468Z",
+        "updatedAt": "2014-03-11T09:31:08.468Z",
+        "id": 45
+      },
+      {
+        "first_name": "Grandpa",
+        "last_name": "Pops",
+        "email": "grandpa@berkeley.edu",
+        "password": "$2a$10$9y8TSqX7B6LCeJCQZUisteA7FP8g6Ajr.xqj.7f.S.SXTY.y3jP4S",
+        "authorizer": false,
+        "admin": false,
+        "createdAt": "2014-03-11T09:31:37.639Z",
+        "updatedAt": "2014-03-11T09:31:37.639Z",
+        "id": 46
       }
     ],
     "session": []
@@ -92,7 +114,7 @@
   },
   "counters": {
     "user": {
-      "id": 44
+      "id": 46
     },
     "session": {}
   }

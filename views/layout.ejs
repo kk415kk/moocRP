@@ -50,6 +50,7 @@
         <div class="navbar-collapse collapse">
           <a class="navbar-button" href="/about">About</a>
 
+
           <!-- Can only see these when logged out -->
           <div class="navbar-right">
             <% if (!session.authenticated) { %>
@@ -57,8 +58,7 @@
             <% } %>
           </div>
           <!-- end section -->
-
-
+          
           <!-- Can only see these when logged in -->
           <% if (session.authenticated) { %>
           <a class="navbar-button" href="/dashboard">Dashboard</a>
