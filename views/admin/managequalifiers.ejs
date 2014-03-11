@@ -1,0 +1,45 @@
+<div class="container">
+	<div class="grid_6">
+		<h3>Qualifiers Management</h3>
+		<table class='table'>
+			<tr>
+				<th></th>
+				<th>Qualifier ID</th>
+				<th>Display Name</th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+			</tr>
+
+
+			<% _.each(qualifiers, function(qualifier) { %>
+			<tr data-id="<%= qualifier.id %>" data-model="qualifier">
+				<td></td>
+				<td><%= qualifier.id %></td>
+				<td><%= qualifier.displayValue %></td>
+				<td><a href="/qualifier/edit/<%= qualifier.id %>" class="btn btn-sm btn-warning">Edit</a></td>
+
+				<td><form action="/qualifier/destroy/<%= qualifier.id %>" method="POST">
+					<input type="hidden" name="_method" value="delete"/>
+					<input type="submit" class="btn btn-sm btn-danger" value="Delete"/>
+					<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+				</form></td>
+			</tr> 
+
+			<% }) %>
+		</table>
+	</div>
+
+	<div class="grid_5">
+		<form action="/qualifier/create" method="POST" class="form-qualifiers">
+			<h3 class="header-center">Add Qualifier</h3>
+			<label>Qualifier ID: </label><input type="text" class="form-control" placeholder="id" name="qid">
+			<label>Qualifier Display Name: </label><input type="text" class="form-control" placeholder="display name (ie. CS188 - Artificial Intelligence)" name="displayValue">
+			<br>
+
+			<input type="submit" class="btn btn-sm btn-primary btn-block" value="Create">
+			<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+		</form>
+	</div>
+</div>
