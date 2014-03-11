@@ -1,14 +1,14 @@
-var fs = require('fs');
+// var fs = require('fs');
  
-module.exports = {
+// module.exports = {
  
-  port: process.env.PORT || 1337,
-  environment: process.env.NODE_ENV || 'development',
+//   port: process.env.PORT || 1337,
+//   environment: process.env.NODE_ENV || 'development',
  
-  express: { serverOptions : {
-    key: fs.readFileSync('ssl/key.pem'),
-    cert: fs.readFileSync('ssl/cert.pem')
-  }}
+//   express: { serverOptions : {
+//     key: fs.readFileSync('ssl/key.pem'),
+//     cert: fs.readFileSync('ssl/cert.pem')
+//   }}
 
 //   NEED SUDO TO RUN ON PORT 443
 //   express: { serverOptions : {
@@ -20,4 +20,4 @@ module.exports = {
 //   environment: process.env.NODE_ENV || 'development'
 
  
-};
+// };
