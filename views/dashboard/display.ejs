@@ -12,7 +12,20 @@
 	</div>
 	<div class="grid_5">
 		<h1>Request Data</h1>
-		<p>More stuff will go here later...</p>
+		<form action="/dashboard/requestdata/<%= user.id %>" method="POST">
+			<p>More stuff will go here later...</p>
+			<div class="container">
+				<label>Request Type:</label><br>
+				<select name="request_types">
+				<option value="full-pii">Full Data with PII</option>
+				<option value="full-no-pii">Full Data without PII</option>
+				<option value="placeholder">placeholder</option>
+				</select>
+			</div>
+			<br>
+			<input type="submit" class="btn btn-sm btn-primary" value="Request"/>
+			<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+		</form>
 	</div>
 
 

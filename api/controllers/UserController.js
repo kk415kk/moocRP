@@ -26,7 +26,7 @@ module.exports = {
    */
   //_config: {},
 
-  // Action after user clicks "submit" for signup page
+  // Create a user (for signup page)
   create: function(req, res, next) {
     // To prevent users from directly accessing this page through the URL
     if (req.session.authenticated || !req.session.lastPage) {
@@ -48,6 +48,7 @@ module.exports = {
   	});
   },
 
+  // Delete a user
   destroy: function(req, res, next) {
     if (!req.session.authenticated || !req.session.user || !req.session.user.admin) {
       return res.redirect('500');
@@ -65,6 +66,7 @@ module.exports = {
     }
   }, 
 
+  // Edit user details
   edit: function(req, res, next) {
     // Find the user from the id passed in via params
     User.findOne(req.param('id'), function foundUser(err, user) {
@@ -77,6 +79,7 @@ module.exports = {
     });
   },  
 
+  // Redirect page only
   index: function(req, res, next) {
     if (req.session.authenticated && req.session.user && req.session.user.admin) {
       return res.redirect('/admin/manageusers');
@@ -85,7 +88,7 @@ module.exports = {
     }
   },
 
-  // Action when user clicks for login page
+  // Login page
   login: function(req, res) {
     if (req.session.authenticated) {
       res.redirect('/dashboard');
@@ -94,7 +97,7 @@ module.exports = {
     }
   },
 
-  // Action when user clicks for logout page
+  // Logout action
   logout: function(req, res) {
     if (req.session.authenticated) {
       req.session.user = null;
@@ -103,7 +106,7 @@ module.exports = {
     res.redirect('/home');
   },
 
-  // View for signup page
+  // Signup page
   signup: function(req, res) {
     if (req.session.authenticated) {
       res.redirect('/dashboard');
@@ -113,7 +116,7 @@ module.exports = {
     res.view();
   },
 
-  // Used for making a user an admin or reg user
+  // Switches an admin to a regular user or vice versa
   switch: function(req, res, next) {
     if (!req.session.authenticated || !req.session.user || !req.session.user.admin) {
       return res.redirect('/dashboard');
@@ -136,7 +139,7 @@ module.exports = {
     }
   },
 
-  // process the info from edit view
+  // Updates the user information
   update: function(req, res, next) {
     return next();
   }
