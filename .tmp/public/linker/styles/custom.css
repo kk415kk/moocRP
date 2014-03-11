@@ -4,6 +4,9 @@
 body {
   padding: 60px 40px 40px 40px;
 }
+.header-center {
+  text-align: center;
+}
 .jumbotron {
   text-align: center;
 }
@@ -20,6 +23,22 @@ body {
 }
 .center-text {
   text-align: center;
+}
+.form-qualifiers {
+  max-width: 90%;
+  padding: 10px 0px 29px;
+  margin-left: 60px;
+  margin-top: 5px;
+}
+.form-qualifiers h2 {
+  text-align: center;
+  margin-top: 0px;
+}
+.form-qualifiers input[type="text"] {
+  font-size: 13px;
+  height: auto;
+  margin-bottom: 15px;
+  padding: 7px 9px;
 }
 .form-signin {
   max-width: 70%;

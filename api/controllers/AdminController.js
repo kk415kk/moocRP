@@ -30,7 +30,24 @@ module.exports = {
         if (err) return next(err);
 
         res.view({
-          users: users
+          users: users,
+          title: 'Admin Panel'
+        });
+      });
+    } else {
+      res.redirect('/login');
+    }
+  },
+
+  // View to manage qualifiers for CalAccess to access
+  managequalifiers: function(req, res, next) {
+    if (req.session.authenticated && req.session.user && req.session.user.admin) {
+      Qualifier.find(function foundQualifiers(err, qualifiers) {
+        if (err) return next(err);
+
+        res.view({
+          qualifiers: qualifiers,
+          title: 'Manage Qualifiers'
         });
       });
     } else {

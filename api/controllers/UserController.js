@@ -74,7 +74,8 @@ module.exports = {
       if (!user) return next('User doesn\'t exist.');
 
       res.view({
-        user: user
+        user: user,
+        title: 'Edit'
       });
     });
   },  
@@ -93,7 +94,9 @@ module.exports = {
     if (req.session.authenticated) {
       res.redirect('/dashboard');
     } else {
-      res.view();
+      res.view({
+        title: 'Login'
+      });
     }
   },
 
@@ -113,7 +116,9 @@ module.exports = {
       return;
     }
     req.session.lastPage = 'signup';
-    res.view();
+    res.view({
+      title: 'Signup'
+    });
   },
 
   // Switches an admin to a regular user or vice versa

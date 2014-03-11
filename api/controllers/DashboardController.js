@@ -25,7 +25,8 @@ module.exports = {
   display: function(req, res, next) {
     console.log(req.session.user);
     res.view({
-      user: req.session.user
+      user: req.session.user,
+      title: 'Dashboard'
     });
   }  
   

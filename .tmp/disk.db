@@ -1,93 +1,59 @@
 {
   "data": {
+    "session": [],
     "user": [
       {
         "first_name": "Kevin",
         "last_name": "Kao",
         "email": "kkao@berkeley.edu",
-        "password": "$2a$10$NoZvWBZP7qPw1QK3C0kCne02axHYK/ZzAtX4C3ClbIqSPOFIfoKBi",
+        "password": "$2a$10$1ZpTHGCIXxQBqxeD8rfsC.3V5WoN/rJUjqSt7d/EXJc3hd4szLXo6",
+        "authorizer": false,
         "admin": true,
-        "createdAt": "2014-03-10T09:09:57.793Z",
-        "updatedAt": "2014-03-10T09:09:57.793Z",
-        "id": 42
+        "createdAt": "2014-03-11T23:22:49.367Z",
+        "updatedAt": "2014-03-11T23:22:49.367Z",
+        "id": 1
       },
       {
         "first_name": "Bob",
-        "last_name": "Butt",
-        "email": "bob@gmail.com",
-        "password": "$2a$10$8ioT92sS49Ch8sL6SMgK0Ox2xoZMHdjRtQzheizXA0mB.diPZAWHG",
-        "admin": false,
-        "createdAt": "2014-03-10T09:43:10.095Z",
-        "updatedAt": "2014-03-11T00:33:47.452Z",
-        "id": 43
-      },
-      {
-        "first_name": "Dummy",
-        "last_name": "Person",
-        "email": "dummy@berkeley.edu",
-        "password": "$2a$10$aIgdXcpN9UuX.Dh1FjkFD.LvdaDpl1gtI3AGW0nFt11EAsZpZcGQK",
+        "last_name": "Barnesky",
+        "email": "bob@berkeley.edu",
+        "password": "$2a$10$LqtmBfTnCpvBdvbHnKuR4.8S7bJZQBs6k1HX0rPR7vZ1a.mOFr2Z6",
         "authorizer": false,
         "admin": false,
-        "createdAt": "2014-03-10T20:50:41.521Z",
-        "updatedAt": "2014-03-10T20:50:41.521Z",
-        "id": 44
+        "createdAt": "2014-03-11T23:26:21.393Z",
+        "updatedAt": "2014-03-11T23:26:45.035Z",
+        "id": 2
       },
       {
-        "first_name": "John",
-        "last_name": "Jackson",
-        "email": "jj@berkeley.edu",
-        "password": "$2a$10$ae/AenDtXqpO8RHvqQ8nUOD0plSofxuJbI2vgSN4g./u5Expb3M2S",
+        "first_name": "Test",
+        "last_name": "Account",
+        "email": "test@berkeley.edu",
+        "password": "$2a$10$fTadxt4TmRJUoTKlR2Gq9OKC4gLRwBWIB3.WiLVkCguoHx.kM6aQG",
         "authorizer": false,
-        "admin": false,
-        "createdAt": "2014-03-11T09:31:08.468Z",
-        "updatedAt": "2014-03-11T09:31:08.468Z",
-        "id": 45
-      },
-      {
-        "first_name": "Grandpa",
-        "last_name": "Pops",
-        "email": "grandpa@berkeley.edu",
-        "password": "$2a$10$9y8TSqX7B6LCeJCQZUisteA7FP8g6Ajr.xqj.7f.S.SXTY.y3jP4S",
-        "authorizer": false,
-        "admin": false,
-        "createdAt": "2014-03-11T09:31:37.639Z",
-        "updatedAt": "2014-03-11T09:31:37.639Z",
-        "id": 46
+        "admin": true,
+        "createdAt": "2014-03-11T23:27:39.536Z",
+        "updatedAt": "2014-03-11T23:28:19.533Z",
+        "id": 3
       }
     ],
-    "session": []
+    "qualifier": [
+      {
+        "displayValue": "CS188 - Artificial Intelligence (Fa '13)",
+        "_csrf": "o5o7NJSuAAIiW84ISb+dbYn3bseDAvAZ2cOJc=",
+        "id": "2013Fall188",
+        "createdAt": "2014-03-11T23:23:30.747Z",
+        "updatedAt": "2014-03-11T23:23:30.747Z"
+      },
+      {
+        "displayValue": "CS186 - Intro to Databases (Sp '12)",
+        "_csrf": "0eLoRCVsLAPrVXAG94MPHrjJdEEAta3DX16Z8=",
+        "id": "2012Spring186",
+        "createdAt": "2014-03-11T23:25:18.407Z",
+        "updatedAt": "2014-03-11T23:25:18.407Z"
+      }
+    ]
   },
   "schema": {
-    "user": {
-      "first_name": {
-        "type": "string"
-      },
-      "last_name": {
-        "type": "string"
-      },
-      "email": {
-        "type": "string",
-        "unique": true
-      },
-      "encryptedPassword": {
-        "type": "string"
-      },
-      "id": {
-        "type": "integer",
-        "autoIncrement": true,
-        "defaultsTo": "AUTO_INCREMENT",
-        "primaryKey": true,
-        "unique": true
-      },
-      "createdAt": {
-        "type": "datetime",
-        "default": "NOW"
-      },
-      "updatedAt": {
-        "type": "datetime",
-        "default": "NOW"
-      }
-    },
     "session": {
       "email": {
         "type": "string"
@@ -110,12 +76,67 @@
         "type": "datetime",
         "default": "NOW"
       }
+    },
+    "user": {
+      "first_name": {
+        "type": "string"
+      },
+      "last_name": {
+        "type": "string"
+      },
+      "email": {
+        "type": "string"
+      },
+      "password": {
+        "type": "string"
+      },
+      "authorizer": {
+        "type": "boolean",
+        "defaultsTo": false
+      },
+      "admin": {
+        "type": "boolean",
+        "defaultsTo": false
+      },
+      "id": {
+        "type": "integer",
+        "autoIncrement": true,
+        "defaultsTo": "AUTO_INCREMENT",
+        "primaryKey": true,
+        "unique": true
+      },
+      "createdAt": {
+        "type": "datetime",
+        "default": "NOW"
+      },
+      "updatedAt": {
+        "type": "datetime",
+        "default": "NOW"
+      }
+    },
+    "qualifier": {
+      "id": {
+        "type": "string",
+        "unique": true
+      },
+      "displayValue": {
+        "type": "string"
+      },
+      "createdAt": {
+        "type": "datetime",
+        "default": "NOW"
+      },
+      "updatedAt": {
+        "type": "datetime",
+        "default": "NOW"
+      }
     }
   },
   "counters": {
+    "session": {},
     "user": {
-      "id": 46
+      "id": 3
     },
-    "session": {}
+    "qualifier": {}
   }
 }

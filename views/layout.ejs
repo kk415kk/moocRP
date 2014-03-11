@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%- title %></title>
+    <title>moocRP - <%- title %></title>
 
     <!-- Viewport mobile tag for sensible mobile support -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -64,6 +64,7 @@
           <a class="navbar-button" href="/dashboard">Dashboard</a>
             <% if (session.user && session.user.admin) { %>
               <a class="navbar-button" href="/admin/manageusers">User Administration</a>
+              <a class="navbar-button" href="/admin/managequalifiers">Qualifiers</a>
             <% } %>
           <div class="navbar-right">
             <% if (session.user && session.user.first_name) { %>

@@ -22,11 +22,19 @@ module.exports = {
    */
   //_config: {}
 
+  about: function(req, res) {
+    res.view({
+      title: 'About'
+    });
+  },
+
   index: function(req, res) {
   	if (req.session.authenticated) {
   		res.redirect('/dashboard');
   	} else {
-  		res.view();
+  		res.view({
+        title: 'Home'
+      });
   	}
   }
   
