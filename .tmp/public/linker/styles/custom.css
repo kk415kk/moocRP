@@ -8,15 +8,17 @@ body {
   text-align: center;
 }
 .jumbotron {
-  text-align: center;
-}
-.jumbotron {
   font-size: 1.5em;
   letter-spacing: -1px;
   margin-bottom: 30px;
   text-align: center;
   font-weight: normal;
   color: gray;
+}
+.body-highlight {
+  padding-left: 40px;
+  margin-bottom: 20px;
+  background-color: #eeeeee;
 }
 .container .gray {
   color: gray;
@@ -60,4 +62,7 @@ body {
 }
 .limit-width {
   max-width: 100%;
+}
+.navbar-button:active {
+  border-bottom: solid 4px #A0CFEC;
 }

@@ -35,9 +35,8 @@
     <!--STYLES END-->
   </head>
 
-  <body>
-
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <body> 
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -49,44 +48,28 @@
         </div>
         <div class="navbar-collapse collapse">
 
-          <% if (title == 'About') {%>
-            <a class="navbar-active-button" href="/about">About</a>
-          <% } else {%>
-            <a class="navbar-button" href="/about">About</a>
-          <% } %>
+          <!-- About -->
+          <a id="About" class="navbar-button" href="/about">About</a>
 
-          <!-- Can only see these when logged out -->
-          <div class="navbar-right">
-            <% if (!session.authenticated) { %>
+
+          <!-- Login button -->
+          <% if (!session.authenticated) { %>
+            <div class="navbar-right">
               <a class="btn btn-default navbar-btn navbar-right" href="/login">Login</a>
-            <% } %>
-          </div>
-          <!-- end section -->
+            </div>
+          <% } %>
           
+
           <!-- Can only see these when logged in -->
           <% if (session.authenticated) { %>
-
-            <% if (title == 'Dashboard') {%>
-              <a class="navbar-active-button" href="/dashboard">Dashboard</a>
-            <% } else { %>
-              <a class="navbar-button" href="/dashboard">Dashboard</a>
-            <% } %>
-
+            <!-- Dashboard -->
+            <a id="Dashboard" class="navbar-button" href="/dashboard">Dashboard</a>
             <% if (session.user && session.user.admin) { %>
-
-              <% if (title == 'Admin Panel') {%>
-                <a class="navbar-active-button" href="/admin/manageusers">User Administration</a>
-              <% } else { %>
-                <a class="navbar-button" href="/admin/manageusers">User Administration</a>
-              <% } %>
-
-              <% if (title == 'Manage Qualifiers') {%>
-                <a class="navbar-active-button" href="/admin/managequalifiers">Qualifiers</a>
-              <% } else { %>
-                <a class="navbar-button" href="/admin/managequalifiers">Qualifiers</a>
-              <% } %>
-
+                <!-- Admin Panel, Qualifiers -->
+                <a id="Admin Panel"class="navbar-button" href="/admin/manageusers">User Administration</a>
+                <a id="Manage Qualifiers" class="navbar-button" href="/admin/managequalifiers">Qualifiers</a>
             <% } %>
+
           <div class="navbar-right">
             <% if (session.user && session.user.first_name) { %>
               <div class="navbar-text">Logged in as <font color="lightblue"><%= session.user.first_name %></font></div>
@@ -98,10 +81,11 @@
 
         </div>
       </div>
-    </div>
+    </nav>
 
-    
+    <div id="fade-container" class="container fluid">
     <%- body %>
+    </div>
 
     <div class="container">
       <hr>
@@ -164,7 +148,6 @@
           + Use a different preprocessor, like TypeScript
 
     -->
-
     <!--SCRIPTS-->
     <script src="/linker/js/socket.io.js"></script>
     <script src="/linker/js/sails.io.js"></script>
@@ -172,6 +155,19 @@
     <script src="/linker/js/jquery.js"></script>
     <script src="/linker/js/bootstrap.js"></script>
     <script src="/linker/js/flashdata.js"></script>
+    <script src="/linker/js/jquery-1.11.0.min.js"></script>
     <!--SCRIPTS END-->
+
+    <script>
+      // Assigning active tab
+      $(document).ready(function(){
+        var title = '<%- title %>';
+        var nav = document.getElementById(title);
+        var originalClass = nav.className;
+        if (nav) {
+          nav.className = 'navbar-active-button';
+        }
+      });
+    </script>
   </body>
 </html>

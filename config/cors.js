@@ -33,7 +33,7 @@ module.exports.cors = {
 	// Which domains which are allowed CORS access?
 	// This can be a comma-delimited list of hosts (beginning with http:// or https://)
 	// or "*" to allow all domains CORS access.
-	origin: '*',
+	origin: 'https://idc.berkeley.edu/ca/',
 
 	// Allow cookies to be shared for CORS requests?
 	credentials: true,

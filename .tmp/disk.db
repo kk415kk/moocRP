@@ -34,6 +34,17 @@
         "createdAt": "2014-03-11T23:27:39.536Z",
         "updatedAt": "2014-03-12T06:45:52.715Z",
         "id": 3
+      },
+      {
+        "first_name": "Sam",
+        "last_name": "Sherbet",
+        "email": "sherbet@berkeley.edu",
+        "password": "$2a$10$NOSeRKXl6C4H2YUd7evdpOjfoGz20Ua4p.qveT48VoM57mkq0Ap5O",
+        "authorizer": false,
+        "admin": false,
+        "createdAt": "2014-03-12T18:32:40.106Z",
+        "updatedAt": "2014-03-12T18:32:40.106Z",
+        "id": 4
       }
     ],
     "qualifier": [
@@ -57,6 +68,13 @@
         "id": "2014Fall188",
         "createdAt": "2014-03-12T00:28:17.970Z",
         "updatedAt": "2014-03-12T00:28:17.970Z"
+      },
+      {
+        "displayValue": "CS170 - Intro to Algorithms (Fa '10)",
+        "_csrf": "YUI1Bi619c6rEPFcakxuE8gaWm0RkCyMKvhVE=",
+        "id": "2010Fall170",
+        "createdAt": "2014-03-12T09:08:50.856Z",
+        "updatedAt": "2014-03-12T09:08:50.856Z"
       }
     ]
   },
@@ -142,7 +160,7 @@
   "counters": {
     "session": {},
     "user": {
-      "id": 3
+      "id": 4
     },
     "qualifier": {}
   }
