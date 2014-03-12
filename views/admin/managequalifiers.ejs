@@ -1,45 +1,64 @@
 <div class="container">
-	<div class="grid_6">
-		<h3>Qualifiers Management</h3>
-		<table class='table'>
-			<tr>
-				<th></th>
-				<th>Qualifier ID</th>
-				<th>Display Name</th>
-				<th></th>
-				<th></th>
-				<th></th>
-				<th></th>
-			</tr>
+	<div class="row">
+		<div class="col-md-8">
+			<h3 rel="tooltip" data-toggle="tooltip" data-placement="top" title="Tooltip on top">Qualifiers Management</h3>
+			<table class='table table-striped table-hover'>
+				<tr>
+					<th></th>
+					<th>Qualifier ID</th>
+					<th>Display Name</th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
 
 
-			<% _.each(qualifiers, function(qualifier) { %>
-			<tr data-id="<%= qualifier.id %>" data-model="qualifier">
-				<td></td>
-				<td><%= qualifier.id %></td>
-				<td><%= qualifier.displayValue %></td>
-				<td><a href="/qualifier/edit/<%= qualifier.id %>" class="btn btn-sm btn-warning">Edit</a></td>
+				<% _.each(qualifiers, function(qualifier) { %>
+				<tr data-id="<%= qualifier.id %>" data-model="qualifier">
+					<td></td>
+					<td><%= qualifier.id %></td>
+					<td><%= qualifier.displayValue %></td>
+					<td><a href="/qualifier/edit/<%= qualifier.id %>" class="btn btn-sm btn-warning">Edit</a></td>
 
-				<td><form action="/qualifier/destroy/<%= qualifier.id %>" method="POST">
-					<input type="hidden" name="_method" value="delete"/>
-					<input type="submit" class="btn btn-sm btn-danger" value="Delete"/>
-					<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-				</form></td>
-			</tr> 
+					<td>
+						<form action="/qualifier/destroy/<%= qualifier.id %>" method="POST">
+						<input type="hidden" name="_method" value="delete"/>
+						<input type="submit" class="btn btn-sm btn-danger" value="Delete"/>
+						<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+						</form>
+						</td>
+					<td></td>
+					<td></td>
+				</tr> 
 
-			<% }) %>
-		</table>
-	</div>
+				<% }) %>
+			</table>
+		</div>
 
-	<div class="grid_5">
-		<form action="/qualifier/create" method="POST" class="form-qualifiers">
-			<h3 class="header-center">Add Qualifier</h3>
-			<label>Qualifier ID: </label><input type="text" class="form-control" placeholder="id" name="qid">
-			<label>Qualifier Display Name: </label><input type="text" class="form-control" placeholder="display name (ie. CS188 - Artificial Intelligence)" name="displayValue">
-			<br>
+		<div class="col-md-4">
+			<form action="/qualifier/create" method="POST" class="form-qualifiers">
+				<h3 class="header-center">Add Qualifier</h3>
+				<% if(flash && flash.err) { %>
+					<div class="alert alert-warning">
+				<% Object.keys(flash.err).forEach(function(error) { %>
+					<%- JSON.stringify(flash.err[error]) %>
+				<% }) %>
+					</div>
+				<% } %>
+				<div class="form-group">
+					<label for="qualifierId">Qualifier ID: </label>
+					<input type="text" id="qualifierId" class="form-control" placeholder="id" name="qid">
+				</div>
+				<div class="form-group">
+					<label for="displayName">Qualifier Display Name: </label>
+					<input type="text" id="displayName" class="form-control" placeholder="display name (ie. CS188 - Artificial Intelligence)" name="displayValue">
+				</div>
+				<br>
 
-			<input type="submit" class="btn btn-sm btn-primary btn-block" value="Create">
-			<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-		</form>
+				<input type="submit" class="btn btn-sm btn-primary btn-block" value="Create">
+				<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+			</form>
+		</div>
 	</div>
 </div>

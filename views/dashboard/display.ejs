@@ -1,31 +1,40 @@
 <div class="container">
-	<h1>Welcome to your dashboard, <font color=green><%= user.first_name %></font></h1>
-	<hr>
-	<p>Contact: <%= user.email %></p>
-	<p>Password: <%= user.password %></p>
-	<a class="btn btn-medium btn-primary" href="/user/edit/<%= user.id %>">Edit</a>
+	<div class="row">
+		<h1>Welcome to your dashboard, <font color=green><%= user.first_name %></font></h1>
+		<hr>
+		<p>Contact: <%= user.email %></p>
+		<p>Password: <%= user.password %></p>
+		<a class="btn btn-medium btn-primary" href="/user/edit/<%= user.id %>">Edit</a>
 
-	<hr>
-	<div class="grid_5">
-		<h1>Status Updates</h1>
-		<p>More stuff will go here later...</p>
-	</div>
-	<div class="grid_5">
-		<h1>Request Data</h1>
-		<form action="/dashboard/requestdata/<%= user.id %>" method="POST">
-			<p>More stuff will go here later...</p>
-			<div class="container">
-				<label>Request Type:</label><br>
-				<select name="request_types">
-				<option value="full-pii">Full Data with PII</option>
-				<option value="full-no-pii">Full Data without PII</option>
-				<option value="placeholder">placeholder</option>
-				</select>
+		<hr>
+		<div class="row">
+			<div class="col-md-5">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h1 class="panel-title">Status Updates</h1>
+					</div>
+					<div class="panel-body">
+						<p>More stuff will go here later...</p>
+					</div>
+				</div>
 			</div>
-			<br>
-			<input type="submit" class="btn btn-sm btn-primary" value="Request"/>
-			<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-		</form>
+			<div class="col-md-3 col-md-offset-1">
+				<h3>Request Data</h3>
+				<form action="/dashboard/requestdata/<%= user.id %>" method="POST">
+					<p>Instructions on how to request data will go here later...</p>
+					<label>Request Type:</label><br>
+					<select class="form-control limit-width" name="request-types">
+					<option value="full-pii">Full Data with PII</option>
+					<option value="full-no-pii">Full Data without PII</option>
+					<option value="placeholder">placeholder</option>
+					</select>
+					<br>
+					<input type="submit" class="btn btn-sm btn-primary" value="Request"/>
+					<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+				</form>
+			</div>
+		</div>
+
 	</div>
 
 

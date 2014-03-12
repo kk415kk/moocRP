@@ -1,5 +1,14 @@
 <form action="/user/create" method="POST" class="form-signin">
 	<h2 class="form-signin-heading">Researcher Signup Form</h2>
+
+	<% if(flash && flash.err) { %>
+		<div class="alert alert-warning">
+	<% Object.keys(flash.err).forEach(function(error) { %>
+		<%- JSON.stringify(flash.err[error]) %>
+	<% }) %>
+		</div>
+	<% } %>
+
 	NOTE: Currently, only Berkeley researchers and instructors are allowed to create an account using their Berkeley email address.
 	<br><br>
 	<label>First Name: </label><input type="text" class="form-control" placeholder="first name" name="first_name">

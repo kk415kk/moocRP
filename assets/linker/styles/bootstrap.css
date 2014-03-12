@@ -4204,13 +4204,14 @@ textarea.input-group-sm > .input-group-btn > .btn {
   text-align: center;
 }
 
-.navbar-button {
+.navbar-button, .navbar-active-button {
   font-family: "Ubuntu";
   color: #ffffff;
   border-bottom: solid 4px transparent;
   text-decoration: none;
   float: left;
-  padding: 15px 15px 10px 15px;
+  padding: 10px 10px 10px 10px;
+  margin: 5px 10px 0px 10px;
   font-size: 18px;
   line-height: 20px;
   -o-transition:.3s;
@@ -4220,20 +4221,32 @@ textarea.input-group-sm > .input-group-btn > .btn {
   transition:.3s;
 }
 
+.navbar-active-button {
+  border-bottom: solid 4px #A0CFEC;
+}
+
+.navbar-active-button:hover,
 .navbar-button:hover {
-  color: #ffffff;
+  color: #A0CFEC;
   text-decoration: none;
   border-bottom: solid 4px #A0CFEC;
 }
 
+.navbar-active-button:focus,
 .navbar-button:focus {
-  color: #ffffff;
+  color: #A0CFEC;
   text-decoration: none;
   border-bottom: solid 4px #A0CFEC;
 }
 
 @media (min-width: 768px) {
   .navbar > .container .navbar-button {
+    margin-left: 0px;
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar > .container .navbar-active-button {
     margin-left: 0px;
   }
 }
@@ -5473,8 +5486,8 @@ a.list-group-item:focus {
 }
 
 .panel-default > .panel-heading {
-  color: #333333;
-  background-color: #f5f5f5;
+  color: #FFFFFF;
+  background-color: #236B8E;
   border-color: #dddddd;
 }
 

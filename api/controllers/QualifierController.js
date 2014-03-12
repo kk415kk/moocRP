@@ -33,20 +33,23 @@ module.exports = {
   	delete parameters['qid'];
 
     if (!req.session.authenticated || !req.session.user || !req.session.user.admin) {
-      return res.redirect('500');
+      return res.redirect('/login');
     } else {
 	  	Qualifier.create( parameters, function qualifierCreated(err, qualifier) {
 	  		if (err) {
+          req.session.flash = {
+            err: ["Invalid qualifier; please make sure the qualifier id does not already exist and all fields are filled out."]
+          }
 	  			return res.redirect('/admin/managequalifiers');
 	  		}
 	  		res.redirect('/admin/managequalifiers');
 	  	});
-	}
+    }
   },
 
   destroy: function(req, res, next) {
     if (!req.session.authenticated || !req.session.user || !req.session.user.admin) {
-      return res.redirect('500');
+      return res.redirect('/login');
     } else {
       Qualifier.findOne(req.param('id'), function foundQualifier(err, qualifier) {
         if (err) return next(err);
@@ -59,6 +62,14 @@ module.exports = {
         res.redirect('/admin/managequalifiers');
       });
     }
-  } 
+  },
+
+  index: function(req, res, next) {
+    if (!req.session.authenticated || !req.session.user || !req.session.user.admin) {
+      return res.redirect('/login');
+    } else {
+      res.redirect('/admin/managequalifiers');
+    }
+  }
   
 };

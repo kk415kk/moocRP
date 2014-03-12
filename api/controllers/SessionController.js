@@ -28,17 +28,26 @@ module.exports = {
 
 	// If either login field is empty, redirect to login page
 	if (!(req.body.email && req.body.password)) {
+		req.session.flash = {
+          err: ['Please fill in all required fields.']
+        }
 		return res.redirect('/login');
 	}
 
 	// Attempt to find email from User model
 	User.findOneByEmail(req.body.email).done(function(err, user) {
 		if (err) {
+			req.session.flash = {
+	          err: ['Please do not refresh or press back to navigate to this page.']
+	        }
 			return res.redirect('/login');
 		} else {
 			if (user) {
 				bcrypt.compare(req.body.password, user.password, function(err, match) {
 					if (err) {
+						req.session.flash = {
+				          err: ['Incorrect email or password combination.']
+				        }
 						return res.redirect('/login');
 					} else {
 						if (match) {
@@ -49,11 +58,17 @@ module.exports = {
 							req.session.user = user;
 							return res.redirect('/dashboard');
 						} else {
+							req.session.flash = {
+					          err: ['Incorrect email or password combination.']
+					        }
 							return res.redirect('/login');
 						}
 					}
 				});
 			} else {
+				req.session.flash = {
+		          err: ['Incorrect email or password combination.']
+		        }
 				return res.redirect('/login');
 			}
 		}

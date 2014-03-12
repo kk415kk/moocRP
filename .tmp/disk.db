@@ -30,9 +30,9 @@
         "email": "test@berkeley.edu",
         "password": "$2a$10$fTadxt4TmRJUoTKlR2Gq9OKC4gLRwBWIB3.WiLVkCguoHx.kM6aQG",
         "authorizer": false,
-        "admin": true,
+        "admin": false,
         "createdAt": "2014-03-11T23:27:39.536Z",
-        "updatedAt": "2014-03-11T23:28:19.533Z",
+        "updatedAt": "2014-03-12T06:45:52.715Z",
         "id": 3
       }
     ],
@@ -50,6 +50,13 @@
         "id": "2012Spring186",
         "createdAt": "2014-03-11T23:25:18.407Z",
         "updatedAt": "2014-03-11T23:25:18.407Z"
+      },
+      {
+        "displayValue": "CS188 - Artificial Intelligence (Fa '14)",
+        "_csrf": "Il8CxN4CSXyJVL5s23XIAG8WrtCKQZ5/54ph8=",
+        "id": "2014Fall188",
+        "createdAt": "2014-03-12T00:28:17.970Z",
+        "updatedAt": "2014-03-12T00:28:17.970Z"
       }
     ]
   },

@@ -35,6 +35,9 @@ module.exports = {
 
   	User.create( req.params.all(), function userCreated(err, user) {
   		if (err) {
+        req.session.flash = {
+            err: ["Please make sure all fields are filled in correctly, including a matching password confirmation."]
+        }
         return res.redirect('/signup');
       } else {
         var oldDateObj = new Date();
@@ -50,12 +53,21 @@ module.exports = {
 
   // Delete a user
   destroy: function(req, res, next) {
-    if (!req.session.authenticated || !req.session.user || !req.session.user.admin) {
-      return res.redirect('500');
+    if (!(req.session.authenticated && req.session.user && req.session.user.admin)) {
+      return res.redirect('/login');
     } else {
       User.findOne(req.param('id'), function foundUser(err, user) {
-        if (err) return next(err);
-        if (!user) return res.redirect('500');
+        if (err) {
+          req.session.flash = {
+            err: ["Unknown error occurred while performing this action; please report this error."]
+          }
+          return next(err);
+        }
+        if (!user) {
+          req.session.flash = {
+            err: ["User does not exist"]
+          }
+        }
 
         User.destroy(req.param('id'), function userDestroyed(err) {
           if (err) return next(err);
@@ -71,7 +83,12 @@ module.exports = {
     // Find the user from the id passed in via params
     User.findOne(req.param('id'), function foundUser(err, user) {
       if (err) return next(err);
-      if (!user) return next('User doesn\'t exist.');
+      if (!user) {
+        req.session.flash = {
+            err: ["User does not exist"]
+        }
+        return next();
+      }
 
       res.view({
         user: user,

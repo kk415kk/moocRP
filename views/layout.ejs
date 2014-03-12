@@ -37,8 +37,8 @@
 
   <body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="icon-bar"></span>
@@ -48,8 +48,12 @@
           <a class="navbar-brand" href="/home">moocRP</a>
         </div>
         <div class="navbar-collapse collapse">
-          <a class="navbar-button" href="/about">About</a>
 
+          <% if (title == 'About') {%>
+            <a class="navbar-active-button" href="/about">About</a>
+          <% } else {%>
+            <a class="navbar-button" href="/about">About</a>
+          <% } %>
 
           <!-- Can only see these when logged out -->
           <div class="navbar-right">
@@ -61,10 +65,27 @@
           
           <!-- Can only see these when logged in -->
           <% if (session.authenticated) { %>
-          <a class="navbar-button" href="/dashboard">Dashboard</a>
+
+            <% if (title == 'Dashboard') {%>
+              <a class="navbar-active-button" href="/dashboard">Dashboard</a>
+            <% } else { %>
+              <a class="navbar-button" href="/dashboard">Dashboard</a>
+            <% } %>
+
             <% if (session.user && session.user.admin) { %>
-              <a class="navbar-button" href="/admin/manageusers">User Administration</a>
-              <a class="navbar-button" href="/admin/managequalifiers">Qualifiers</a>
+
+              <% if (title == 'Admin Panel') {%>
+                <a class="navbar-active-button" href="/admin/manageusers">User Administration</a>
+              <% } else { %>
+                <a class="navbar-button" href="/admin/manageusers">User Administration</a>
+              <% } %>
+
+              <% if (title == 'Manage Qualifiers') {%>
+                <a class="navbar-active-button" href="/admin/managequalifiers">Qualifiers</a>
+              <% } else { %>
+                <a class="navbar-button" href="/admin/managequalifiers">Qualifiers</a>
+              <% } %>
+
             <% } %>
           <div class="navbar-right">
             <% if (session.user && session.user.first_name) { %>

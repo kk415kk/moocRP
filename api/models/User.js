@@ -18,20 +18,21 @@ module.exports = {
     // Instance variables
     first_name: {
     	type: 'string',
-      required: 'true'
+      required: true
     },
     last_name: {
       type: 'string',
-      required: 'true'
+      required: true
     },    
     email: {
     	type: 'string',
     	email: true,
-      required: 'true',
+      required: true,
+      unique: true,
     },
     password: {
     	type: 'string',
-      required: 'true'
+      required: true
     },
 
     authorizer: {
@@ -62,13 +63,13 @@ module.exports = {
     var bcrypt = require('bcrypt');
 
     if (!values.password || values.password != values.confirmation) {
-      return next({err: ["Password doesn't match password confirmation."]});
+      return next({err: ["Passwords do not match"]});
     }
 
     // Comment out if other emails are allowed
     var matchingBerkeleyEmail = /@berkeley.edu$/;
     if (!matchingBerkeleyEmail.test(values.email)) {
-      return next({err: ["Only Berkeley email addresses are allowed."]});
+      return next({err: ["Berkeley emails only"]});
     }
 
     bcrypt.genSalt(10, function(err, salt) {
