@@ -4210,8 +4210,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
   border-bottom: solid 4px transparent;
   text-decoration: none;
   float: left;
-  padding: 10px 10px 10px 10px;
-  margin: 5px 10px 0px 10px;
+  padding: 10px 5px 5px 5px;
+  margin: 5px 15px 0px 15px;
   font-size: 18px;
   line-height: 20px;
   -o-transition:.3s;
@@ -4230,6 +4230,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar-button:hover {
   color: #A0CFEC;
   text-decoration: none;
+  border-bottom: solid 4px #A0CFEC;
 }
 
 .navbar-active-button:focus,
