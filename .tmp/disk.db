@@ -75,6 +75,13 @@
         "id": "2010Fall170",
         "createdAt": "2014-03-12T09:08:50.856Z",
         "updatedAt": "2014-03-12T09:08:50.856Z"
+      },
+      {
+        "displayValue": "INFO 253 - Web Architecture",
+        "_csrf": "7U5P83NAh8dj/JLe3OL63kNPFgypytfwv/4dc=",
+        "id": "2014Fall253",
+        "createdAt": "2014-03-20T03:15:28.153Z",
+        "updatedAt": "2014-03-20T03:15:28.153Z"
       }
     ]
   },

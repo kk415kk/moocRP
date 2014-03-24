@@ -1,0 +1,12 @@
+{
+  "name": "callback_stripper",
+  "description": "A small service for Connect to strip the jsonp callback parameter.  Handy for using Connect.cache",
+  "version": "0.0.1",
+  "author": "James E. Marca <jmarca@translab.its.uci.edu>",
+  "directories": {
+    "lib": "./lib"
+  },
+  "engines": {
+    "node": "*"
+  }
+}

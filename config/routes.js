@@ -60,6 +60,11 @@ module.exports.routes = {
   '/signup': {
     controller: 'user',
     action: 'signup'
+  },
+
+  '/analytics': {
+    controller: 'analytics',
+    action: 'analytics'
   }
 
   /*

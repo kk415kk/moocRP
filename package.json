@@ -10,7 +10,9 @@
     "ejs": "0.8.4",
     "optimist": "0.3.4",
     "connect-flash": "~0.1.1",
-    "bcrypt": "latest"
+    "bcrypt": "latest",
+    "java": "latest",
+    "cas_validate": "latest"
   },
   "scripts": {
     "start": "node app.js",

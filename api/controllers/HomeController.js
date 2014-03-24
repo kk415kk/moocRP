@@ -29,10 +29,14 @@ module.exports = {
   },
 
   index: function(req, res) {
-  	if (req.session.authenticated) {
+    var cas_validate = require('cas_validate');
+   	if (req.session.authenticated) {
   		res.redirect('/dashboard');
   	} else {
-  		res.view({
+      // cas_validate.redirect({'cas_host': 'https://auth-test.berkeley.edu/cas/'}, function(req, res, next) {
+      //   res.end("hello world");
+      // });
+  	  res.view({
         title: 'Home'
       });
   	}

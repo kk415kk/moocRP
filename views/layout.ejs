@@ -64,6 +64,7 @@
           <% if (session.authenticated) { %>
             <!-- Dashboard -->
             <a id="Dashboard" class="navbar-button" href="/dashboard">Dashboard</a>
+            <a id="Analytics" class="navbar-button" href="/analytics">Analytics</a>
             <% if (session.user && session.user.admin) { %>
                 <!-- Admin Panel, Qualifiers -->
                 <a id="Admin Panel"class="navbar-button" href="/admin/manageusers">User Administration</a>
