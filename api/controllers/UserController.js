@@ -111,6 +111,17 @@ module.exports = {
     if (req.session.authenticated) {
       res.redirect('/dashboard');
     } else {
+      // var https = require('https');
+      // var url = require('url');
+
+      // var cas_url = 'https://auth-test.berkeley.edu';
+      // var login_service = '/cas/login';
+      // var validation_service = '/cas/validate';
+      // var service = 'https://localhost:1337';
+
+      // res.redirect(cas_url + login_service + '?service=' + service);
+      // console.log(req.headers);
+      
       res.view({
         title: 'Login'
       });
