@@ -29,13 +29,14 @@ module.exports = {
   },
 
   index: function(req, res) {
-   	if (req.session.authenticated) {
-  		res.redirect('/dashboard');
-  	} else {
-  	  res.view({
+    if (req.session.authenticated) {
+      res.redirect('/dashboard');
+    } else {
+      res.view({
         title: 'Home'
       });
-  	}
+    }
+
   }
   
 };

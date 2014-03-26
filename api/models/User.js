@@ -7,7 +7,7 @@
  */
 
 module.exports = {
-
+  //migrate: 'drop', // use to drop all tables
   schema: true,
 
   attributes: {  	
@@ -16,25 +16,28 @@ module.exports = {
   	*/
     
     // Instance variables
+    id: {
+      type: 'string',
+      required: true,
+      unique: true
+    },
     first_name: {
-    	type: 'string',
+      type: 'string',
       required: true
     },
     last_name: {
       type: 'string',
       required: true
-    },    
+    },
     email: {
     	type: 'string',
     	email: true,
-      required: true,
       unique: true,
     },
-    password: {
-    	type: 'string',
-      required: true
+    registered: {
+      type: 'boolean',
+      defaultsTo: false
     },
-
     authorizer: {
       type: 'boolean',
       defaultsTo: false
@@ -47,8 +50,6 @@ module.exports = {
     // Instance methods
     toJSON: function() {
       var obj = this.toObject();
-      delete obj.password;
-      delete obj.confirmation;
       //delete obj.authorizer;
       //delete obj.admin;
       delete obj._csrf;
@@ -60,29 +61,12 @@ module.exports = {
   // can tape into to change data
   // See Sails documentation on Models for more info/examples
   beforeCreate: function (values, next) {
-    var bcrypt = require('bcrypt');
-
-    if (!values.password || values.password != values.confirmation) {
-      return next({err: ["Passwords do not match"]});
-    }
-
     // Comment out if other emails are allowed
     var matchingBerkeleyEmail = /@berkeley.edu$/;
     if (!matchingBerkeleyEmail.test(values.email)) {
       return next({err: ["Berkeley emails only"]});
     }
-
-    bcrypt.genSalt(10, function(err, salt) {
-      if (err) return next(err);
-
-      bcrypt.hash(values.password, salt, function(err, encrypted) {
-        if (err) return next(err);
-
-        values.password = encrypted;
-        values.online = true;
-        next();
-      });
-    });
+    return next();
   }
 
 };

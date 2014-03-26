@@ -28,7 +28,7 @@ module.exports = {
     if (req.session.authenticated && req.session.user && req.session.user.admin) {
       User.find(function foundUsers(err, users) {
         if (err) return next(err);
-
+        console.log(users);
         res.view({
           users: users,
           title: 'Admin Panel'
