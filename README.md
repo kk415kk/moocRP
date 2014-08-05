@@ -6,6 +6,11 @@ Built on Node.js server with Sails.js framework for an MVC architecture. Python/
 ## Author
 Kevin Kao
 
+## Dependencies
+* Node.js ~0.10.25
+* npm ~1.4.23
+* Sails.js 0.10.1
+
 ## Setup Instructions
 After cloning this repository, the file structure setup should be in this format:
 
@@ -23,7 +28,8 @@ After cloning this repository, the file structure setup should be in this format
 -------------------- /[other types]
 -------- ...
 -------- /logs
--------- setup.sh [setup script to create directory structure]
+-------- /bin
+------------ setup.sh [setup script to create directory structure]
 ---- /datasets
 -------- /non_pii
 -------- /pii
@@ -32,12 +38,36 @@ After cloning this repository, the file structure setup should be in this format
 -------- /archives
 ````
 
+Run the setup.sh script from the moocRP folder:
+````
+sudo sh bin/setup.sh
+````
+
+Then, we need to install all npm package dependencies:
+````
+sudo npm install
+````
+
+To launch the application, simply run:
+````
+sails lift
+````
+
+To run the application in production continuously, we use the ````forever```` package:
+````
+forever start app.js
+````
+
 ## Releases
 v0.0.3 - first version with working request/download system, visualization upload system, user management ui
 
 v0.0.2a - alpha version that replaced login system with Berkeley's CAS authentication
 
 v0.0.1a - alpha version with working login/verification system
+
+## Bugs
+
+## Roadmap
 
 ## License
 MIT
