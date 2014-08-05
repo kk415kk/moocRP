@@ -1,0 +1,101 @@
+<div class="mini-banner auto">
+	<div class="container">
+		<h2>User Administration</h2>
+		<% if (messages && messages['error']) { %>
+		  <div class="alert alert-warning">
+		  <% messages['error'].forEach(function(message) { %>
+		    <%= message %>
+		    <br>
+		  <% }); %>
+		  </div>
+		<% } %>
+		<% if (messages && messages['success']) { %>
+		  <div class="alert alert-success">
+		  <% messages['success'].forEach(function(message) { %>
+		    <%= message %>
+		    <br>
+		  <% }); %>
+		  </div>
+		<% } %>	
+	</div>
+</div>
+
+<div class="container wrapper">
+	<table class='table table-striped table-hover' id='user-table'>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Email</th>
+				<th>Role</th>
+				<th>Show</th>
+				<th>Edit</th>
+				<th>Delete</th>
+				<th>Admin?</th>
+			</tr>
+		</thead>
+
+		<tbody>
+		<% _.each(users, function(user) { %>
+		<tr data-id="<%= user.id %>" data-model="user">
+			<td><%= user.id %></td>
+			<td><%= user.firstName %></td>
+			<td><%= user.lastName %></td>
+			<td><%= user.email %></td>
+			<td><% if (user.admin) { %>
+					Administrator
+				<% } else { %>
+					Researcher
+				<% } %>
+			</td>
+			<td><a href="/user/show/<%= user.id %>" class="btn btn-sm btn-primary">Show</a></td>
+			<td><a href="/user/edit/<%= user.id %>" class="btn btn-sm btn-warning">Edit</a></td>
+
+			<td><a class="btn btn-sm btn-danger" data-toggle="modal" href="#deleteModal">Delete</a>
+			</td>
+			<% if (!user.admin) { %>
+				<td><a href="/user/switch/<%= user.id %>" class="btn btn-sm btn-primary">Make Admin</a></td>
+			<% } %>
+			<% if (user.admin) { %>
+				<td><a href="/user/switch/<%= user.id %>" class="btn btn-sm btn-primary">Remove Admin</a></td>
+			<% } %>
+		</tr>
+
+		<!-- Modal for Deleting User -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h3 class="modal-title" id="deleteLabel"><b>Delete User</b></h3>
+          </div>
+
+          <div class="modal-body">
+          	<p><b>Warning:</b> Once a user is deleted, all records of the user are permanently deleted. Are you sure you want to continue?</p>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <a type="submit" class="btn btn-danger" value="Delete" href="/user/destroy/<%= user.id %>">Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+		<!-- End Modal -->
+
+		<% }) %>
+		</tbody>
+	</table>
+</div>
+
+<script>
+  // Table pagination
+  $(document).ready(function() {
+      $('#user-table').dataTable();
+  });
+</script>
+
+<script>
+	$
+</script>

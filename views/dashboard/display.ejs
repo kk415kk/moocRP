@@ -1,0 +1,282 @@
+<div class="mini-banner auto">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h2>Welcome to your dashboard, <font color="#5eb95e"><%= user.firstName %></font></h2>
+				<% if (messages && messages['error']) { %>
+				  <div class="alert alert-warning">
+				  <% messages['error'].forEach(function(message) { %>
+				    <%= message %>
+				    <br>
+				  <% }); %>
+				  </div>
+				  <br>
+				<% } %>
+				<% if (messages && messages['success']) { %>
+				  <div class="alert alert-success">
+				  <% messages['success'].forEach(function(message) { %>
+				    <%= message %>
+				    <br>
+				  <% }); %>
+				  </div>
+				  <br>
+				<% } %>	
+				<p>From your dashboard, you can place data requests for various datasets, download approved datasets, and view various analytics and visualizations that you have uploaded. Ready to <a href="#get-started">get started</a>?</p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-4">
+				<h5>Contributions: </h5> <p>N/A</p>
+			</div>
+
+			<div class="col-md-4">
+				<h5>Statistics: </h5> <p>N/A</p>
+			</div>
+
+			<div class="col-md-4">
+				<h5>Filler: </h5> <p>N/A</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container wrapper">
+	<div class="row">
+		<div class="col-md-6" id="leftDashboard">
+			<div class="panel-group">
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h1 class="panel-title">Notices</h1>
+						<a data-toggle="collapse" data-parent="#leftDashboard" data-target="#notices" class="pull-right">+</a>
+					</div>
+					<div id="notices" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p>This is where any important notices will appear.</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Start Panel -->
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h1 class="panel-title">Data Requests</h1>
+						<a data-toggle="collapse" data-parent="#leftDashboard" data-target="#dataRequests" class="pull-right">+</a>
+					</div>
+					<div id="dataRequests" class="panel-collapse collapse">
+						<!-- Start Panel Body -->
+						<div class="panel-body">
+							<h5>Pending Requests</h5>
+							<% _.each(requests, function(request) { %>
+								<% if (!request.granted && !request.denied) { %>
+								<%= request.dataset %>: <font color="orange" class="pull-right">PENDING</font><br>
+								<% } %>
+							<% }) %>
+							<hr>
+
+							<h5>Granted Requests</h5>
+							<% _.each(requests, function(request) { %>
+								<% if (request.granted) { %>
+								<%= request.dataset %>: <font color="green" class="pull-right">GRANTED</font><br>
+								<% } %>
+							<% }) %>
+							<hr>
+
+							<h5>Denied Requests</h5>
+							<% count = 0 %>
+							<% _.each(requests, function(request) { %>
+								<% if (request.denied && count < maxCount) { %>
+								<%= request.dataset %>: <font color="red" class="pull-right">DENIED</font><br>
+								<% count += 1%>
+								<% } %>
+							<% }) %>
+							<hr>
+
+							<h5>Downloads</h5>
+							<form action="/request/download" method="POST">
+								<select class="form-control limit-width" name="request_id">
+									<% _.each(requests, function(request) { %>
+										<% if (request.granted && !request.downloaded) { %>
+										<option value="<%= request.id %>"><%= request.dataset %></option>
+										<% } %>
+									<% }) %>
+								</select>
+								<br>
+								<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+								<input type="submit" class="btn btn-sm btn-primary" value="Download"/>
+							</form>
+						</div>
+						<!-- End Panel Body -->
+					</div>
+					<!-- End Panel -->
+					
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6" id="rightDashboard">
+			<div class="panel-group">
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h1 class="panel-title">Shared Visualizations</h1>
+						<a data-toggle="collapse" data-parent="#rightDashboard" data-target="#visualRequests" class="pull-right">+</a>
+					</div>
+					<div id="visualRequests" class="panel-collapse collapse">
+						<div class="panel-body">
+						<h5>Approved Visualizations</h5>
+						<% _.each(visualizations, function(visualization) { %>
+							<% if (visualization.approved) { %>
+								<%= visualization.name %>
+								<br>
+							<% } %>
+						<% }); %>
+						<hr>
+						<h5>Pending Visualizations</h5>
+						<% _.each(visualizations, function(visualization) { %>
+							<% if (!visualization.approved) { %>
+								<%= visualization.name %>
+								<br>
+							<% } %>
+						<% }); %>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h1 class="panel-title">Starred Visualizations</h1>
+						<a data-toggle="collapse" data-parent="#rightDashboard" data-target="#starredVisuals" class="pull-right">+</a>
+					</div>
+					<div id="starredVisuals" class="panel-collapse collapse">
+						<div class="panel-body">
+							<p>This is where your starred visualizations will appear.</p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div class="mini-banner auto no-margin" id="get-started">
+	<div class="container">
+		<div class="row">
+
+			<!-- Share Analytics -->
+			<div class="col-md-6">
+				<h3 class="section">Share Analytics</h3>
+				<p>Please place your main visualization code inside a "main.ejs" file inside your archive. Our system detects the code through that file only. Read our <a href="/privacy" target="_blank">privacy policy</a> for more information on how we use your analytics.</p>
+				<form action="/visualization/upload" enctype="multipart/form-data" method="POST">
+	    		<label>Visualization: </label><input type="text" class="form-control" placeholder="visualization name" name="name">
+	    		<br>
+					<label>Description: </label><textarea rows="7" type="text" class="form-control" name="description"></textarea>
+					<br>
+					<label>Visualization Type:</label><br>
+					<label class="undecorated"><input type="radio" name="type" value="D3"> D3.js</label><br>
+					<label class="undecorated"><input type="radio" name="type" value="Other" disabled> Other</label><br><br>
+
+	        <div class="input-group file-upload">
+	            <span class="input-group-btn">
+	                <span class="btn btn-primary btn-file">
+	                    Browse&hellip; <input type="file" class="form-control" name="userArchiveFile" multiple>
+	                </span>
+	            </span>
+	            <input type="text" class="form-control" readonly>
+	        </div>
+	        <p>Note: All uploaded files must be compressed in .zip or .tar.gz format.</p>
+	        <br>
+	        <input type="hidden" name="userID" value="<%= req.session.user.id %>" />
+	        <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+					<input type="submit" class="btn btn-sm btn-primary" value="Upload">
+				</form>
+			</div>
+
+			<!-- Data Requests -->
+			<div class="col-md-5 col-md-offset-1">
+				<h3 class="section">Request Data</h3>
+				<form action="/request/create" method="POST">
+					<p>Please select the dataset and the type of dataset to request below. Once a dataset request has been approved or denied, your status update window will be updated to reflect changes. 
+					<br><br>
+					Note that a dataset can only be downloaded once for security reasons, and you must provide your GPG public key for encrypting your download. For instructions on how to find your GPG key, see <a href="#">here</a>.</p>
+					<label>Request Type:</label><br>
+					<label class="undecorated"><input type="radio" name="requestType" value="pii"> Full PII Data</label><br>
+					<label class="undecorated"><input type="radio" name="requestType" value="non-pii"> Full Non-PII data</label><br><br>
+
+					<label>Dataset:</label>
+					<select class="form-control limit-width" size="7" name="dataset">
+						<% _.each(datasets, function(dataset) { %>
+							<option value="<%= dataset %>"><%= dataset %></option>
+						<% }) %>
+					</select>
+					<br>
+					<label>GPG Public Key:</label>
+					<textarea class="form-control" rows="5" name="GPGkey"><%= user.publicKey %></textarea>
+					<br>
+					<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+					<input type="hidden" name="userID" value="<%= user.id %>" />
+					<input type="hidden" name="firstName" value="<%= user.firstName %>"/>
+					<input type="hidden" name="lastName" value="<%= user.lastName %>"/>
+					<input type="hidden" name="email" value="<%= user.email %>"/>
+					<input type="submit" class="btn btn-sm btn-primary" value="Request"/>
+					</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<br>
+			<div class="pull-right">
+				<a href="#top">Back to Top</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+$(function() {
+  $('a[href*=#]:not([href=#])').click(function() {
+    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+      var target = $(this.hash);
+      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+      if (target.length) {
+        $("html, body").animate({
+          scrollTop: target.offset().top
+        }, 1000);
+        return false;
+      }
+    }
+  });
+});
+</script>
+
+<script>
+// File upload styling
+$(document).on('change', '.btn-file :file', function() {
+  var input = $(this),
+      numFiles = input.get(0).files ? input.get(0).files.length : 1,
+      label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+  input.trigger('fileselect', [numFiles, label]);
+});
+
+$(document).ready( function() {
+    $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+        
+        var input = $(this).parents('.input-group').find(':text'),
+            log = numFiles > 1 ? numFiles + ' files selected' : label;
+        
+        if(input.length) {
+            input.val(log);
+        } else {
+            if(log) alert(log);
+        }
+        
+    });
+});
+</script>

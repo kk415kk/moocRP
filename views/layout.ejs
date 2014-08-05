@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>moocRP - <%- title %></title>
+
+    <!-- Viewport mobile tag for sensible mobile support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    
+    <!--  
+        Stylesheets and Preprocessors
+        ==============================
+
+        You can always bring in CSS files manually with `link` tags, or asynchronously
+        on the client using a solution like AMD (RequireJS).  Or, if you like, you can
+        take advantage of Sails' boilerplate asset management.
+
+        By default, stylesheets from your `assets/styles` folder are included
+        here automatically.  Both CSS (.css) and LESS (.less) are supported.
+        In production, your styles will be minified and concatenated into a single file.
+        
+        To customize any part of the built-in behavior, just edit your Gruntfile.
+        For example, here are a few things you could do:
+            
+            + Change the order of your CSS files
+            + Import stylesheets from other directories
+            + Use a different or additional preprocessor, like SASS, SCSS or Stylus
+    -->
+
+    <!--STYLES-->
+    <link rel="stylesheet" href="/styles/bootstrap.css">
+    <link rel="stylesheet" href="/styles/bootstrap-glyphicons.css">
+    <link rel="stylesheet" href="/styles/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="/styles/jquery.dataTables.css">
+    <link rel="stylesheet" href="/styles/jquery.dataTables_themeroller.css">
+    <link rel="stylesheet" href="/styles/custom.css">
+    <link rel="stylesheet" href="/styles/importer.css">
+    <!--STYLES END-->
+    <script src="/js/jquery-1.11.0.min.js"></script>
+
+    <!-- FONTS --> 
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <!-- FONTS END -->
+  </head>
+
+  <body id="top">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">moocRP<font class="sub gold">beta</font></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+
+            <!-- About -->
+            <!-- <li><a id="About" class="navbar-button" href="/about">About</a></li> -->
+
+            <!-- Can only see these when logged in -->
+            <% if (session.authenticated) { %>
+              <!-- Dashboard -->
+              <li><a id="Dashboard" class="navbar-button" href="/dashboard">Dashboard</a></li>
+              <li><a id="Analytics" class="navbar-button" href="/analytics">Analytics</a></li>
+              <% if (session.user && session.user.admin) { %>
+                  <!-- Admin Panel, Qualifiers -->
+                  <li class="dropdown" id='Admin Panel'>
+                    <a class="navbar-button dropdown-toggle" id="admin-menu" data-toggle="dropdown">
+                      Admin Panel
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="admin-menu">
+                      <li role="presentation"><a role="menuitem" href="/admin/manage_users">Users</a></li>
+                      <li role="presentation"><a role="menuitem" href="/admin/manage_requests">Data Requests</a></li>
+                      <li role="presentation"><a role="menuitem" href="/admin/manage_analytics">Analytics</a></li>
+                      <li role="presentation" class="divider"></li>
+                      <li role="presentation"><a role="menuitem" href="#">Reports</a></li>
+                    </ul>
+                  </li>
+              <% } %>
+            <% } %>
+          </ul>
+          
+          <ul class="nav navbar-nav navbar-right">
+            <% if (session.authenticated) { %>
+            <!-- Logout button -->
+            <div class="navbar-right">
+              <li><div class="navbar-text">Logged in as <font color="lightblue"><%= session.user.firstName %> <%= session.user.lastName %></font></div>
+              <a class="btn btn-default navbar-btn navbar-right" href="/" onclick="window.open('/logout')">Logout</a></li>
+            </div>
+            <% } %>
+
+            <!-- Login button -->
+            <% if (!session.authenticated) { %>
+              <li><div class="navbar-right">
+                <a class="btn btn-default navbar-btn navbar-right" href="/login">Login</a>
+              </div></li>
+            <% } %>
+            <!-- end section -->
+          </ul>
+        </div> <!-- end navbar-collapse div -->
+      </div>
+    </nav>
+
+    <%- body %>
+
+    <!-- Footer -->
+    <div class="container">
+      <hr>
+      <footer class="footer">
+        <div class="pull-left">
+          <p>Find a bug? Report it <a href="/contact">here</a>!</p>
+        </div>
+        <div class="pull-right">
+          <div><a href="/tos">Terms of Use</a> - <a href="/privacy">Privacy Policy</a> - <a href="/contact">Contact</a></div>
+        </div>
+        <br>
+        <div class="pull-right">
+          <div>&copy; 2014 moocRP. Built on <a href="http://sailsjs.com/">sails.js</a></div>
+        </div>
+      </footer>
+    </div>
+
+
+    <!--
+        Client-side Templates
+        ========================
+
+    		HTML templates are important prerequisites of modern, rich client applications.
+        To work their magic, frameworks like Backbone, Angular, Ember, and Knockout require
+        that you load these templates client-side.
+
+        By default, your Gruntfile is configured to automatically load and precompile
+        client-side JST templates in your `assets/templates` folder, then
+        include them here automatically.
+        
+        To customize this behavior to fit your needs, just edit your Gruntfile.
+        For example, here are a few things you could do:
+
+            + Import templates from other directories
+            + Use a different template engine (handlebars, jade, dust, etc.)
+            + Internationalize your templates using a server-side stringfile
+              before they're served.
+    -->
+
+    <!--TEMPLATES-->
+    
+    <!--TEMPLATES END-->
+
+
+    <!--
+
+      Client-side Javascript
+      ========================
+
+      You can always bring in JS files manually with `script` tags, or asynchronously
+      on the client using a solution like AMD (RequireJS).  Or, if you like, you can 
+      take advantage of Sails' boilerplate asset management.
+
+      By default, filesin your `assets/js` folder are included here
+      automatically.  Both JavaScript (.js) and CoffeeScript (.coffee) are supported.
+      In production, your scripts will be minified and concatenated into a single file.
+      
+      To customize any part of the built-in behavior, just edit your Gruntfile.
+      For example, here are a few things you could do:
+          
+          + Change the order of your scripts
+          + Import scripts from other directories
+          + Use a different preprocessor, like TypeScript
+
+    -->
+    <!--SCRIPTS-->
+    <script src="/js/dependencies/sails.io.js"></script>
+    <script src="/js/jquery-1.11.0.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/jquery.dataTables.js"></script>
+    <script src="/js/app.js"></script>
+    <script src="/js/d3.v3.min.js"></script>
+    <script src="/js/dataTables.bootstrap.js"></script>
+    <script src="/js/sails.io.js"></script>
+    <script src="/js/socket.io.js"></script>
+    <!--SCRIPTS END-->
+
+    <script>
+      // Assigning active tab
+      $(document).ready(function(){
+        var title = '<%- title %>';
+        var nav = document.getElementById(title);
+        if (nav) {
+          var originalClass = nav.className;
+          nav.className = 'navbar-active-button';
+        } else {
+          nav = document.getElementById('Admin Panel');
+          nav.className += ' dropdown-active'
+        }
+      });
+    </script>
+  </body>
+</html>

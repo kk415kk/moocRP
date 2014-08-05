@@ -1,0 +1,229 @@
+<div class="mini-banner auto">
+  <div class="container">
+    <h2>Analytics Management Panel</h2>
+    <% if (messages && messages['error']) { %>
+      <div class="alert alert-warning">
+      <% messages['error'].forEach(function(message) { %>
+        <%= message %>
+        <br>
+      <% }); %>
+      </div>
+    <% } %>
+    <% if (messages && messages['success']) { %>
+      <div class="alert alert-success">
+      <% messages['success'].forEach(function(message) { %>
+        <%= message %>
+        <br>
+      <% }); %>
+      </div>
+    <% } %> 
+  </div>
+</div>
+
+<!-- Pending Visualizations -->
+<div class="container wrapper">
+  <h3>Pending Visualizations</h3>
+  <table class='table table-striped table-hover' id='pending-visuals'>
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Seeded File</th>
+        <th>Approve</th>
+        <th>Reject</th>
+        <th>Demo</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    <% _.each(visualizations, function(visualization) { %>
+      <% if (!visualization.approved && !visualization.rejected) { %>
+        <tr data-id="<%= visualization.id %>" data-model="visualization">
+          <td><%= visualization.userID %></td>
+          <td><%= visualization.name %></td>
+          <td><%= visualization.type %></td>
+          <td><%= visualization.description %></td>
+          <td><%= visualization.seededName %></td>
+          <td><a href="/visualization/approve/<%= visualization.id %>" class="btn btn-sm btn-success">Approve</a></td>
+          <td><a href="#rejectModal1" data-toggle="modal" class="btn btn-sm btn-warning">Reject</a></td>
+          <td><a href="/visualization/demo/<%= visualization.id %>" class="btn btn-sm btn-primary">Demo</a></td>
+
+          <!-- Modal for Rejecting Visualization -->
+          <div class="modal fade" id="rejectModal1" tabindex="-1" role="dialog" aria-labelledby="rejectLabel1" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                  <h3 class="modal-title" id="rejectLabel1"><b>Reject Visualization</b></h3>
+                </div>
+
+                <div class="modal-body">
+                  <p><b>Warning:</b> Rejecting a visualization will permanently delete its files. Are you sure you want to continue?</p>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <a type="submit" class="btn btn-danger" value="Reject" href="/visualization/reject/<%= visualization.id %>">Reject</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Modal -->
+        </tr> 
+        <% } %>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<!-- Granted Visualizations -->
+<div class="container wrapper">
+  <h3>Granted Visualizations</h3>
+  <table class='table table-striped table-hover' id='granted-visuals'>
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Seeded File</th>
+        <th>Reject</th>
+        <th>Demo</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    <% _.each(visualizations, function(visualization) { %>
+      <% if (visualization.approved) { %>
+        <tr data-id="<%= visualization.id %>" data-model="visualization">
+          <td><%= visualization.userID %></td>
+          <td><%= visualization.name %></td>
+          <td><%= visualization.type %></td>
+          <td><%= visualization.description %></td>
+          <td><%= visualization.seededName %></td>
+          <td><a href="#rejectModal2" data-toggle="modal" class="btn btn-sm btn-warning">Reject</a></td>
+          <td><a href="#/visualization/show/<%= visualization %>" class="btn btn-sm btn-primary">Demo</a></td>
+
+          <!-- Modal for Rejecting Visualization -->
+          <div class="modal fade" id="rejectModal2" tabindex="-1" role="dialog" aria-labelledby="rejectLabel2" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                  <h3 class="modal-title" id="rejectLabel2"><b>Reject Visualization</b></h3>
+                </div>
+
+                <div class="modal-body">
+                  <p><b>Warning:</b> Rejecting a visualization will permanently delete its files. Are you sure you want to continue?</p>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <a type="submit" class="btn btn-danger" value="Reject" href="/visualization/reject/<%= visualization.id %>">Reject</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Modal -->
+
+        </tr>
+        <% } %>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<div class="container wrapper">
+  <h3>Rejected Visualizations</h3>
+  <table class='table table-striped table-hover' id='rejected-visuals'>
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Seeded File</th>
+        <th>Destroy</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    <% _.each(visualizations, function(visualization) { %>
+      <% if (visualization.rejected) { %>
+        <tr data-id="<%= visualization.id %>" data-model="visualization">
+          <td><%= visualization.userID %></td>
+          <td><%= visualization.name %></td>
+          <td><%= visualization.type %></td>
+          <td><%= visualization.description %></td>
+          <td><%= visualization.seededName %></td>
+          <td><a href="#destroyModal" data-toggle="modal" class="btn btn-sm btn-danger">Destroy</a></td>
+
+          <!-- Modal for Destroying Visualization -->
+          <div class="modal fade" id="destroyModal" tabindex="-1" role="dialog" aria-labelledby="destroyLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                  <h3 class="modal-title" id="destroyLabel"><b>Destroy Visualization</b></h3>
+                </div>
+
+                <div class="modal-body">
+                  <p><b>Warning:</b> Destroying a visualization will permanently remove it from records. Are you sure you want to continue?</p>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <a type="submit" class="btn btn-danger" value="Destroy" href="/visualization/destroy/<%= visualization.id %>">Destroy</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Modal -->
+
+        </tr> 
+      <% } %>
+    <% }) %>
+    </tbody>
+  </table>
+</div>
+<div class="container wrapper">
+  <div class="row">
+    <div class="col-md-12">
+      <p><b>Warning:</b> This button clears all visualizations and should only be used for development purposes.</p>
+      <a href="#deleteAllModal" data-toggle="modal" class="btn btn-sm btn-danger">Delete All</a>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Deleting All Visualizations -->
+<div class="modal fade" id="deleteAllModal" tabindex="-1" role="dialog" aria-labelledby="deleteAllLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title" id="deleteAllLabel"><b>Delete All Visualizations</b></h3>
+      </div>
+
+      <div class="modal-body">
+        <p><b>Warning: </b> Deleting all visualizations will remove all of their files and permanently remove them from records. Are you sure you want to continue?</p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <a type="submit" class="btn btn-danger" href="/visualization/deleteAll">Delete All</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal -->
+
+<script>
+  // Table pagination
+  $(document).ready(function() {
+      $('#pending-visuals').dataTable();
+      $('#granted-visuals').dataTable();
+      $('#rejected-visuals').dataTable();
+  });
+</script>

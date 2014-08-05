@@ -1,0 +1,173 @@
+<div class="mini-banner auto">
+	<div class="container">
+		<h2>Request Management</h2>
+		<% if (messages && messages['error']) { %>
+		  <div class="alert alert-warning">
+		  <% messages['error'].forEach(function(message) { %>
+		    <%= message %>
+		    <br>
+		  <% }); %>
+		  </div>
+		  <br>
+		<% } %>
+		<% if (messages && messages['success']) { %>
+			<br>
+		  <div class="alert alert-success">
+		  <% messages['success'].forEach(function(message) { %>
+		    <%= message %>
+		    <br>
+		  <% }); %>
+		  </div>
+		<% } %>
+	</div>
+</div>
+
+<div class="container wrapper">
+	<div class="col-md-12">
+		<!-- Pending Requests Table -->
+		<h3 rel="tooltip" data-toggle="tooltip" data-placement="top" title="Tooltip on top">Pending Requests</h3>
+		<table class='table table-striped table-hover' id="pending">
+			<thead>
+				<tr>
+					<th>Researcher ID</th>
+					<th>Full Name</th>
+					<th>Email</th>
+					<th>Dataset</th>
+					<th>Request Type</th>
+					<th>Date Requested</th>
+					<th>Grant</th>
+					<th>Deny</th>
+					<th></th>
+				</tr>
+			</thead>
+
+			<tbody>
+			<% _.each(requests, function(request) { %>
+				<% if (!request.granted && !request.denied) { %>
+					<tr data-id="<%= request.id %>" data-model="request">
+						<td><%= request.userID %></td>
+						<td><%= request.firstName %> <%= request.lastName %></td>
+						<td><%= request.email %></td>
+						<td><%= request.dataset %></td>
+						<td><%= request.requestType %></td>
+						<td><%= request.createdAt %></td>
+						<td><a href="/request/grant/<%= request.id %>" class="btn btn-sm btn-success">Grant</a></td>
+
+						<td>
+							<form action="/request/deny/<%= request.id %>" method="POST">
+							<input type="hidden" name="_method" value="deny"/>
+							<input type="submit" class="btn btn-sm btn-danger" value="Deny"/>
+							<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+							</form>
+							</td>
+						<td></td>
+					</tr> 
+				<% } %>
+			<% }) %>
+			</tbody>
+		</table>
+	</div>
+
+	<!-- Granted Requests Table -->
+	<div class="col-md-12">
+		<h3 rel="tooltip" data-toggle="tooltip" data-placement="top" title="Tooltip on top">Granted Requests</h3>
+		<table class='table table-striped table-hover' id="granted">
+			<thead>
+				<tr>
+					<th>Researcher ID</th>
+					<th>Full Name</th>
+					<th>Email</th>
+					<th>Dataset</th>
+					<th>Request Type</th>
+					<th>Date Requested</th>
+					<th>Date Granted</th>
+				</tr>
+			</thead>
+
+			<tbody>
+			<% _.each(requests, function(request) { %>
+				<% if (request.granted) { %>
+					<tr data-id="<%= request.id %>" data-model="request">
+						<td><%= request.userID %></td>
+						<td><%= request.firstName %> <%= request.lastName %></td>
+						<td><%= request.email %></td>
+						<td><%= request.dataset %></td>
+						<td><%= request.requestType %></td>
+						<td><%= request.createdAt %></td>
+						<td><%= request.updatedAt %></td>
+					</tr> 
+				<% } %>
+			<% }) %>
+			</tbody>
+		</table>
+	</div>
+
+	<!-- Denied Requests Table -->
+	<div class="col-md-12">
+		<h3 rel="tooltip" data-toggle="tooltip" data-placement="top" title="Tooltip on top">Denied Requests</h3>
+		<table class='table table-striped table-hover' id="denied">
+			<thead>
+				<tr>
+					<th>Researcher ID</th>
+					<th>Full Name</th>
+					<th>Email</th>
+					<th>Dataset</th>
+					<th>Request Type</th>
+					<th>Date Requested</th>
+					<th>Date Denied</th>
+				</tr>
+			</thead>
+
+			<tbody>
+			<% _.each(requests, function(request) { %>
+				<% if (request.denied) { %>
+					<tr data-id="<%= request.id %>" data-model="request">
+						<td><%= request.userID %></td>
+						<td><%= request.firstName %> <%= request.lastName %></td>
+						<td><%= request.email %></td>
+						<td><%= request.dataset %></td>
+						<td><%= request.requestType %></td>
+						<td><%= request.createdAt %></td>
+						<td><%= request.updatedAt %></td>
+					</tr> 
+				<% } %>
+			<% }) %>
+			</tbody>
+		</table>
+	</div>
+	<p><b>Warning:</b> This button clears all visualizations and should only be used for development purposes.</p>
+	<p>
+		<a href="#deleteAllModal" data-toggle="modal" class="btn btn-danger btn-sm">Delete All</a>
+	</p>
+</div>
+
+<!-- Modal for Deleting All Visualizations -->
+<div class="modal fade" id="deleteAllModal" tabindex="-1" role="dialog" aria-labelledby="deleteAllLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title" id="deleteAllLabel"><b>Delete All Requests</b></h3>
+      </div>
+
+      <div class="modal-body">
+        <p><b>Warning:</b> Deleting all requests will permanently remove them from records. Are you sure you want to continue?</p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <a type="submit" class="btn btn-danger" href="/request/deleteAll">Delete All</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal -->
+
+<script>
+  // Table pagination
+  $(document).ready(function() {
+  		$('#pending').dataTable();
+      $('#granted').dataTable();
+      $('#denied').dataTable();
+  });
+</script>

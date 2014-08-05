@@ -1,0 +1,31 @@
+<div class="container wrapper">
+	<form action="/user/create" method="POST" class="form-signin">
+		<h2 class="form-signin-heading">Researcher Signup Form</h2>
+
+		<% if (messages && messages['error']) { %>
+		  <div class="alert alert-warning">
+		  <% messages['error'].forEach(function(message) { %>
+		    <%= message %>
+		    <br>
+		  <% }); %>
+		  </div>
+		  <br>
+		<% } %>
+
+		Welcome to moocRP! Since this is your first time using this service, please fill in the following information for our records.
+		<br><br>
+		NOTE: Currently, only Berkeley researchers and instructors are allowed to create an account using their Berkeley email address.
+		<br><br>
+		<label>First Name: </label><input type="text" class="form-control" placeholder="first name" name="firstName">
+		<label>Last Name: </label><input type="text" class="form-control" placeholder="last name" name="lastName">
+		<label>Email: </label><input type="email" class="form-control" placeholder="example@berkeley.edu" name="email">
+		<label>GPG Email: </label><input type="email" class="form-control" placeholder="example@berkeley.edu" name="keyEmail">
+		<label>GPG Public Key:</label>
+		<br>
+		<textarea class="form-control" placeholder="copy your public key here" name="publicKey"></textarea>
+		<br>
+
+		<input type="submit" class="btn btn-lg btn-primary btn-block" value="Create">
+		<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+	</form>
+</div>

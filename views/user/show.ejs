@@ -1,0 +1,133 @@
+<div class="mini-banner auto">
+  <div class="container">
+    <h2>User Information: UID <%= user.id %></h2>
+    <% if (messages && messages['error']) { %>
+      <div class="alert alert-warning">
+      <% messages['error'].forEach(function(message) { %>
+        <%= message %>
+        <br>
+      <% }); %>
+      </div>
+      <br>
+    <% } %>
+    <% if (messages && messages['success']) { %>
+      <div class="alert alert-success">
+      <% messages['success'].forEach(function(message) { %>
+        <%= message %>
+        <br>
+      <% }); %>
+      </div>
+      <br>
+    <% } %> 
+  </div>
+</div>
+<div class="sub-banner">
+  <div class="container">
+    <h2>Profile</h2>
+  </div>
+</div>
+<div class="container wrapper">
+  <!-- User Information -->
+  <p><b>First Name: </b> <%= user.firstName %></p>
+  <p><b>Last Name: </b> <%= user.lastName %></p>
+  <p><b>Email Address: </b> <%= user.email %></p>
+  <p><b>GPG Email: </b> <%= user.keyEmail %></p>
+  <p><b>GPG Key: </b> </p>
+  <textarea class="full" rows="5" cols="70" disabled><%= user.publicKey %></textarea>
+
+  <br>
+
+  <!-- Request Information -->
+  <h2>Requests</h2>
+  <table class="table table-striped table-hover" id="requests-table">
+    <thead>
+      <tr>
+        <th>Dataset</th>
+        <th>Request Type</th>
+        <th>Date Requested</th>
+        <th>Status</th>
+        <th>Grant</th>
+        <th>Deny</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% _.each(requests, function(request) { %>
+        <tr data-id="<%= request.id %>" data-model="request">
+          <td><%= request.dataset %></td>
+          <td><%= request.requestType %></td>
+          <td><%= request.createdAt %></td>
+          <% if (request.granted) { %>
+            <td><font color="green">Granted</font></td>
+          <% } %>
+          <% if (request.denied) { %>
+            <td><font color="red">Denied</font></td>
+          <% } %>
+          <% if (!request.granted && !request.denied) { %>
+            <td><font color="orange">Pending</font></td>
+          <% } %>
+          <td><a href="/request/grant/<%= request.id %>" class="btn btn-sm btn-success">Grant</a></td>
+          <td>
+            <form action="/request/deny/<%= request.id %>" method="POST">
+            <input type="hidden" name="_method" value="deny"/>
+            <input type="submit" class="btn btn-sm btn-danger" value="Deny"/>
+            <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+            </form>
+            </td>
+        </tr> 
+      <% }); %>
+    </tbody>
+  </table>
+
+  <br>
+
+  <!-- Visualization Information -->
+  <h2>Visualizations</h2>
+  <table class='table table-striped table-hover' id="visualizations-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Date Uploaded</th>
+        <th>Status</th>
+        <th>Approve</th>
+        <th>Reject</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% _.each(visualizations, function(visualization) { %>
+        <tr data-id="<%= visualization.id %>" data-model="visualization">
+          <td><%= visualization.name %></td>
+          <td><%= visualization.type %></td>
+          <td><%= visualization.createdAt %></td>
+          <% if (visualization.approved) { %>
+            <td><font color="green">Approved</font></td>
+          <% } %>
+          <% if (visualization.rejected) { %>
+            <td><font color="red">Rejected</font></td>
+          <% } %>
+          <% if (!visualization.approved && !visualization.rejected) { %>
+            <td><font color="orange">Pending</font></td>
+          <% } %>
+          <td><a href="/visualization/approve/<%= visualization.id %>" class="btn btn-sm btn-success">Approve</a></td>
+          <td>
+            <form action="/visualization/reject/<%= visualization.id %>" method="POST">
+            <input type="hidden" name="_method" value="deny"/>
+            <input type="submit" class="btn btn-sm btn-danger" value="Reject"/>
+            <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+            </form>
+            </td>
+        </tr> 
+      <% }); %>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  // Table pagination
+  $(document).ready(function() {
+      $('#requests-table').dataTable();
+      $('#visualizations-table').dataTable();
+  });
+</script>

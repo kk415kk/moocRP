@@ -1,0 +1,99 @@
+<div class="container wrapper" id="analytics-container">
+  <h3 id="step">Step 3: Visualize.</h3>
+    <div class="progress">
+    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+        <span class="sr-only">100%</span>
+    </div>
+  </div>
+  <a href="/analytics" class="btn btn-sm btn-primary">Back to Analytics</a>
+  <br>
+
+  <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+  <style>
+  .bar rect {
+    fill: steelblue;
+    shape-rendering: crispEdges;
+  }
+
+  .bar text {
+    fill: #fff;
+    font-size: 10px;
+  }
+
+  .axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }  
+  </style>
+
+  <script>
+  var margin = {top: 20, right: 20, bottom: 30, left: 40},
+      width = 960 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+
+  var x = d3.scale.linear()
+      .domain([0, 1])
+      .range([0, width]);
+
+  var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom");
+
+  var svg = d3.select("#analytics-container").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  d3.tsv("/datasets/histogram_data.tsv", type, function(error, data) {
+    if (error) {
+      console.log(error);
+    }
+    // A formatter for counts.
+    var formatCount = d3.format(",.0f");
+
+    for(var i = 0; i < data.length; i++) {
+      data[i] = data[i].percent_grade;
+    }
+
+    // Generate a histogram using twenty uniformly-spaced bins.
+    var vals = d3.layout.histogram()
+        .bins(x.ticks(50))
+        (data);
+
+    var y = d3.scale.linear()
+        .domain([0, d3.max(vals, function(d) { return d.y; })])
+        .range([height, 0]);
+
+    var bar = svg.selectAll(".bar")
+        .data(vals)
+        .enter().append("g")
+        .attr("class", "bar")
+        .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
+
+    bar.append("rect")
+        .attr("x", 1)
+        .attr("width", x(vals[0].dx) - 1)
+        .attr("height", function(d) { return height - y(d.y); });
+
+    bar.append("text")
+        .attr("dy", ".75em")
+        .attr("y", 6)
+        .attr("x", x(vals[0].dx) / 2)
+        .attr("text-anchor", "middle")
+        .text(function(d) { return formatCount(d.y); });
+
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+  });
+
+  function type(d) {
+    d.percent_grade = +d.percent_grade;
+    return d
+  }
+
+  </script>
+</div>
