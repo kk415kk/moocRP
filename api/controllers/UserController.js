@@ -88,20 +88,39 @@ module.exports = {
   // Login page
   login: function(req, res) {
     var settings = sails.config.settings;
-    var casOptions = {
-      casURL: 'https://ncas-test.berkeley.edu',
-      login: '/cas/login',
-      validate: '/cas/validate',
-      service: settings.protocol + settings.host[settings.environment] +'/user/validate',
-      renew: true,
-      gateway: false
-    }
 
-    if (req.session.authenticated) {
-      return res.redirect('/dashboard');
+    // For test only -- please disable in production
+    if (settings.bypassLogin) {
+      User.findOne(settings.bypassUserId, function(err, user) {
+        if (err || !user) {
+          sails.log.error('Unable to bypass login!');
+          return res.redirect('/')
+        } else {
+          req.session.messages = { success: ['Bypassed login!'] };
+          var oldDateObj = new Date();
+          var newDateObj = new Date(oldDateObj.getTime() + 3600000); // one hour before expiring
+          req.session.cookie.expires = newDateObj;
+          req.session.user = user;
+          req.session.authenticated = true;
+          return res.redirect('/dashboard');
+        }
+      });
     } else {
-      var https = require('https');
-      return res.redirect(casOptions.casURL + casOptions.login + '?service=' + casOptions.service + '&renew=' + casOptions.renew);
+      var casOptions = {
+        casURL: 'https://ncas-test.berkeley.edu',
+        login: '/cas/login',
+        validate: '/cas/validate',
+        service: settings.protocol + settings.host[settings.environment] +'/user/validate',
+        renew: true,
+        gateway: false
+      }
+
+      if (req.session.authenticated) {
+        return res.redirect('/dashboard');
+      } else {
+        var https = require('https');
+        return res.redirect(casOptions.casURL + casOptions.login + '?service=' + casOptions.service + '&renew=' + casOptions.renew);
+      }
     }
   },
 

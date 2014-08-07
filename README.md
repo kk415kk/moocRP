@@ -58,16 +58,44 @@ To run the application in production continuously, we use the ````forever```` pa
 forever start app.js
 ````
 
-## Releases
-v0.0.3 - first version with working request/download system, visualization upload system, user management ui
+## Visualization Upload Format
+Note that all visualizations must use the field "<%= dataset %>" where they would normally pass in a text version of the dataset. There must be a "main.html" file inside the base of the uploaded archive that already has links to relevant scripts and additional files built into it.
 
-v0.0.2a - alpha version that replaced login system with Berkeley's CAS authentication
+## Current Release
+v0.0.3
 
-v0.0.1a - alpha version with working login/verification system
+## Changelog
+v0.0.3 - First version with working request/download system, visualization upload system, user management ui
+
+v0.0.2a - Alpha version that replaced login system with Berkeley's CAS authentication
+
+v0.0.1a - Alpha version with working login/verification system
+
+## Completed Features
+* SSL integration
+* Node.js CAS client (login system)
+* Secure dataset request and download system
+* Visualization upload and approval system
+* Administration controls
+* UI theme
 
 ## Bugs
 
 ## Roadmap
+* Add "Reports" messaging system for managing bug handling/error messages
+* Integrate JIRA ticketing system for open source release and collaboration
+* Add support for hooking datasets to the visualization upload system
+* Strip out CAS client to package into npm package
+* Add profile updates for users
+* Add support for sharing research papers
+* Add support for running pre-processing scripts on datasets before visualizing (i.e. machine learning code)
+* Create setup.sh to create directory structure
+* Investigate and implement automatic code review security
+* Begin populating Github wiki for instructions on use
+* Perform penetration testing and security checks
+* Scale/stress testing + test suites need to be developed
+* Add features to star/"bookmark" visualizations
+* Implement alternative login system for non-CAS institutions
 
 ## License
 MIT

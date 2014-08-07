@@ -15,6 +15,25 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
+var path = require('path');
+var DATASET_EXTRACT_PATH = path.resolve('..', 'datasets', 'extracted');
+
+function encode(data) {
+  var cleanedData = JSON.stringify(data).replace(/\\\\/g, "\\\\\\")
+                                        .replace(/\\n/g, "\\\\n")
+                                        .replace(/\\"/g, '\\\\"')
+                                        .replace(/\\r/g, "\\\\r")
+                                        .replace(/\\t/g, "\\\\t")
+                                        .replace(/\\f/g, "\\\\f");
+  return JSON.parse(cleanedData);
+}
+
+/**
+ * @return the filename without its extension
+ */
+function fileMinusExt(fileName) {
+  return fileName.split('.').slice(0, -1).join('.');
+}
 
 module.exports = {
   /**
@@ -26,10 +45,28 @@ module.exports = {
   analytics: function(req, res) {
     Visualization.find().exec(function (err, visualizations) {
       User.find().exec(function (err, users) {
+
+        var fs = require('fs-extra');
+
+        fs.ensureDirSync(DATASET_EXTRACT_PATH);
+        var folders = fs.readdirSync(DATASET_EXTRACT_PATH),
+            extractedDatasets = [];
+
+        for (i = 0; i < folders.length; i++) {
+          var currPath = path.resolve(DATASET_EXTRACT_PATH, folders[i]);
+          fs.ensureDirSync(currPath);
+          var datasets = fs.readdirSync(currPath)
+          
+          for (j = 0; j < datasets.length; j++) {
+            extractedDatasets.push(fileMinusExt(datasets[j]));
+          }
+        }
+
         res.view({
           title: 'Analytics',
           visualizations: visualizations,
-          users: users
+          users: users,
+          datasets: extractedDatasets
         });
       });
     });
@@ -60,13 +97,57 @@ module.exports = {
   },
 
   view: function(req, res) {
-    Visualization.findOne(req.param('id'), function (err, visualization) {
-      
-      //TODO: Add dataset extraction script in future instead of bundling dataset in ZIP file
+    var fs = require('fs');
+    var path = require('path');
 
-      res.view({
-        title: 'Analytics'
-      });
-    }
+    Visualization.findOne(req.param('visualID'), function (err, visualization) {
+
+      if (err) {
+        sails.log.error("Error occurred while loading visualization: " + err.code);
+
+        if (err.code != 'E_UNKNOWN') {
+          req.session.messages = { error: ['Error occurred while loading visualization: ' + err] };
+          return res.redirect('/analytics');
+        }
+      }
+
+      //TODO: Add dataset extraction script in future instead of bundling dataset in ZIP file
+      // Use resque
+      var requestedType = _.isEmpty(req.param('visualType')) ? 'error' : req.param('visualType'),
+          requestedUser = _.isEmpty(req.param('userID')) ? 'error' : req.param('userID'),
+          requestedVisual = _.isEmpty(req.param('visualID')) ? 'error' : req.param('visualID'),
+          requestedData = _.isEmpty(req.param('datasetName')) ? 'error' : req.param('datasetName'),
+          baseResource = 'analytics/share/' + requestedType + '/' + requestedUser + '/' + requestedVisual,
+          requestedPage = visualization ? baseResource + '/main' : baseResource,
+          requestedFile = sails.config.paths.views + '/' + requestedPage + '.ejs';
+
+      if (requestedData == 'error' || req.param('datasetName') == 'select') {
+        req.session.messages = { error: ['Please select a dataset.'] };
+        return res.redirect('/analytics');
+      }
+
+      // TODO: Handle all types of files 
+      var data = fs.readFileSync(path.resolve(DATASET_EXTRACT_PATH, requestedData, requestedData + '.tsv'), 'utf-8');
+      return res.view(requestedPage, { dataset: encode(data) });
+
+      // File verification check
+      // fs.stat(requestedFile, function(err, stats) {
+      //     sails.log('Requested: ' + requestedFile);
+      //     sails.log(stats);
+      //     if (err) {
+      //         if (err.code == 'ENOENT') {
+      //             sails.log.warn('404');
+      //             req.session.messages = { error: ['Page not found'] };
+      //             return res.redirect('/analytics');
+      //         } else {
+      //             sails.log.warn('500');
+      //             req.session.messages = { error: ['Page not found'] };
+      //             return res.redirect('/analytics');
+      //         }
+      //     }
+      //     return res.view(requestedPage);
+      // });
+      
+    });
   }
 };

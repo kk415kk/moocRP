@@ -1,7 +1,7 @@
-/*************************************************
- * Copyright 2014, moocRP                        *
- * Author: Kevin Kao                             *
- *************************************************/
+/*******************************************
+ * Copyright 2014, moocRP                  *
+ * Author: Kevin Kao                       *
+ *******************************************/
  
 module.exports.settings = {
 
@@ -11,6 +11,8 @@ module.exports.settings = {
     local: 'localhost:1337',
     production: 'cahl.berkeley.edu:15100'
   },
-  protocol: 'http://'
+  protocol: 'http://',
+  bypassLogin: true,
+  bypassUserId: 991426
 
 }

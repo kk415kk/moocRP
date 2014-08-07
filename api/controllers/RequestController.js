@@ -109,19 +109,18 @@ module.exports = {
       if (!request) {
         req.session.messages = { error: ["Request does not exist"] };
       }
-      var data = request.dataset + '.zip.gpg',
+      var data = request.dataset + '_' + request.userID + '.zip.gpg',
           userID = req.session.user.id;
-      var link = path.resolve(ENCRYPT_PATH, userID, data);
+      var link = path.resolve(ENCRYPT_PATH, data);
 
-      //res.attachment(path.join(process.cwd(), link));
-      res.attachment(link);
-      request.downloaded = true
       request.save(function (err) {
         if (err) {
           return next(err);
         } else {
+          request.downloaded = true
           sails.log.debug("Request " + request.id + " is being fulfilled and downloaded");
-          return res.send();
+          sails.log.debug("Downloading: " + link);
+          return res.download(link);
         }
       });
     });   

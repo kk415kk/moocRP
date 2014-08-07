@@ -25,7 +25,7 @@ var shell = require('shelljs');
 // Constants
 var UPLOAD_PATH = path.resolve('..', 'visualizations', 'archives'),
     EXTRACT_PATH = path.resolve('..', 'visualizations', 'tmp'),
-    PUBLIC_SHARE_PATH = path.resolve('assets', 'visualizations', 'scaffolded'),
+    PUBLIC_SHARE_PATH = path.resolve('views', 'analytics', 'share'),
     SCAFFOLDS_PATH = path.resolve('assets', 'scaffolds'),
     MAIN_FILE = 'main.html',
     ARCHIVE_TYPES = ['zip'];
@@ -73,8 +73,8 @@ function verifyArchive(fileExt) {
 /**
  * @return the callback fn. with true if successful, false otherwise
  */
-function moveCommand(filePath, destination, cb) {
-  var cmd = 'mv ' + filePath + ' ' + destination,
+function moveCommand(filePath, destination, allContents, cb) {
+  var cmd = allContents ? 'mv ' + filePath + '/* ' + destination : 'mv ' + filePath + ' ' + destination
       exec = require('child_process').exec;
 
   exec(cmd, function(error, stdout, stderr) {
@@ -108,7 +108,7 @@ function extractArchive(pathToFile, type, fileName, userID) {
 
     var overwrite = true;
   } catch (err) {
-    sails.log.debug(err);
+    sails.log.debug("Error during extraction: " + err + "[filename: " + pathToFile + " " + fileName + "]");
     return FAILURE
   }
   sails.log.debug('Extracted visualization to ' + unzipTo + '/' + fileName);
@@ -132,10 +132,10 @@ function extractArchive(pathToFile, type, fileName, userID) {
  * Scaffold from /visualizations/tmp/<type>/<userID>/<fileName>/main.html 
  * to /assets/visualizations/<type>/<userID>/<fileName>/<fileName>.ejs
  *
- * Also moves all files from /visualizations/tmp/<type>/<userID>/<fileName/*
- * to /assets/visualizations/<type>/<userID>/<fileName>/
+ * Also moves all files from /visualizations/tmp/<type>/<userID>/<fileName>/*
+ * to /views/analytics/<type>/<userID>/<visualizationID>/
  */
-function scaffoldVisualizations(pathToFile, type, fileName, userID, next) {
+function scaffoldVisualizations(pathToFile, type, fileName, userID, visualizationID, next) {
   sails.log.debug('Scaffolding visualization from ' + pathToFile + '/' + fileName + ' for user ' + userID);
   var visualizationFiles = shell.ls(pathToFile);
 
@@ -144,10 +144,11 @@ function scaffoldVisualizations(pathToFile, type, fileName, userID, next) {
     return FAILURE;
   }
 
+  // TODO: Add security parsing for d3Code
   var d3Code = fs.readFileSync(path.join(pathToFile, fileName), 'utf-8');
   var preparedCode = fs.readFileSync(path.join(SCAFFOLDS_PATH, 'd3_scaffold.ejs'), 'utf-8').replace("<!--INSERT-->", d3Code);
 
-  var sharePath = path.join(PUBLIC_SHARE_PATH, type, userID);
+  var sharePath = path.join(PUBLIC_SHARE_PATH, type, userID.toString(), visualizationID.toString());
 
   try {
     fs.writeFile(path.join(pathToFile, fileMinusExt(fileName) + '.ejs'), preparedCode, function (err) {
@@ -159,7 +160,7 @@ function scaffoldVisualizations(pathToFile, type, fileName, userID, next) {
 
       fs.ensureDirSync(sharePath);
       fs.removeSync(path.join(pathToFile, fileName));
-      moveCommand(pathToFile, sharePath, function(error, success) {
+      moveCommand(pathToFile, sharePath, true, function(error, success) {
         if (error) {
           req.session.messages = { error: ['An error occurred while scaffolding the visualizations package: ' + error] };
           return next(FAILURE);
@@ -169,6 +170,8 @@ function scaffoldVisualizations(pathToFile, type, fileName, userID, next) {
           req.session.messages = { error: ['An error occurred while scaffolding the visualizations package.'] };
           return next(FAILURE);
         }
+
+        fs.removeSync(pathToFile);
         return next(SUCCESS);
       });
     });
@@ -211,7 +214,7 @@ module.exports = {
       }
 
       var pathToExtractedFile = path.join(EXTRACT_PATH, type, userID, noExtFileName);
-      scaffoldVisualizations(pathToExtractedFile, type, MAIN_FILE, userID, function (success) {
+      scaffoldVisualizations(pathToExtractedFile, type, MAIN_FILE, userID, visualization.id, function (success) {
         if (success) {
           visualization.approved = true;
           visualization.rejected = false;
@@ -301,15 +304,16 @@ module.exports = {
 
       var type = visualization.type,
           userID = visualization.userID,
-          fileName = visualization.fileName;
+          fileName = visualization.fileName,
+          visualID = visualization.id.toString();
 
       try {
         sails.log.debug('Deleting ' + path.join(UPLOAD_PATH, type, userID, fileName));
         fs.removeSync(path.join(UPLOAD_PATH, type, userID, fileName));
         sails.log.debug('Deleting ' + path.join(EXTRACT_PATH, type, userID, fileMinusExt(fileName)));
         fs.removeSync(path.join(EXTRACT_PATH, type, userID, fileMinusExt(fileName)));
-        sails.log.debug('Deleting ' + path.join(PUBLIC_SHARE_PATH, type, userID, fileMinusExt(fileName)));
-        fs.removeSync(path.join(PUBLIC_SHARE_PATH, type, userID, fileMinusExt(fileName)));
+        sails.log.debug('Deleting ' + path.join(PUBLIC_SHARE_PATH, type, userID, visualID));
+        fs.removeSync(path.join(PUBLIC_SHARE_PATH, type, userID, visualID));
       } catch (err) {
         sails.log.error(err);
       }
@@ -351,29 +355,42 @@ module.exports = {
       }
 
       var file = files[0],
-          fileName = file.filename;
+          fileName = file.filename,
+          pathToUploadedFile = file.fd;
 
       params['type'] = type;
       params['fileName'] = fileName;
 
+
       if (!verifyArchive(fileExtension(fileName))) {
+        // TODO: Cleanup and delete archive
         req.session.messages = { error: ['Invalid archive format - only .zip and tar.gz files are accepted'] };
         return res.redirect('/dashboard');
       }
 
-      Visualization.create(params, function visualizationCreated(err, visualization) {
-        if (err) {
-          req.session.messages = { error: ['Error uploading visualization: ' + err] };
+      moveCommand(pathToUploadedFile, path.resolve(dirPath, fileName), false, function(error, success) {
+
+        if (error || !success) {
+          // TODO: Cleanup and delete archive
+          req.session.messages = { error: ['Error while uploading visualization'] };
           return res.redirect('/dashboard');
         }
 
-        if (!visualization) {
-          req.session.messages = { error: ['Error uploading visualization'] };
-          return res.redirect('/dashboard');
-        }
+        Visualization.create(params, function visualizationCreated(err, visualization) {
+          if (err) {
+            req.session.messages = { error: ['Error uploading visualization: ' + err] };
+            return res.redirect('/dashboard');
+          }
 
-        req.session.messages = { success: ['Successfully uploaded visualization to server'] };
-        return res.redirect('/dashboard')
+          if (!visualization) {
+            req.session.messages = { error: ['Error uploading visualization'] };
+            return res.redirect('/dashboard');
+          }
+
+          sails.log.debug("Uploaded file: " + dirPath + "/" + fileName);
+          req.session.messages = { success: ['Successfully uploaded visualization to server'] };
+          return res.redirect('/dashboard');
+        });
       });
     });
   }

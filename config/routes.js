@@ -80,7 +80,19 @@ module.exports.routes = {
   '/analytics': {
     controller: 'analytics',
     action: 'analytics'
+  },
+
+  '/analytics/share/:visualType/:userID/:visualID/:datasetName': {
+    controller: 'analytics',
+    action: 'view'
   }
+
+
+  /**
+   * Example: '/analytics/share/test': { view: 'analytics/share/test' }
+   */
+
+  /***DYNAMIC_ROUTES**/
 
   /***************************************************************************
   *                                                                          *

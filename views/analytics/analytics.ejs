@@ -1,6 +1,24 @@
 <div class="mini-banner auto">
 	<div class="container">
 		<h2>Analytics</h2>
+		<% if (messages && messages['error']) { %>
+		  <div class="alert alert-warning">
+		  <% messages['error'].forEach(function(message) { %>
+		    <%= message %>
+		    <br>
+		  <% }); %>
+		  </div>
+		  <br>
+		<% } %>
+		<% if (messages && messages['success']) { %>
+		  <div class="alert alert-success">
+		  <% messages['success'].forEach(function(message) { %>
+		    <%= message %>
+		    <br>
+		  <% }); %>
+		  </div>
+		  <br>
+		<% } %>	
 	</div>
 </div>
 <div class="sub-banner">
@@ -35,14 +53,14 @@
 								<td><%= visualization.name %></td>
 								<td><%= author.firstName %> <%= author.lastName %></td>
 								<td>
-									<select>
-										<option value="option1">Option #1</option>
-										<option value="option2">Option #2</option>
-										<option value="option3">Option #3</option>
-										<option value="option4">Option #4</option>
+									<select id="select-<%= visualization.id %>" name="requestedData" onchange="addDataset(<%= visualization.id %>);">
+										<option value="select">select</option>
+										<% datasets.forEach(function(dataset) { %>
+											<option value="<%= dataset %>"><%= dataset %></option>
+										<% }); %>
 									</select>
 								</td>
-								<td><a class="btn btn-sm btn-primary" href="/analytics/datasets">Select</a></td>
+								<td><a id="a-<%= visualization.id %>" class="btn btn-sm btn-primary" href="/analytics/share/<%= visualization.type %>/<%= visualization.userID %>/<%= visualization.id %>/select">Select</a></td>
 							</tr>
 						<% } %>
 					<% }); %>
@@ -51,6 +69,20 @@
 		</div>
 		<div class="col-md-4">
 		<h3>Preview Pane</h3>
+		<br>
+		<br>
+		<p>Current unavailable</p>
 		</div>
 	</div>
 </div>
+
+<script>
+function addDataset(visualID) {
+	var selectField = document.getElementById("select-" + visualID);
+	var dataset = selectField.options[selectField.selectedIndex].value;
+
+	var visualLink = document.getElementById("a-" + visualID).href.split("/").slice(0, -1).join("/");
+	document.getElementById("a-" + visualID).href = visualLink + "/" + dataset;
+}
+</script>
+
