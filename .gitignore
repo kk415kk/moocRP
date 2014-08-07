@@ -116,4 +116,9 @@ npm-debug.log
 nbproject
 .idea
 .node_history
+
+# moocRP Uploads
+views/analytics/shared/*
+
+# SSL Keys
 ssl/key.pem
