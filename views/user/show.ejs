@@ -31,8 +31,8 @@
   <p><b>First Name: </b> <%= user.firstName %></p>
   <p><b>Last Name: </b> <%= user.lastName %></p>
   <p><b>Email Address: </b> <%= user.email %></p>
-  <p><b>GPG Email: </b> <%= user.keyEmail %></p>
-  <p><b>GPG Key: </b> </p>
+  <p><b>GPG Public Key ID: </b> <%= user.publicKeyID %></p>
+  <p><b>GPG Public Key: </b> </p>
   <textarea class="full" rows="5" cols="70" disabled><%= user.publicKey %></textarea>
 
   <br>

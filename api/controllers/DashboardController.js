@@ -43,7 +43,7 @@ module.exports = {
 
         var datasets = fs.readdirSync(path.resolve('..', 'datasets', 'non_pii'));
         for (i = 0; i < datasets.length; i++) {
-          datasets[i] = util.removeFileExtension(datasets[i]); // filter file extensions
+          datasets[i] = UtilService.fileMinusExt(datasets[i]); // filter file extensions
         }
 
         res.view({

@@ -17,8 +17,8 @@
 
 var path = require('path');
 var TYPES = ['pii', 'non_pii'],
-    DATASET_ROOT = path.resolve('..', 'datasets');
-    ENCRYPT_PATH = path.resolve('..', 'datasets', 'encrypted');
+    DATASET_ROOT = sails.config.paths.DATASET_ROOT,
+    ENCRYPT_PATH = sails.config.paths.DATASET_ENCRYPT_PATH;
 
 function mapTypes(type) {
   if (type == 'pii') return 'pii';
@@ -36,18 +36,18 @@ function generateEncryptedPath(dataset, userID) {
   return path.resolve(ENCRYPT_PATH, dataset + '_' + userID);
 }
 
-function encryptCommand(user, dataset, type, cb) {
-  if (user == null) return '';
-  var pathToDataset = addFileExt(generateFilePath(dataset, type), '.zip'),
-      pathToEncrypted = addFileExt(generateEncryptedPath(dataset, user.id), '.zip.gpg')
-      encryptCmd = 'gpg --batch --yes --output ' + pathToEncrypted + ' --encrypt -r ' + user.keyEmail + ' ' + pathToDataset;
-      sails.log.info('Encrypting: ' + encryptCmd);
-  return encryptCmd;
+//TODO
+function importPublicKey(keyID, key, user) {
+
 }
 
-function addFileExt(fileName, extension) {
-  if (fileName == null || extension == null) return '';
-  return fileName + extension;
+function encryptCommand(user, dataset, type, cb) {
+  if (user == null) return '';
+  var pathToDataset = UtilService.addFileExt(generateFilePath(dataset, type), '.zip'),
+      pathToEncrypted = UtilService.addFileExt(generateEncryptedPath(dataset, user.id), '.zip.gpg')
+      encryptCmd = 'gpg --batch --yes --output ' + pathToEncrypted + ' --encrypt -r ' + user.publicKeyID + ' ' + pathToDataset;
+      sails.log.info('Encrypting: ' + encryptCmd);
+  return encryptCmd;
 }
 
 module.exports = {
@@ -113,11 +113,12 @@ module.exports = {
           userID = req.session.user.id;
       var link = path.resolve(ENCRYPT_PATH, data);
 
+      request.downloaded = true
       request.save(function (err) {
         if (err) {
-          return next(err);
+          sails.log.error(err);
+          return res.redirect('/dashboard');
         } else {
-          request.downloaded = true
           sails.log.debug("Request " + request.id + " is being fulfilled and downloaded");
           sails.log.debug("Downloading: " + link);
           return res.download(link);
@@ -161,6 +162,7 @@ module.exports = {
         var exec = require('child_process').exec,
             cmd = encryptCommand(req.session.user, request.dataset, mapTypes(request.requestType));
 
+        // TODO: Move this into encrypt function
         exec(cmd, function(error, stdout, stderr) {
           if (error) {
             sails.log.error('Command: ' + cmd + '\t [Error: ' + error + ']');

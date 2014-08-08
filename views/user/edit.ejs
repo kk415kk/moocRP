@@ -44,6 +44,10 @@
 			<label>Public Key:</label>
 			<textarea class="form-control" name="publicKey" rows="6"><%= user.publicKey %></textarea>
 		</div>
+		<div class="form-group">
+			<label>Public Key ID:</label>
+			<input value="<%= user.publicKeyID %>" name="publicKeyID" type="text" class="form-control" disabled>
+		</div>
 		<% if (session.authenticated && session.user.admin) { %>
 			<% if (user.admin) { %>
 				<input type="hidden" name="admin" value="unchecked">

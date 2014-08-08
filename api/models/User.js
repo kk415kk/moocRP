@@ -47,9 +47,8 @@ module.exports = {
       type: 'TEXT',
       required: true
     },
-    keyEmail: {
-      type: 'TEXT',
-      email: true,
+    publicKeyID: {
+      type: 'STRING',
       required: true
     },
 

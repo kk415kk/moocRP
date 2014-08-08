@@ -28,13 +28,6 @@ function encode(data) {
   return JSON.parse(cleanedData);
 }
 
-/**
- * @return the filename without its extension
- */
-function fileMinusExt(fileName) {
-  return fileName.split('.').slice(0, -1).join('.');
-}
-
 module.exports = {
   /**
    * Overrides for the settings in `config/controllers.js`
@@ -58,7 +51,7 @@ module.exports = {
           var datasets = fs.readdirSync(currPath)
           
           for (j = 0; j < datasets.length; j++) {
-            extractedDatasets.push(fileMinusExt(datasets[j]));
+            extractedDatasets.push(UtilService.fileMinusExt(datasets[j]));
           }
         }
 

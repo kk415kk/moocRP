@@ -34,10 +34,6 @@ module.exports = {
       type: 'STRING',
       required: true
     },
-    GPGkey: {
-      type: 'TEXT',
-      required: true
-    },
     requestType: {
       type: 'STRING',
       required: true
