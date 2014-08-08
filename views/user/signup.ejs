@@ -1,6 +1,12 @@
-<div class="container wrapper">
-	<form action="/user/create" method="POST" class="form-signin">
-		<h2 class="form-signin-heading">Researcher Signup Form</h2>
+<div class="mini-banner auto">
+	<div class="container">
+		<h2>Researcher Registration Form</h2>
+	</div>
+</div>
+
+<div class="sub-banner">
+	<div class="container">
+		<h2 class="form-signin-heading">Welcome to moocRP!</h2>
 
 		<% if (messages && messages['error']) { %>
 		  <div class="alert alert-warning">
@@ -10,17 +16,20 @@
 		  <% }); %>
 		  </div>
 		  <br>
-		<% } %>
+		<% } %>	
+	</div>
+</div>
 
-		Welcome to moocRP! Since this is your first time using this service, please fill in the following information for our records.
-		<br><br>
-		NOTE: Currently, only Berkeley researchers and instructors are allowed to create an account using their Berkeley email address.
+<div class="container">
+	<form action="/user/create" method="POST" class="form-signin">
+		Since this is your first time using this service, please fill in the following information for our records.
 		<br><br>
 		<label>First Name: </label><input type="text" class="form-control" placeholder="first name" name="firstName">
 		<label>Last Name: </label><input type="text" class="form-control" placeholder="last name" name="lastName">
 		<label>Email: </label><input type="email" class="form-control" placeholder="example@berkeley.edu" name="email">
-		<label>GPG Public Key ID: </label><input type="text" class="form-control" placeholder="64CD7S" name="publicKeyID">
-		<label>GPG Public Key:</label>
+		<label>GPG Public Key ID: </label> <div class="pull-right"><a href="#GPGModal" data-toggle="modal">(?)</a></div>
+		<input type="text" class="form-control" placeholder="64CD7S" name="publicKeyID">
+		<label>GPG Public Key:</label> <div class="pull-right"><a href="#GPGModal" data-toggle="modal">(?)</a></div>
 		<br>
 		<textarea class="form-control" placeholder="copy your public key here" name="publicKey"></textarea>
 		<br>
@@ -28,4 +37,41 @@
 		<input type="submit" class="btn btn-lg btn-primary btn-block" value="Create">
 		<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 	</form>
+</div>
+
+
+<div class="modal fade" id="GPGModal" tabindex="-1" role="dialog" aria-labelledby="GPGModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title" id="GPGLabel"><b>Generating and finding your GPG public key</b></h3>
+      </div>
+
+      <div class="modal-body">
+        <p>
+        	Note that GPG and SSH keys are NOT interchangeable. Submitting your SSH keys will result in problems when decrypting your downloaded datasets.
+	        <b>To generate a GPG public key/id:</b><br>
+	        <ul>
+	        	<li>Run the command <div class="codebox">gpg --gen-key</div></li>
+	        	<li>For the comment, put "Used for moocRP"</li>
+	        </ul>
+	      </p>
+	      <p>
+        	<b>To find your GPG public key/id:</b><br>
+        	<ul>
+        		<li>Run the command <div class="codebox">gpg --list-keys</div></li>
+        		<li>Find the row labelled "pub" where the command in the third column is "Used for moocRP".</li>
+        		<li>In the second column of that row, copy the alphanumeric string of length 8 as your GPG key ID.</li>
+        		<li>Run the command <div class="codebox">gpg --armor --export insert_your_key_id_here</div>, where your replace insert_your_key_id_here with your actual key id that you found in Step 2.</li>
+        		<li>Copy and paste the output as your GPG key.</li>
+        	</ul>
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>

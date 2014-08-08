@@ -30,7 +30,7 @@
         <th>Name</th>
         <th>Type</th>
         <th>Description</th>
-        <th>Seeded File</th>
+        <th>File</th>
         <th>Approve</th>
         <th>Reject</th>
         <th>Demo</th>
@@ -45,7 +45,7 @@
           <td><%= visualization.name %></td>
           <td><%= visualization.type %></td>
           <td><%= visualization.description %></td>
-          <td><%= visualization.seededName %></td>
+          <td><%= visualization.fileName %></td>
           <td><a href="/visualization/approve/<%= visualization.id %>" class="btn btn-sm btn-success">Approve</a></td>
           <td><a href="#rejectModal1" data-toggle="modal" class="btn btn-sm btn-warning">Reject</a></td>
           <td><a href="/visualization/demo/<%= visualization.id %>" class="btn btn-sm btn-primary">Demo</a></td>
@@ -88,7 +88,7 @@
         <th>Name</th>
         <th>Type</th>
         <th>Description</th>
-        <th>Seeded File</th>
+        <th>File</th>
         <th>Reject</th>
         <th>Demo</th>
       </tr>
@@ -102,7 +102,7 @@
           <td><%= visualization.name %></td>
           <td><%= visualization.type %></td>
           <td><%= visualization.description %></td>
-          <td><%= visualization.seededName %></td>
+          <td><%= visualization.fileName %></td>
           <td><a href="#rejectModal2" data-toggle="modal" class="btn btn-sm btn-warning">Reject</a></td>
           <td><a href="#/visualization/show/<%= visualization %>" class="btn btn-sm btn-primary">Demo</a></td>
 
@@ -144,7 +144,7 @@
         <th>Name</th>
         <th>Type</th>
         <th>Description</th>
-        <th>Seeded File</th>
+        <th>File</th>
         <th>Destroy</th>
       </tr>
     </thead>
@@ -157,7 +157,7 @@
           <td><%= visualization.name %></td>
           <td><%= visualization.type %></td>
           <td><%= visualization.description %></td>
-          <td><%= visualization.seededName %></td>
+          <td><%= visualization.fileName %></td>
           <td><a href="#destroyModal" data-toggle="modal" class="btn btn-sm btn-danger">Destroy</a></td>
 
           <!-- Modal for Destroying Visualization -->

@@ -22,6 +22,8 @@
 				  <br>
 				<% } %>	
 				<p>From your dashboard, you can place data requests for various datasets, download approved datasets, and view various analytics and visualizations that you have uploaded. Ready to <a href="#get-started">get started</a>?</p>
+				<br>
+				<a href="/user/edit/<%= user.id %>" class="btn btn-sm btn-primary">Update Profile</a>
 			</div>
 		</div>
 	</div>
@@ -204,7 +206,7 @@
 				<form action="/request/create" method="POST">
 					<p>Please select the dataset and the type of dataset to request below. Once a dataset request has been approved or denied, your status update window will be updated to reflect changes. 
 					<br><br>
-					Note that a dataset can only be downloaded once for security reasons, and you must provide your GPG public key for encrypting your download. For instructions on how to find your GPG key, see <a href="#">here</a>.</p>
+					Note that a dataset can only be downloaded once for security reasons, and you must provide your GPG public key for encrypting your download. Your GPG key is saved in your profile. For instructions on how to find your GPG key, see <a href="#">here</a>.</p>
 					<label>Request Type:</label><br>
 					<label class="undecorated"><input type="radio" name="requestType" value="pii"> Full PII Data</label><br>
 					<label class="undecorated"><input type="radio" name="requestType" value="non-pii"> Full Non-PII data</label><br><br>
@@ -215,9 +217,6 @@
 							<option value="<%= dataset %>"><%= dataset %></option>
 						<% }) %>
 					</select>
-					<br>
-					<label>GPG Public Key:</label>
-					<textarea class="form-control" rows="5" name="GPGkey"><%= user.publicKey %></textarea>
 					<br>
 					<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 					<input type="hidden" name="userID" value="<%= user.id %>" />

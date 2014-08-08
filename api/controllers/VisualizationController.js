@@ -51,7 +51,7 @@ function verifyArchive(fileExt) {
  * @return the path to the folder of the extracted visualization
  */
 function createExtractPath(type, userID, noExtFileName) {
-  return path.join(EXTRACT_PATH, type, userID, fileName);
+  return path.join(EXTRACT_PATH, type, userID, noExtFileName);
 }
 
 /**
@@ -76,7 +76,7 @@ function extractArchive(pathToFile, type, fileName, userID) {
 
     var overwrite = true;
   } catch (err) {
-    sails.log.debug("Error during extraction: " + err + " [filename: " + pathToFile + " " + fileName + "]");
+    sails.log.debug("Error during extraction: " + err + " [filename: " + pathToFile + "/" + fileName + "]");
     return FAILURE
   }
   sails.log.debug('Extracted visualization to ' + unzipTo + '/' + fileName);

@@ -121,7 +121,7 @@ module.exports = {
 
       // TODO: Handle all types of files 
       var data = fs.readFileSync(path.resolve(DATASET_EXTRACT_PATH, requestedData, requestedData + '.tsv'), 'utf-8');
-      return res.view(requestedPage, { dataset: encode(data) });
+      return res.view(requestedPage, { title: 'Analytics', dataset: encode(data) });
 
       // File verification check
       // fs.stat(requestedFile, function(err, stats) {
