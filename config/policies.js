@@ -68,7 +68,7 @@ module.exports.policies = {
   RequestController: {
     '*': ['flash', 'isAuthenticated'],
     'deny': ['flash', 'isAdmin', 'hasID'],
-    'delete_all': ['flash', 'isAdmin'],
+    'deleteAll': ['flash', 'isAdmin'],
     'grant': ['flash', 'isAdmin', 'hasID']
   },
 
@@ -85,8 +85,8 @@ module.exports.policies = {
     '*': ['flash', 'isAuthenticated'],
     'approve': ['flash', 'isAdmin', 'hasID'],
     'destroy': ['flash', 'isAdmin', 'hasID'],
+    'demo': ['flash', 'isAdmin', 'hasID'],
     'reject': ['flash', 'isAdmin', 'hasID'],
-    'delete_all': ['flash', 'isAdmin'],
-    'uncompress': ['flash', 'isAdmin']
+    'deleteAll': ['flash', 'isAdmin']
   }  
 };

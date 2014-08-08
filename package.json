@@ -5,7 +5,7 @@
   "description": "Developed for research purposes, for sharing analytics",
   "keywords": ["moocRP", "analytics"],
   "dependencies": {
-    "sails": "~0.10.1",
+    "sails": "~0.10.2",
     "sails-disk": "~0.10.0",
     "rc": "~0.5.0",
     "include-all": "~0.1.3",

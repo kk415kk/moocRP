@@ -1,3 +1,8 @@
+/*******************************************
+ * Copyright 2014, moocRP                  *
+ * Author: Kevin Kao                       *
+ *******************************************/
+
 /**
  * VisualizationController
  *
