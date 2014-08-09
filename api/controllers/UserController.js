@@ -92,7 +92,7 @@ module.exports = {
 
   // Login page
   login: function(req, res) {
-    var settings = SettingsService.settings;
+    var settings = sails.config;
 
     // For test only -- please disable in production
     if (settings.bypassLogin) {
