@@ -25,6 +25,8 @@
 // TODO: After deleting a user, all requests and visualizations associated
 // with the user should be deleted as well.
 
+var settings = sails.config
+
 module.exports = {
 
   /**
@@ -92,8 +94,6 @@ module.exports = {
 
   // Login page
   login: function(req, res) {
-    var settings = sails.config;
-
     // For test only -- please disable in production
     if (settings.bypassLogin) {
       User.findOne(settings.bypassUserId, function(err, user) {
@@ -131,7 +131,6 @@ module.exports = {
 
   // Logout action
   logout: function(req, res) {
-    var settings = sails.config.settings;
     var casOptions = {
       casURL: 'https://ncas-test.berkeley.edu',
       login: '/cas/login',
@@ -144,7 +143,6 @@ module.exports = {
 
     if (req.session.authenticated) {
       var request = require('request');
-      var settings = sails.config.settings;
       var completeURL = casOptions.casURL + casOptions.logout + '?url=' + casOptions.service;
 
       req.session.user = null;
@@ -248,7 +246,6 @@ module.exports = {
 
   // Validation step called by login; redirects to signup page if necessary
   validate: function(req, res, next) {
-    var settings = sails.config.settings;
     var casOptions = {
       casURL: 'https://ncas-test.berkeley.edu',
       login: '/cas/login',
