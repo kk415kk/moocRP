@@ -41,11 +41,6 @@ function generateEncryptedPath(dataset, userID) {
   return path.resolve(ENCRYPT_PATH, dataset + '_' + userID);
 }
 
-//TODO
-function importPublicKey(keyID, key, user) {
-
-}
-
 function encryptCommand(user, dataset, type, cb) {
   if (user == null) return '';
   var pathToDataset = UtilService.addFileExt(generateFilePath(dataset, type), '.zip'),

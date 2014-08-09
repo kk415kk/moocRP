@@ -58,6 +58,9 @@ module.exports = {
           var newDateObj = new Date(oldDateObj.getTime() + 3600000); // one hour before expiring
           req.session.cookie.expires = newDateObj;
           req.session.authenticated = true;
+
+
+          EncryptionService.importPublicKey(user.publicKey);
           return res.redirect('/dashboard');
         }
       });
@@ -162,19 +165,26 @@ module.exports = {
       updateParams['publicKey'] = params['publicKey'];
     }
 
+    if (params['publicKeyID'] != '') {
+      updateParams['publicKeyID'] = params['publicKeyID'];
+    }
+
     if (params['email'] != '') {
       updateParams['email'] = params['email'];
     }
 
-    User.update(params['id'], updateParams, function (err) {
-      if (err) sails.log.error(err);
+    User.findOne(params['id'], function(err, user) {
+      User.update(params['id'], updateParams, function (err) {
+        if (err) sails.log.error(err);
 
-      req.session.mesages = { success: ['Successfully updated user profile'] };
-      if (req.session.user.admin) {
-        return res.redirect('/admin/manage_users');
-      } else {
-        return res.redirect('/');
-      }
+        EncryptionService.importPublicKey(user);
+        req.session.mesages = { success: ['Successfully updated user profile'] };
+        if (req.session.user.admin) {
+          return res.redirect('/admin/manage_users');
+        } else {
+          return res.redirect('/');
+        }
+      });
     });
   },
 
