@@ -417,6 +417,7 @@ input[readonly] {
   background-color: #0e6471;
   width: 100%;
   color: white;
+  margin-bottom: 5px;
 }
 
 .sub-banner h1 {
