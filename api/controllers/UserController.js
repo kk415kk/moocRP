@@ -92,7 +92,7 @@ module.exports = {
 
   // Login page
   login: function(req, res) {
-    var settings = sails.config.settings;
+    var settings = SettingsService.settings;
 
     // For test only -- please disable in production
     if (settings.bypassLogin) {
@@ -115,7 +115,7 @@ module.exports = {
         casURL: 'https://ncas-test.berkeley.edu',
         login: '/cas/login',
         validate: '/cas/validate',
-        service: settings.protocol + settings.host[settings.environment] +'/user/validate',
+        service: settings.protocol + settings.casHost[settings.environment] +'/user/validate',
         renew: true,
         gateway: false
       }
@@ -137,7 +137,7 @@ module.exports = {
       login: '/cas/login',
       logout: '/cas/logout',
       validate: '/cas/validate',
-      service: settings.protocol + settings.host[settings.environment] +'/user/validate',
+      service: settings.protocol + settings.casHost[settings.environment] +'/user/validate',
       renew: true,
       gateway: false
     }
@@ -253,7 +253,7 @@ module.exports = {
       casURL: 'https://ncas-test.berkeley.edu',
       login: '/cas/login',
       validate: '/cas/validate',
-      service: settings.protocol + settings.host[settings.environment] +'/user/validate',
+      service: settings.protocol + settings.casHost[settings.environment] +'/user/validate',
       renew: true,
       gateway: false
     }

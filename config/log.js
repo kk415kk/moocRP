@@ -25,6 +25,7 @@ module.exports.log = {
   ***************************************************************************/
 
   level: 'info',
+  maxSize: '1000',
   filePath: 'logs/development.log'
 
 };

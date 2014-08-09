@@ -33,7 +33,8 @@
     "shortid": "latest",
     "adm-zip": "latest",
     "fs-extra": "latest",
-    "shelljs": "latest"
+    "shelljs": "latest",
+    "nodemailer": "1.0"
   },
   "scripts": {
     "start": "node app.js",

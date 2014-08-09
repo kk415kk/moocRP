@@ -27,7 +27,7 @@ module.exports = {
    * (specific to DashboardController)
    */
   _config: {},
-  
+
   display: function(req, res) {
     Request.find({ userID: req.session.user.id }).exec(function foundRequests(err, requests) {
       if (err || !requests) {

@@ -12,7 +12,7 @@ module.exports.settings = {
     production: 'cahl.berkeley.edu:15100'
   },
   protocol: 'http://',
-  bypassLogin: true,
+  bypassLogin: false,
   bypassUserId: 991426
 
 }
