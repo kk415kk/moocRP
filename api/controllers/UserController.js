@@ -48,7 +48,7 @@ module.exports = {
       User.create(params, function userCreated(err, user) {
         if (err || !user) {
           sails.log.debug('Error occurred: ' + err);
-          req.session.messages = { error: ["Please fill in all fields and use a @berkeley.edu email."] };
+          FlashService.error(req, "Please fill in all fields and use a @berkeley.edu email.");
           return res.redirect('/signup');
         } else {
           SessionService.createSession(req, user);
@@ -80,10 +80,7 @@ module.exports = {
       if (err) sails.log.debug(err);
       if (err || !user) return res.redirect('404');
       
-      res.view({
-        user: user,
-        title: 'Edit'
-      });
+      return res.view({ user: user, title: 'Edit' });
     });
   },
 
@@ -96,13 +93,16 @@ module.exports = {
           sails.log.error('Unable to bypass login!');
           return res.redirect('/')
         } else {
-          req.session.messages = { success: ['Bypassed login!'] };
+          FlashService.success(req, 'Bypassed login!');
           SessionService.createSession(req, user)
           return res.redirect('/dashboard');
         }
       });
     } else {
-      if (req.session.authenticated) return res.redirect('/dashboard');
+      if (req.session.authenticated) {
+        FlashService.success(req, 'Successfully logged in.');
+        return res.redirect('/dashboard');
+      }
       return res.redirect(AuthService.loginRoute({}));
     }
   },
@@ -134,7 +134,7 @@ module.exports = {
         if (err) sails.log.error(err);
 
         EncryptionService.importPublicKey(user);
-        req.session.mesages = { success: ['Successfully updated user profile'] };
+        FlashService.success(req, 'Successfully updated user profile');
         if (req.session.user.admin) {
           return res.redirect('/admin/manage_users');
         } else {
@@ -201,9 +201,9 @@ module.exports = {
 
       user.save(function (err) {
         if (err) {
-          req.session.messages = { 'error': ['Error while switching user role']}
+          FlashService.error(req, 'Error while switching user role');
         } else {
-          req.session.messages = { 'success': ['Successfully switched user role'] };
+          FlashService.success(req, 'Successfully switched user role');
         }
         return res.redirect('/admin/manage_users');
       });
@@ -230,7 +230,7 @@ module.exports = {
           User.findOne(uid, function foundUser(err, user) {
             if (err) {
               sails.log.error(err);
-              req.session.messages = { error: ["Unknown error occurred; please report this error."] };
+              FlashService.error(req, "Unknown error occurred; please report this error.");
               return next(err);
             }
 
@@ -238,6 +238,7 @@ module.exports = {
             if (user && user.registered) {
               sails.log.debug('User ' + user.id + ' logged in');
               SessionService.createSession(req, user);
+              FlashService.success(req, 'Successfully logged in.');
               return res.redirect('/dashboard');
             }
 

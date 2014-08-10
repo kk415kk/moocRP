@@ -62,9 +62,9 @@ module.exports = {
   create: function(req, res) {
   	Request.create(req.params.all(), function requestCreated(err, request) {
   		if (err) {
-  			req.session.messages = { error: ["Please fill in all fields"] };
+  			FlashService.error(req, "Please fill in all fields");
 			} else {
-        req.session.messages = { success: ['Successfully created a data request']}
+        FlashService.success(req, 'Successfully created a data request');
       }
       return res.redirect('/dashboard');
   	});
@@ -74,11 +74,11 @@ module.exports = {
   deny: function(req, res) {
     Request.findOne(req.param('id'), function foundRequest(err, request) {
       if (err) {
-        req.session.messages = { error: [err] };
-        return next(err);
+        FlashService.error(req, err);
+        return res.redirect('/admin/manage_requests');
       }
       if (!request) {
-        req.session.messages = { error: ['Request does not exist'] };
+        FlashService.error(req, 'Request does not exist');
       }
 
       request.granted = false
@@ -86,9 +86,9 @@ module.exports = {
       request.save(function (err) {
         if (err) {
           sails.log.error(err);
-          req.session.messages = { error: ['An error occurred while denying the request'] };
+          FlashService.error(req, 'An error occurred while denying the request');
         } else {
-          req.session.messages = { success: ['Successfully denied request'] };
+          FlashService.success(req, 'Successfully denied request');
         }
         return res.redirect('/admin/manage_requests');
       });
@@ -103,20 +103,22 @@ module.exports = {
 
     Request.findOne(req.param('request_id')).exec(function foundRequest(err, request) {
       if (err) {
-        req.session.messages = { error: [err] };
+        FlashService.error(req, err);
         return res.redirect('/dashboard');
       }
       if (!request) {
-        req.session.messages = { error: ["Request does not exist"] };
+        FlashService.error(req, "Request does not exist");
+        return res.redirect('/dashboard');
       }
       var data = request.dataset + '_' + request.userID + '.zip.gpg',
           userID = req.session.user.id;
-      var link = path.resolve(ENCRYPT_PATH, data);
+          link = path.resolve(ENCRYPT_PATH, data);
 
       request.downloaded = true
       request.save(function (err) {
         if (err) {
           sails.log.error(err);
+          FlashService.error(req, err);
           return res.redirect('/dashboard');
         } else {
           sails.log.debug("Request " + request.id + " is being fulfilled and downloaded");
@@ -135,7 +137,7 @@ module.exports = {
           sails.log.debug('Request destroyed');
         });
       }
-      req.session.messages = { success: ['Successfully deleted all requests'] };
+      FlashService.success(req, 'Successfully deleted all requests');
       return res.redirect('/admin/manage_requests');
     });
   },
@@ -144,17 +146,17 @@ module.exports = {
   grant: function(req, res) {
     Request.findOne(req.param('id'), function foundRequest(err, request) {
       if (err) {
-        req.session.messages = { error: [err] };
+        FlashService.error(req, err);
         return res.redirect('/admin/manage_requests');
       }
       if (!request) {
-        req.session.messages = { error: ['Request does not exist'] };
+        FlashService.error(req, 'Request does not exist');
         return res.redirect('/admin/manage_requests');
       }
 
       User.findOne(req.session.user.id, function foundUser(err, user) {
         if (err || !user) {
-          req.session.messages = { error: ['An error has occurred'] };
+          FlashService.error(req, 'An error has occurred');
           return res.redirect('/admin/manage_requests');
         }
 
@@ -166,7 +168,7 @@ module.exports = {
         exec(cmd, function(error, stdout, stderr) {
           if (error) {
             sails.log.error('Command: ' + cmd + '\t [Error: ' + error + ']');
-            req.session.messages = { error: ['An error occurred while encrypting dataset: ' + error]}
+            FlashService.error(req, 'An error occurred while encrypting dataset: ' + error);
             return res.redirect('/admin/manage_requests');
           }
 
@@ -177,9 +179,9 @@ module.exports = {
           request.denied = false;
           request.save(function (err) {
             if (err) {
-              req.session.messages = { error: ['An error occurred while granting request'] };
+              FlashService.error(req, 'An error occurred while granting request');
             } else {
-              req.session.messages = { success: ['Successfully granted request'] };
+              FlashService.success(req, 'Successfully granted request');
             }
             return res.redirect('/admin/manage_requests');
           });

@@ -1,9 +1,36 @@
 <div class="container wrapper" id="analytics-container">
-  <h3 id="step">Step 3: Visualize.</h3>
-    <div class="progress">
-    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-        <span class="sr-only">100%</span>
+  <h3 id="step">Step 2: Visualize.</h3>
+  <% if (messages && messages['error'].length > 0) { %>
+    <div class="alert alert-error">
+    <% messages['error'].forEach(function(message) { %>
+      <%= message %>
+      <br>
+    <% }); %>
     </div>
+    <br>
+  <% } %>
+  <% if (messages && messages['warning'].length > 0) { %>
+    <div class="alert alert-warning">
+    <% messages['warning'].forEach(function(message) { %>
+      <%= message %>
+      <br>
+    <% }); %>
+    </div>
+    <br>
+  <% } %>
+  <% if (messages && messages['success'].length > 0) { %>
+    <div class="alert alert-success">
+    <% messages['success'].forEach(function(message) { %>
+      <%= message %>
+      <br>
+    <% }); %>
+    </div>
+    <br>
+  <% } %> 
+  <div class="progress">
+  <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+      <span class="sr-only">100%</span>
+  </div>
   </div>
   <a href="/analytics" class="btn btn-sm btn-primary">Back to Analytics</a>
 </div>

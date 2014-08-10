@@ -74,7 +74,7 @@ module.exports = {
 
       var matchingBerkeleyEmail = /@berkeley.edu$/;
       if (!matchingBerkeleyEmail.test(values.email)) {
-        req.session.messages = { error: [err] };
+        FlashService.error(req, err);
         return next(err);
       }
       return next();

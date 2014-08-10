@@ -135,12 +135,12 @@ function scaffoldVisualizations(pathToFile, type, fileName, userID, visualizatio
       fs.removeSync(path.join(pathToFile, fileName));
       UtilService.moveCommand(pathToFile, sharePath, true, function(error, success) {
         if (error) {
-          req.session.messages = { error: ['An error occurred while scaffolding the visualizations package: ' + error] };
+          FlashService.error(req, 'An error occurred while scaffolding the visualizations package: ' + error);
           return next(FAILURE);
         } 
 
         if (!success) {
-          req.session.messages = { error: ['An error occurred while scaffolding the visualizations package.'] };
+          FlashService.error(req, 'An error occurred while scaffolding the visualizations package.');
           return next(FAILURE);
         }
 
@@ -165,12 +165,12 @@ module.exports = {
   approve: function(req, res) {
     Visualization.findOne(req.param('id')).exec(function (err, visualization) {
       if (err) {
-        req.session.messages = { error: [err] };
+        FlashService.error(req, err);
         return res.redirect('/admin/manage_analytics');
       } 
 
       if (!visualization) {
-        req.session.messages = { error: ['Visualization not found'] };
+        FlashService.error(req, 'Visualization not found');
         return res.redirect('/admin/manage_analytics');
       }
 
@@ -182,7 +182,7 @@ module.exports = {
 
       var pathToUploadedFile = path.join(UPLOAD_PATH, type, userID);
       if (!extractArchive(pathToUploadedFile, type, fileName, userID)) {
-        req.session.messages = { error: ['Error while extracting analytics'] };
+        FlashService.error(req, 'Error while extracting analytics');
         return res.redirect('/admin/manage_analytics');
       }
 
@@ -193,14 +193,14 @@ module.exports = {
           visualization.rejected = false;
           visualization.save(function (err) {
             if (err) {
-              req.session.messages = { error: ['Error while approving visualization package'] };
+              FlashService.error(req, 'Error while approving visualization package');
             } else {
-              req.session.messages = { success: ['Successfully approved, extracted, and scaffoled analytics'] };
+              FlashService.success(req, 'Successfully approved, extracted, and scaffoled analytics');
             }
             return res.redirect('/admin/manage_analytics'); 
           });   
         } else {
-          req.session.messages = { error: ['Error while scaffolding analytics'] };
+          FlashService.error(req, 'Error while scaffolding analytics');
           return res.redirect('/admin/manage_analytics');        
         }
       });    
@@ -209,7 +209,7 @@ module.exports = {
 
   // TODO: Demo a selected visualization
   demo: function(req, res) {
-    req.session.messages = { error: ['Currently under development'] };
+    FlashService.error(req, 'Currently under development');
     return res.redirect('/admin/manage_analytics');
   },
 
@@ -217,9 +217,9 @@ module.exports = {
   destroy: function(req, res) {
     Visualization.destroy(req.param('id'), function (err) {
       if (err) {
-        req.session.messages = { error: ['Error while deleting visualization package'] };
+        FlashService.error(req, 'Error while deleting visualization package');
       } else {
-        req.session.messages = { success: ['Successfully deleted visualization package'] };
+        FlashService.success(req, 'Successfully deleted visualization package');
       }
       return res.redirect('/admin/manage_analytics');
     });
@@ -250,7 +250,7 @@ module.exports = {
           sails.log.debug('Visualization' + visualID + 'destroyed');
         });
       }
-      req.session.messages = { success: ['Successfully deleted all analytics'] };
+      FlashService.success(req, 'Successfully deleted all analytics');
       return res.redirect('/admin/manage_analytics');
     });
   },
@@ -260,12 +260,12 @@ module.exports = {
     Visualization.findOne(req.param('id')).exec(function (err, visualization) {
       if (err) {
         sails.log.debug(err);
-        req.session.messages = { error: ['Error while rejecting visualization'] };
+        FlashService.error(req, 'Error while rejecting visualization');
         return res.redirect('/admin/manage_analytics');
       } 
 
       if (!visualization) {
-        req.session.messages = { error: ['Visualization not found'] };
+        FlashService.error(req, 'Visualization not found');
         return res.redirect('/admin/manage_analytics');
       }
 
@@ -290,9 +290,9 @@ module.exports = {
       visualization.save(function (err) {
         if (err) {
           sails.log.debug(err);
-          req.session.messages = { error: ['Error while rejecting visualization package'] };
+          FlashService.error(req, 'Error while rejecting visualization package');
         } else {
-          req.session.messages = { success: ['Rejected visualization package'] };
+          FlashService.success(req, 'Rejected visualization package');
         }
         return res.redirect('/admin/manage_analytics');
       });
@@ -302,7 +302,7 @@ module.exports = {
   // Handles upload of visualization archive to server.
   upload: function(req, res) {
     if (req.param('type') == null) {
-      req.session.messages = { error: ['Please fill in all fields.'] };
+      FlashService.error(req, 'Please fill in all fields.');
       return res.redirect('/dashboard');
     }
 
@@ -312,12 +312,12 @@ module.exports = {
 
     req.file('userArchiveFile').upload({ dirname: dirPath }, function (err, files) {
       if (err) {
-        req.session.messages = { error: ['An error occurred while uploading the files: ' + err] };
+        FlashService.error(req, 'An error occurred while uploading the files: ' + err);
         return res.redirect('/dashboard');
       }
 
       if (files.length == 0) {
-        req.session.messages = { error: ['An unknown error has occurred.'] };
+        FlashService.error(req, 'An unknown error has occurred.');
         return res.redirect('/dashboard');
       }
 
@@ -331,7 +331,7 @@ module.exports = {
 
       if (!verifyArchive(UtilService.fileExtension(fileName))) {
         // TODO: Cleanup and delete archive
-        req.session.messages = { error: ['Invalid archive format - only .zip and tar.gz files are accepted'] };
+        FlashService.error(req, 'Invalid archive format - only .zip and tar.gz files are accepted');
         return res.redirect('/dashboard');
       }
 
@@ -339,23 +339,23 @@ module.exports = {
 
         if (error || !success) {
           // TODO: Cleanup and delete archive
-          req.session.messages = { error: ['Error while uploading visualization'] };
+          FlashService.error(req, 'Error while uploading visualization');
           return res.redirect('/dashboard');
         }
 
         Visualization.create(params, function visualizationCreated(err, visualization) {
           if (err) {
-            req.session.messages = { error: ['Error uploading visualization: ' + err] };
+            FlashService.error(req, 'Error uploading visualization: ' + err);
             return res.redirect('/dashboard');
           }
 
           if (!visualization) {
-            req.session.messages = { error: ['Error uploading visualization'] };
+            FlashService.error(req, 'Error uploading visualization');
             return res.redirect('/dashboard');
           }
 
           sails.log.debug("Uploaded file: " + dirPath + "/" + fileName);
-          req.session.messages = { success: ['Successfully uploaded visualization to server'] };
+          FlashService.success(req, 'Successfully uploaded visualization to server');
           return res.redirect('/dashboard');
         });
       });

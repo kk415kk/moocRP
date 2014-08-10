@@ -70,28 +70,8 @@ module.exports = {
     });
   },
 
-  datasets: function(req, res) {
-    res.view({
-      title: 'Analytics'
-    });
-  },
-
   display: function(req, res) {
-    res.view({
-      title: 'Analytics'
-    });
-  },
-
-  histogram: function(req, res) {
-    res.view({
-      title: 'Analytics'
-    });
-  },
-
-  piechart: function(req, res) {
-    res.view({
-      title: 'Analytics'
-    });
+    res.view({ title: 'Analytics' });
   },
 
   view: function(req, res) {
@@ -104,7 +84,7 @@ module.exports = {
         sails.log.error("Error occurred while loading visualization: " + err.code);
 
         if (err.code != 'E_UNKNOWN') {
-          req.session.messages = { error: ['Error occurred while loading visualization: ' + err] };
+          FlashService.error(req, 'Error occurred while loading visualization: ' + err);
           return res.redirect('/analytics');
         }
       }
@@ -120,7 +100,7 @@ module.exports = {
           requestedFile = sails.config.paths.views + '/' + requestedPage + '.ejs';
 
       if (requestedData == 'error' || req.param('datasetName') == 'select') {
-        req.session.messages = { error: ['Please select a dataset.'] };
+        FlashService.error(req, 'Please select a dataset.');
         return res.redirect('/analytics');
       }
 
@@ -135,11 +115,11 @@ module.exports = {
       //     if (err) {
       //         if (err.code == 'ENOENT') {
       //             sails.log.warn('404');
-      //             req.session.messages = { error: ['Page not found'] };
+      //             FlashService.error(req, 'Page not found');
       //             return res.redirect('/analytics');
       //         } else {
       //             sails.log.warn('500');
-      //             req.session.messages = { error: ['Page not found'] };
+      //             FlashService.error(req, 'Page not found');
       //             return res.redirect('/analytics');
       //         }
       //     }

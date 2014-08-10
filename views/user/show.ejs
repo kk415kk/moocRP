@@ -1,8 +1,8 @@
 <div class="mini-banner auto">
   <div class="container">
     <h2>User Information: UID <%= user.id %></h2>
-    <% if (messages && messages['error']) { %>
-      <div class="alert alert-warning">
+    <% if (messages && messages['error'].length > 0) { %>
+      <div class="alert alert-error">
       <% messages['error'].forEach(function(message) { %>
         <%= message %>
         <br>
@@ -10,7 +10,16 @@
       </div>
       <br>
     <% } %>
-    <% if (messages && messages['success']) { %>
+    <% if (messages && messages['warning'].length > 0) { %>
+      <div class="alert alert-warning">
+      <% messages['warning'].forEach(function(message) { %>
+        <%= message %>
+        <br>
+      <% }); %>
+      </div>
+      <br>
+    <% } %>
+    <% if (messages && messages['success'].length > 0) { %>
       <div class="alert alert-success">
       <% messages['success'].forEach(function(message) { %>
         <%= message %>

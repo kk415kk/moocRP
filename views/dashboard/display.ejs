@@ -3,8 +3,8 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h2>Welcome to your dashboard, <font color="#5eb95e"><%= user.firstName %></font></h2>
-				<% if (messages && messages['error']) { %>
-				  <div class="alert alert-warning">
+				<% if (messages && messages['error'].length > 0) { %>
+				  <div class="alert alert-error">
 				  <% messages['error'].forEach(function(message) { %>
 				    <%= message %>
 				    <br>
@@ -12,7 +12,16 @@
 				  </div>
 				  <br>
 				<% } %>
-				<% if (messages && messages['success']) { %>
+				<% if (messages && messages['warning'].length > 0) { %>
+				  <div class="alert alert-warning">
+				  <% messages['warning'].forEach(function(message) { %>
+				    <%= message %>
+				    <br>
+				  <% }); %>
+				  </div>
+				  <br>
+				<% } %>
+				<% if (messages && messages['success'].length > 0) { %>
 				  <div class="alert alert-success">
 				  <% messages['success'].forEach(function(message) { %>
 				    <%= message %>
@@ -20,7 +29,7 @@
 				  <% }); %>
 				  </div>
 				  <br>
-				<% } %>	
+				<% } %> 
 				<p>From your dashboard, you can place data requests for various datasets, download approved datasets, and view various analytics and visualizations that you have uploaded. Ready to <a href="#get-started">get started</a>?</p>
 				<br>
 				<a href="/user/edit/<%= user.id %>" class="btn btn-sm btn-primary">Update Profile</a>

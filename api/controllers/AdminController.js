@@ -32,14 +32,11 @@ module.exports = {
   manage_users: function(req, res, next) {
     User.find(function foundUsers(err, users) {
       if (err) {
-        req.session.messages = { error: [err] };
+        FlashService.error(req, err);
         return next(err);
       }
 
-      res.view({
-        users: users,
-        title: 'Manage Users'
-      });
+      return res.view({ users: users, title: 'Manage Users' });
     });
   },
 
@@ -47,14 +44,11 @@ module.exports = {
   manage_requests: function (req, res, next) {
     Request.find(function foundRequests(err, requests) {
       if (err) {
-        req.session.messages = { error: [err] };
+        FlashService.error(req, err);
         return next(err);
       }
 
-      res.view({
-        requests: requests,
-        title: 'Manage Requests'
-      });
+      return res.view({ requests: requests, title: 'Manage Requests' });
     }); 
   },
 
@@ -62,14 +56,11 @@ module.exports = {
   manage_analytics: function(req, res, next) {
     Visualization.find(function foundVisualizations(err, visualizations) {
       if (err) {
-        req.session.messages = { error: [err] };
+        FlashService.error(req, err);
         return next(err);
       }
 
-      res.view({
-        title: 'Manage Analytics',
-        visualizations: visualizations
-      })
+      return res.view({ title: 'Manage Analytics', visualizations: visualizations });
     });
   }
   

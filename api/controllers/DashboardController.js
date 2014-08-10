@@ -31,13 +31,13 @@ module.exports = {
   display: function(req, res) {
     Request.find({ userID: req.session.user.id }).exec(function foundRequests(err, requests) {
       if (err || !requests) {
-        req.session.messages = { error: [err] };
+        FlashService.error(req, err);
         requests = [];
       }
 
       Visualization.find({ userID: req.session.user.id }).exec(function foundVisualizations(err, visualizations) {
         if (err || !visualizations) {
-          req.session.messages = { error: [err] };
+          FlashService.error(req, err);
           visualizations = [];
         } 
         
@@ -45,8 +45,8 @@ module.exports = {
         var process = require('process');
         var fs = require('fs');
         var util = sails.config.util;
-
         var datasets = fs.readdirSync(path.resolve('..', 'datasets', 'non_pii'));
+        
         for (i = 0; i < datasets.length; i++) {
           datasets[i] = UtilService.fileMinusExt(datasets[i]); // filter file extensions
         }

@@ -1,11 +1,11 @@
 module.exports = {
-  info: function(message) {
-
+  success: function(req, message) {
+    req.session.messages['success'].push(message);
   },
-  warning: function(message) { 
-  
+  warning: function(req, message) { 
+    req.session.messages['warning'].push(message);
   },
-  error: function(message) {
-
+  error: function(req, message) {
+    req.session.messages['error'].push(message);
   }
 }
