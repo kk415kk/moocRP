@@ -25,7 +25,7 @@
 // TODO: After deleting a user, all requests and visualizations associated
 // with the user should be deleted as well.
 
-var settings = sails.config
+var settings = sails.config;
 
 module.exports = {
 
@@ -45,21 +45,13 @@ module.exports = {
       params['id'] = req.session.uid;
       params['registered'] = true;
 
-      // KK-080414: Add script to add public key to GPG store
-
       User.create(params, function userCreated(err, user) {
         if (err || !user) {
           sails.log.debug('Error occurred: ' + err);
           req.session.messages = { error: ["Please fill in all fields and use a @berkeley.edu email."] };
           return res.redirect('/signup');
         } else {
-          req.session.user = user;
-          var oldDateObj = new Date();
-          var newDateObj = new Date(oldDateObj.getTime() + 3600000); // one hour before expiring
-          req.session.cookie.expires = newDateObj;
-          req.session.authenticated = true;
-
-
+          SessionService.createSession(req, user);
           EncryptionService.importPublicKey(user.publicKey);
           return res.redirect('/dashboard');
         }
@@ -97,63 +89,27 @@ module.exports = {
 
   // Login page
   login: function(req, res) {
-    // For test only -- please disable in production
-    if (settings.bypassLogin) {
+    // For test only -- disabled in production
+    if (settings.env != 'production' && settings.bypassLogin) {
       User.findOne(settings.bypassUserId, function(err, user) {
         if (err || !user) {
           sails.log.error('Unable to bypass login!');
           return res.redirect('/')
         } else {
           req.session.messages = { success: ['Bypassed login!'] };
-          var oldDateObj = new Date();
-          var newDateObj = new Date(oldDateObj.getTime() + 3600000); // one hour before expiring
-          req.session.cookie.expires = newDateObj;
-          req.session.user = user;
-          req.session.authenticated = true;
+          SessionService.createSession(req, user)
           return res.redirect('/dashboard');
         }
       });
     } else {
-      var casOptions = {
-        casURL: 'https://ncas-test.berkeley.edu',
-        login: '/cas/login',
-        validate: '/cas/validate',
-        service: settings.protocol + settings.casHost[settings.environment] +'/user/validate',
-        renew: true,
-        gateway: false
-      }
-
-      if (req.session.authenticated) {
-        return res.redirect('/dashboard');
-      } else {
-        var https = require('https');
-        return res.redirect(casOptions.casURL + casOptions.login + '?service=' + casOptions.service + '&renew=' + casOptions.renew);
-      }
+      if (req.session.authenticated) return res.redirect('/dashboard');
+      return res.redirect(AuthService.loginRoute({}));
     }
   },
 
   // Logout action
   logout: function(req, res) {
-    var casOptions = {
-      casURL: 'https://ncas-test.berkeley.edu',
-      login: '/cas/login',
-      logout: '/cas/logout',
-      validate: '/cas/validate',
-      service: settings.protocol + settings.casHost[settings.environment] +'/user/validate',
-      renew: true,
-      gateway: false
-    }
-
-    if (req.session.authenticated) {
-      var request = require('request');
-      var completeURL = casOptions.casURL + casOptions.logout + '?url=' + casOptions.service;
-
-      req.session.user = null;
-      req.session.authenticated = false;
-      return res.redirect(completeURL);
-    } else {
-      return res.redirect('/home');
-    }
+    return SessionService.destroySession(req, res);
   },
 
   // TODO: Save user params (for edit/updates)
@@ -256,28 +212,18 @@ module.exports = {
 
   // Validation step called by login; redirects to signup page if necessary
   validate: function(req, res, next) {
-    var casOptions = {
-      casURL: 'https://ncas-test.berkeley.edu',
-      login: '/cas/login',
-      validate: '/cas/validate',
-      service: settings.protocol + settings.casHost[settings.environment] +'/user/validate',
-      renew: true,
-      gateway: false
-    }
-
     var ticket = req.param('ticket');
     var request = require('request');
 
     // If a ticket was retrieved from CAS, process and verify it
     if (ticket) {
       sails.log.debug('CAS ticket issued: ' + ticket);
-      var complete_url = casOptions.casURL + casOptions.validate 
-        + '?service=' + casOptions.service + '&ticket=' + ticket;
+      var completeURL = AuthService.validateRoute({ticket: ticket});
 
       // Validate the ticket
-      request({uri: complete_url, secureProtocol: 'SSLv3_method' }, function(err, response, body) {
+      request({uri: completeURL, secureProtocol: 'SSLv3_method' }, function(err, response, body) {
         var lines = body.split('\n');
-        if (lines[0] == 'yes') {
+        if (lines && lines[0] == 'yes') {
           var uid = lines[1];
 
           // Check to see if user exists in our database
@@ -291,11 +237,7 @@ module.exports = {
             // If user already exists, continue to dashboard
             if (user && user.registered) {
               sails.log.debug('User ' + user.id + ' logged in');
-              var oldDateObj = new Date();
-              var newDateObj = new Date(oldDateObj.getTime() + 3600000); // one hour before expiring
-              req.session.cookie.expires = newDateObj;
-              req.session.user = user;
-              req.session.authenticated = true;
+              SessionService.createSession(req, user);
               return res.redirect('/dashboard');
             }
 
@@ -306,15 +248,13 @@ module.exports = {
             }
           });
         } else {
-          // ticket was not valid; try to login again
-          var next_url = casOptions.casURL + casOptions.login + '?service=' + casOptions.service;
-          return res.redirect(next_url);
+          // Ticket was not valid; try to login again
+          return res.redirect(AuthService.loginRoute({}));
         }
       });
     } else {
       sails.log.debug('No ticket was found - redirecting to login again');
-      var next_url = casOptions.casURL + casOptions.login + '?service=' + casOptions.service;
-      return res.redirect(next_url);
+      return res.redirect(AuthService.loginRoute({}));
     }
   }
 

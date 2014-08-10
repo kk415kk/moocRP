@@ -14,4 +14,6 @@ module.exports.paths = {
     DATASET_ROOT: path.resolve('..', 'datasets'),
     DATASET_EXTRACT_PATH: path.resolve('..', 'datasets', 'extracted'),
     DATASET_ENCRYPT_PATH: path.resolve('..', 'datasets', 'encrypted')
+
+    // Public Key Paths
 }
