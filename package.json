@@ -22,19 +22,19 @@
     "grunt-contrib-cssmin": "~0.9.0",
     "grunt-contrib-less": "0.11.1",
     "grunt-contrib-coffee": "~0.10.1",
+    "lodash": "~2.4.1",
     "connect-flash": "~0.1.1",
-    "crypto": "latest",
     "bcrypt": "latest",
     "request": "latest",
     "d3": "latest",
-    "path": "latest",
     "process": "latest",
     "sails-mysql": "latest",
     "shortid": "latest",
     "adm-zip": "latest",
     "fs-extra": "latest",
     "shelljs": "latest",
-    "nodemailer": "1.0"
+    "nodemailer": "1.0",
+    "sails-redis": "latest"
   },
   "scripts": {
     "start": "node app.js",

@@ -35,6 +35,11 @@ module.exports = {
         requests = [];
       }
 
+      if (req.isSocket) {
+        sails.log('Socket connected');
+        Request.subscribe(req, requests, ['update']);
+      }
+
       Visualization.find({ userID: req.session.user.id }).exec(function foundVisualizations(err, visualizations) {
         if (err || !visualizations) {
           FlashService.error(req, err);
@@ -42,15 +47,13 @@ module.exports = {
         } 
         
         var path = require('path');
-        var process = require('process');
         var fs = require('fs');
-        var util = sails.config.util;
         var datasets = fs.readdirSync(path.resolve('..', 'datasets', 'non_pii'));
         
         for (i = 0; i < datasets.length; i++) {
           datasets[i] = UtilService.fileMinusExt(datasets[i]); // filter file extensions
         }
-
+        
         res.view({
           user: req.session.user,
           requests: requests,

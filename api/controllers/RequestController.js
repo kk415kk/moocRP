@@ -25,31 +25,6 @@ var TYPES = ['pii', 'non_pii'],
     DATASET_ROOT = sails.config.paths.DATASET_ROOT,
     ENCRYPT_PATH = sails.config.paths.DATASET_ENCRYPT_PATH;
 
-function mapTypes(type) {
-  if (type == 'pii') return 'pii';
-  if (type == 'non-pii') return 'non_pii';
-  return '';
-}
-
-function generateFilePath(dataset, type) {
-  if (dataset == null || TYPES.indexOf(type) == -1) return '';
-  return path.resolve(DATASET_ROOT, type, dataset);
-}
-
-function generateEncryptedPath(dataset, userID) {
-  if (dataset == null) return '';
-  return path.resolve(ENCRYPT_PATH, dataset + '_' + userID);
-}
-
-function encryptCommand(user, dataset, type, cb) {
-  if (user == null) return '';
-  var pathToDataset = UtilService.addFileExt(generateFilePath(dataset, type), '.zip'),
-      pathToEncrypted = UtilService.addFileExt(generateEncryptedPath(dataset, user.id), '.zip.gpg')
-      encryptCmd = 'gpg --batch --yes --output ' + pathToEncrypted + ' --encrypt -r ' + user.publicKeyID + ' ' + pathToDataset;
-      sails.log.info('Encrypting: ' + encryptCmd);
-  return encryptCmd;
-}
-
 module.exports = {
 
   /**
@@ -145,42 +120,34 @@ module.exports = {
   // Grant the data request
   grant: function(req, res) {
     Request.findOne(req.param('id'), function foundRequest(err, request) {
-      if (err) {
-        FlashService.error(req, err);
-        return res.redirect('/admin/manage_requests');
-      }
-      if (!request) {
-        FlashService.error(req, 'Request does not exist');
+      if (err || !request) {
+        FlashService.error(req, err ? err : 'Request does not exist');
         return res.redirect('/admin/manage_requests');
       }
 
       User.findOne(req.session.user.id, function foundUser(err, user) {
         if (err || !user) {
-          FlashService.error(req, 'An error has occurred');
+          FlashService.error(req, err ? err : 'An error has occurred');
           return res.redirect('/admin/manage_requests');
         }
 
-        // KK-080114: Add script to run to encrypt the ZIP file and move it into an encrypted folder.
-        var exec = require('child_process').exec,
-            cmd = encryptCommand(req.session.user, request.dataset, mapTypes(request.requestType));
-
-        // TODO: Move this into encrypt function
-        exec(cmd, function(error, stdout, stderr) {
-          if (error) {
+        EncryptionService.encrypt(req.session.user, request.dataset, request.requestType, function(error, stdout, stderr, cmd) {
+          if (error || stderr) {
             sails.log.error('Command: ' + cmd + '\t [Error: ' + error + ']');
+            sails.log.debug('stdout: ' + stdout);
+            sails.log.debug('stderr: ' + stderr);
             FlashService.error(req, 'An error occurred while encrypting dataset: ' + error);
             return res.redirect('/admin/manage_requests');
           }
-
-          sails.log.debug('stdout: ' + stdout);
-          sails.log.debug('stderr: ' + stderr);
 
           request.granted = true;
           request.denied = false;
           request.save(function (err) {
             if (err) {
+              sails.log.error(err);
               FlashService.error(req, 'An error occurred while granting request');
             } else {
+              Request.publishUpdate(request.id, {granted: true, denied: false});
               FlashService.success(req, 'Successfully granted request');
             }
             return res.redirect('/admin/manage_requests');

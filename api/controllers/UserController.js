@@ -52,7 +52,8 @@ module.exports = {
           return res.redirect('/signup');
         } else {
           SessionService.createSession(req, user);
-          EncryptionService.importPublicKey(user.publicKey);
+          EncryptionService.importPublicKey(user);
+          FlashService.success(req, "Successfully logged in.");
           return res.redirect('/dashboard');
         }
       });
@@ -99,10 +100,7 @@ module.exports = {
         }
       });
     } else {
-      if (req.session.authenticated) {
-        FlashService.success(req, 'Successfully logged in.');
-        return res.redirect('/dashboard');
-      }
+      if (req.session.authenticated) return res.redirect('/dashboard');
       return res.redirect(AuthService.loginRoute({}));
     }
   },
@@ -218,40 +216,21 @@ module.exports = {
     // If a ticket was retrieved from CAS, process and verify it
     if (ticket) {
       sails.log.debug('CAS ticket issued: ' + ticket);
-      var completeURL = AuthService.validateRoute({ticket: ticket});
+      AuthService.validate(AuthService.validateRoute({ticket: ticket}), function(err, uid) {
+        // Check to see if user exists in our database
+        User.findOne(uid, function foundUser(err, user) {
+          // If user already exists, continue to dashboard
+          if (user && user.registered) {
+            SessionService.createSession(req, user);
+            return res.redirect('/dashboard');
+          }
 
-      // Validate the ticket
-      request({uri: completeURL, secureProtocol: 'SSLv3_method' }, function(err, response, body) {
-        var lines = body.split('\n');
-        if (lines && lines[0] == 'yes') {
-          var uid = lines[1];
-
-          // Check to see if user exists in our database
-          User.findOne(uid, function foundUser(err, user) {
-            if (err) {
-              sails.log.error(err);
-              FlashService.error(req, "Unknown error occurred; please report this error.");
-              return next(err);
-            }
-
-            // If user already exists, continue to dashboard
-            if (user && user.registered) {
-              sails.log.debug('User ' + user.id + ' logged in');
-              SessionService.createSession(req, user);
-              FlashService.success(req, 'Successfully logged in.');
-              return res.redirect('/dashboard');
-            }
-
-            // If not, create one and go to dashboard
-            if (!user || !user.registered) {
-              req.session.uid = uid;
-              return res.redirect('/signup');
-            }
-          });
-        } else {
-          // Ticket was not valid; try to login again
-          return res.redirect(AuthService.loginRoute({}));
-        }
+          // If not, create one and go to dashboard
+          if (!user || !user.registered) {
+            req.session.uid = uid;
+            return res.redirect('/signup');
+          }
+        });
       });
     } else {
       sails.log.debug('No ticket was found - redirecting to login again');

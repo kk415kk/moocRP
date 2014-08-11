@@ -31,7 +31,19 @@ h5 {
   margin-right: 25px;
 }
 
+.no-indent {
+  list-style-position: inside;
+  padding-left: 0;
+  margin-left: -35px;
+}
+
 /** End Tables **/
+
+.notification {
+  font-size: 8px;
+  color: red;
+  display: inline;
+}
 
 .carousel {
   min-height: 500px;
@@ -347,6 +359,7 @@ input[readonly] {
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
   background: transparent;
 }
+
 /** End Navbar Styling **/
 
 .undecorated {

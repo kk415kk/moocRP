@@ -15,7 +15,7 @@ module.exports = {
   	*/
     userID: {
       type: 'STRING',
-      required: true
+      required: true,
     },
     name: {
       type: 'STRING',

@@ -7,7 +7,6 @@ var path = require('path');
 var sid = require('shortid');
 var process = require('process');
 var fs = require('fs-extra');
-var shell = require('shelljs');
 
 var SUCCESS = sails.config.constants.SUCCESS,
     FAILURE = sails.config.constants.FAILURE;

@@ -28,7 +28,7 @@ module.exports = {
     },
     userID: {
       type: 'STRING',
-      required: true
+      required: true,
     },
     dataset: {
       type: 'STRING',

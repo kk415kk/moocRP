@@ -27,5 +27,21 @@ module.exports = {
     return baseURL
   },
 
+  validate: function(url, cb) {
+    var request = require('request');
+
+    request({uri: url, secureProtocol: 'SSLv3_method' }, function(err, response, body) {
+      var uid = undefined;
+
+      if (!err && body) {
+        var lines = body.split('\n');
+        if (lines && lines[0] == 'yes') {
+          uid = lines[1];
+        }
+      }
+      return cb(err, uid);
+    });
+  },
+
   serviceURL: settings.protocol + settings.appEnvMap[settings.environment]
 }

@@ -4,7 +4,7 @@
 			<div class="col-md-12">
 				<h2>Welcome to your dashboard, <font color="#5eb95e"><%= user.firstName %></font></h2>
 				<% if (messages && messages['error'].length > 0) { %>
-				  <div class="alert alert-error">
+				  <div class="alert alert-danger">
 				  <% messages['error'].forEach(function(message) { %>
 				    <%= message %>
 				    <br>
@@ -41,11 +41,22 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4">
-				<h5>Contributions: </h5> <p>N/A</p>
+				<h5>Contributions: </h5> 
+				<p>
+				<ul>
+					<li class="no-indent"><b>Shared Analytics: </b><%= visualizations.length %></li>
+
+				</ul>
+				</p>
 			</div>
 
 			<div class="col-md-4">
-				<h5>Statistics: </h5> <p>N/A</p>
+				<h5>Statistics: </h5> 
+				<p>
+				<ul>
+					<li class="no-indent"><b>Total Requests: </b><%= requests.length %></li>
+				</ul>
+				</p>
 			</div>
 
 			<div class="col-md-4">
@@ -75,7 +86,7 @@
 				<!-- Start Panel -->
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h1 class="panel-title">Data Requests</h1>
+						<h1 class="panel-title">Data Requests<div id="reqNotif" class="notification"></div></h1>
 						<a data-toggle="collapse" data-parent="#leftDashboard" data-target="#dataRequests" class="pull-right">+</a>
 					</div>
 					<div id="dataRequests" class="panel-collapse collapse">
@@ -218,7 +229,7 @@
 					Note that a dataset can only be downloaded once for security reasons, and you must provide your GPG public key for encrypting your download. Your GPG key is saved in your profile. For instructions on how to find your GPG key, see <a href="#">here</a>.</p>
 					<label>Request Type:</label><br>
 					<label class="undecorated"><input type="radio" name="requestType" value="pii"> Full PII Data</label><br>
-					<label class="undecorated"><input type="radio" name="requestType" value="non-pii"> Full Non-PII data</label><br><br>
+					<label class="undecorated"><input type="radio" name="requestType" value="non-pii" checked> Full Non-PII data</label><br><br>
 
 					<label>Dataset:</label>
 					<select class="form-control limit-width" size="7" name="dataset">
@@ -250,7 +261,9 @@
 	</div>
 </div>
 
+
 <script>
+// Scroll to top animation
 $(function() {
   $('a[href*=#]:not([href=#])').click(function() {
     if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
@@ -277,17 +290,31 @@ $(document).on('change', '.btn-file :file', function() {
 });
 
 $(document).ready( function() {
-    $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-        
-        var input = $(this).parents('.input-group').find(':text'),
-            log = numFiles > 1 ? numFiles + ' files selected' : label;
-        
-        if(input.length) {
-            input.val(log);
-        } else {
-            if(log) alert(log);
-        }
-        
-    });
+  $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+    var input = $(this).parents('.input-group').find(':text'),
+        log = numFiles > 1 ? numFiles + ' files selected' : label;
+    if(input.length) {
+        input.val(log);
+    } else {
+        if(log) alert(log);
+    } 
+  });
 });
+</script>
+
+<script>
+	// Socket handling for notifications
+	// io.socket.get('/request', function (resData, js) {
+	// 	// do nothing
+	// });
+	// io.socket.on('request', function(obj) {
+	// 	var verb = obj.verb;
+	// 	var data = JSON.stringify(obj.data);
+
+	// 	if ("<%= title %>" == 'Dashboard') {
+	// 		var elem = document.getElementById('reqNotif').innerHTML;
+	// 		var currCount = elem == '' ? 0 : parseInt(elem);
+	// 		document.getElementById('reqNotif').innerHTML = currCount + 1;
+	// 	}
+	// });
 </script>

@@ -2,7 +2,7 @@
 	<div class="container">
 		<h2>Analytics</h2>
     <% if (messages && messages['error'].length > 0) { %>
-      <div class="alert alert-error">
+      <div class="alert alert-danger">
       <% messages['error'].forEach(function(message) { %>
         <%= message %>
         <br>

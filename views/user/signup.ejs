@@ -9,7 +9,7 @@
 		<h2 class="form-signin-heading">Welcome to moocRP!</h2>
 
     <% if (messages && messages['error'].length > 0) { %>
-      <div class="alert alert-error">
+      <div class="alert alert-danger">
       <% messages['error'].forEach(function(message) { %>
         <%= message %>
         <br>
@@ -33,17 +33,17 @@
 	<form action="/user/create" method="POST" class="form-signin">
 		Since this is your first time using this service, please fill in the following information for our records.
 		<br><br>
-		<label>First Name: </label><input type="text" class="form-control" placeholder="first name" name="firstName">
-		<label>Last Name: </label><input type="text" class="form-control" placeholder="last name" name="lastName">
-		<label>Email: </label><input type="email" class="form-control" placeholder="example@berkeley.edu" name="email">
+		<label>First Name: </label><input type="text" class="form-control" placeholder="first name" name="firstName" tabindex="0">
+		<label>Last Name: </label><input type="text" class="form-control" placeholder="last name" name="lastName" tabindex="1">
+		<label>Email: </label><input type="email" class="form-control" placeholder="example@berkeley.edu" name="email" tabindex="2">
 		<label>GPG Public Key ID: </label> <div class="pull-right"><a href="#GPGModal" data-toggle="modal">(?)</a></div>
-		<input type="text" class="form-control" placeholder="64CD7S" name="publicKeyID">
+		<input type="text" class="form-control" placeholder="64CD7S" name="publicKeyID" tabindex="3">
 		<label>GPG Public Key:</label> <div class="pull-right"><a href="#GPGModal" data-toggle="modal">(?)</a></div>
 		<br>
-		<textarea class="form-control" placeholder="copy your public key here" name="publicKey"></textarea>
+		<textarea class="form-control" placeholder="copy your public key here" name="publicKey" tabindex="4"></textarea>
 		<br>
 
-		<input type="submit" class="btn btn-lg btn-primary btn-block" value="Create">
+		<input type="submit" class="btn btn-lg btn-primary btn-block" value="Create" tabindex="5">
 		<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 	</form>
 </div>

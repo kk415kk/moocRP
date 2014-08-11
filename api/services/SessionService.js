@@ -1,5 +1,7 @@
 module.exports = {
   createSession: function(req, user) {
+    sails.log.debug('User ' + user.id + ' logged in');
+    FlashService.success(req, 'Successfully logged in.');
     req.session.user = user;
     var oldDateObj = new Date();
     var newDateObj = new Date(oldDateObj.getTime() + sails.config.cookieExpiration); // one hour before expiring
