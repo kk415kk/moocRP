@@ -34,7 +34,7 @@ do
   fi
 done
 
-if [ "$COUNTER" -gt "0"] ; then
+if [ "$COUNTER" -gt "0" ] ; then
   echo "Setup encountered $COUNTER error(s)"
   exit 1
 fi
