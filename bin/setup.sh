@@ -23,11 +23,11 @@ do
   CREATE="$SCRIPT_PATH/../logs/${files}" 
   echo "Creating $CREATE"
 
-  if [ ! -e "$CREATE"] ; then
+  if [ ! -e "$CREATE" ] ; then
     touch "$CREATE"
   fi
 
-  if [ ! -w "$CREATE"] ; then
+  if [ ! -w "$CREATE" ] ; then
     echo "Unable to write to $CREATE - run this script as sudo"
     COUNTER=$((COUNTER + 1))
     continue
