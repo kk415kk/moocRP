@@ -53,7 +53,6 @@ module.exports = {
         } else {
           SessionService.createSession(req, user);
           EncryptionService.importPublicKey(user);
-          FlashService.success(req, "Successfully logged in.");
           return res.redirect('/dashboard');
         }
       });
