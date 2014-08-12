@@ -23,7 +23,6 @@ Kevin Kao
     sudo apt-get update
     sudo apt-get install nodejs
     ````
-
   * Windows:
   * Mac:
 * npm ~1.4.23
@@ -34,7 +33,6 @@ Kevin Kao
     sudo apt-get aptitude
     sudo aptitude install npm 
     ````
-
   * Windows:
   * Mac:
 * Sails.js 0.10.1
