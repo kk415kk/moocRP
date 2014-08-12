@@ -98,7 +98,7 @@ forever start app.js --prod
 ````
 
 ## Visualization Upload Format
-Note that all visualizations must use the field "<%= dataset %>" where they would normally pass in a text version of the dataset. There must be a "main.html" file inside the base of the uploaded archive that already has links to relevant scripts and additional files built into it.
+Note that all visualizations must use the field ````<%= dataset %>```` where they would normally pass in a text version of the dataset. There must be a ````main.html```` file inside the base of the uploaded archive that already has links to relevant scripts and additional files built into it.
 
 ## Changelog
 v0.1.0 - 08/11/2014: First minor version release.
