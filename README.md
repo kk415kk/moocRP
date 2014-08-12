@@ -11,9 +11,13 @@ Kevin Kao
 
 ## Dependencies
 * git [any version]
+
 ..* Ubuntu: ````sudo apt-get install git````
+
 ..* Windows:
+
 ..* Mac:
+
 * Node.js ~0.10.25
 ..* Ubuntu: 
 
