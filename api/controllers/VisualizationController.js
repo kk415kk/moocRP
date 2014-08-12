@@ -177,7 +177,7 @@ module.exports = {
       var fileName = visualization.fileName,
           noExtFileName = UtilService.fileMinusExt(fileName),
           type = visualization.type,
-          userID = req.session.user.id;
+          userID = visualization.userID;
 
 
       var pathToUploadedFile = path.join(UPLOAD_PATH, type, userID);
