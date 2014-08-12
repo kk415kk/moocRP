@@ -11,15 +11,11 @@ Kevin Kao
 
 ## Dependencies
 * git [any version]
-
-..* Ubuntu: ````sudo apt-get install git````
-
-..* Windows:
-
-..* Mac:
-
+  * Ubuntu: ````sudo apt-get install git````
+  * Windows:
+  * Mac:
 * Node.js ~0.10.25
-..* Ubuntu: 
+  * Ubuntu: 
 
     ````
     sudo apt-get install python-software-properties
@@ -31,7 +27,7 @@ Kevin Kao
   * Windows:
   * Mac:
 * npm ~1.4.23
-..* Ubuntu:
+  * Ubuntu:
 
     Use ````aptitude```` to install npm and downgrade Node.js through the prompt if conflicts occur.
     ````
@@ -39,16 +35,16 @@ Kevin Kao
     sudo aptitude install npm 
     ````
 
-..* Windows:
-..* Mac:
+  * Windows:
+  * Mac:
 * Sails.js 0.10.1
-..* Ubuntu: ````sudo npm install -g sails````
-..* Windows:
-..* Mac:
+  * Ubuntu: ````sudo npm install -g sails````
+  * Windows:
+  * Mac:
 * MySQL Server
-..* Ubuntu: ````sudo apt-get install mysql-server-5.6````
-..* Windows:
-..* Mac:
+  * Ubuntu: ````sudo apt-get install mysql-server-5.6````
+  * Windows:
+  * Mac:
 
 ## Setup Instructions
 First, create a new folder called moocRP_base to clone this repository to:
