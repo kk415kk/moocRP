@@ -67,8 +67,11 @@ module.exports = {
     // Comment out if other emails are allowed
     User.find().exec(function (err, users) {
 
+      if (err) {
+        sails.log('Error occurred while creating user: ' + err);
+      }
       // Seed initial user as an admin
-      if (users.length == 0) {
+      if (!users || users.length == 0) {
         values.admin = true;
       }
 
