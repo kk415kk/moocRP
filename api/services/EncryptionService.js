@@ -49,7 +49,7 @@ module.exports = {
     var keyPath = path.resolve(keyDirPath, UtilService.addFileExt(user.id, '.key'));
     fs.writeFile(keyPath, user.publicKey, function(err) {
       if (err) {
-        sails.log.error('Error while importing key: ' + err + ' [path: ' + keyPath + ']');
+        sails.log.error('Error while importing key - unable to write key to file: ' + err + ' [path: ' + keyPath + ']');
         //TODO: Add notice for public key
         return FAILURE;
       } else {
