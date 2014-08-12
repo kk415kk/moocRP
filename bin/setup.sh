@@ -52,6 +52,7 @@ echo ""
 printf "Ignore WARNING message from MySQL: "
 $(mysql -u $mysqlUser -p$mysqlPass < "$SCRIPT_PATH/$DATABASE_SETUP")
 
+echo ""
 
 if [[ $COUNTER -gt "0" ]] ; then
   echo "Setup encountered $COUNTER error(s)"
