@@ -24,7 +24,7 @@ function encryptCommand(user, dataset, type, cb) {
   if (user == null) return '';
   var pathToDataset = UtilService.addFileExt(generateFilePath(dataset, type), '.zip'),
       pathToEncrypted = UtilService.addFileExt(generateEncryptedPath(dataset, user.id), '.zip.gpg')
-      encryptCmd = 'gpg --batch --yes --output ' + pathToEncrypted + ' --encrypt -r ' + user.publicKeyID + ' ' + pathToDataset;
+      encryptCmd = 'gpg --trust-model always --batch --yes --output ' + pathToEncrypted + ' --encrypt -r ' + user.publicKeyID + ' ' + pathToDataset;
       sails.log.info('Encrypting: ' + encryptCmd);
   return encryptCmd;
 }

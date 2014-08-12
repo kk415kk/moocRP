@@ -80,6 +80,7 @@ v0.0.1a - Alpha version with working login/verification system
 * UI theme
 
 ## Bugs
+* When deploying in production, moocRP must be deployed once first in development mode so that the database tables are created.
 
 ## Roadmap
 * Add "Reports" messaging system for managing bug handling/error messages
