@@ -27,6 +27,14 @@ module.exports = function(grunt) {
 
 			// When assets are changed:
 			tasks: ['syncAssets' , 'linkAssets']
+		},
+
+		datasets: {
+			// Datasets to watch
+			files: ['../datasets/non_pii/**/**', '../datasets/pii/**/**'],
+
+			// When new datasets are added:
+			tasks: ['extractDatasets']
 		}
 	});
 

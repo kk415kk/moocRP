@@ -37,7 +37,7 @@ var svg = d3.select("#analytics-container").append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     
-var data = d3.tsv.parse("<%= dataset %>", type);
+var data = d3.csv.parse("<%= dataset %>", type);
   
 // A formatter for counts.
 var formatCount = d3.format(",.0f");

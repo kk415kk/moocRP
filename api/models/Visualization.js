@@ -37,10 +37,16 @@ module.exports = {
       type: 'BOOLEAN',
       defaultsTo: false
     },
-    type: {
+    // i.e. D3, R, Plateau
+    type: { 
       type: 'STRING',
       required: true
-    }, 
+    },
+    // i.e. HarvardX, StanfordX, moocDB
+    datatypes: {
+      type: 'ARRAY',
+      required: true
+    },
 
     // Instance methods
     toJSON: function() {

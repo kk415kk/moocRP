@@ -10,8 +10,12 @@ body {
   font-family: 'Ubuntu', sans-serif;
 }
 
-h1, h2, h3, h4, h5, p {
+p {
   font-family: 'Ubuntu', sans-serif;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Raleway', 'Ubuntu', sans-serif;
 }
 
 h5 {

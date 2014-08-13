@@ -45,7 +45,6 @@
 				<p>
 				<ul>
 					<li class="no-indent"><b>Shared Analytics: </b><%= visualizations.length %></li>
-
 				</ul>
 				</p>
 			</div>
@@ -200,6 +199,13 @@
 	    		<br>
 					<label>Description: </label><textarea rows="7" type="text" class="form-control" name="description"></textarea>
 					<br>
+					<label>Datatype Support:</label>
+					<select class="form-control limit-width" size="4" name="datatypes" multiple>
+						<% _.each(datatypes, function(datatype) { %>
+							<option value="<%= datatype %>"><%= datatype %></option>
+						<% }) %>
+					</select>
+					<br>
 					<label>Visualization Type:</label><br>
 					<label class="undecorated"><input type="radio" name="type" value="D3"> D3.js</label><br>
 					<label class="undecorated"><input type="radio" name="type" value="Other" disabled> Other</label><br><br>
@@ -212,7 +218,7 @@
 	            </span>
 	            <input type="text" class="form-control" readonly>
 	        </div>
-	        <p>Note: All uploaded files must be compressed in .zip or .tar.gz format.</p>
+	        <p>Note: All uploaded files must be compressed in .ZIP format.</p>
 	        <br>
 	        <input type="hidden" name="userID" value="<%= req.session.user.id %>" />
 	        <input type="hidden" name="_csrf" value="<%= _csrf %>" />

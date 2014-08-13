@@ -301,7 +301,7 @@ module.exports = {
 
   // Handles upload of visualization archive to server.
   upload: function(req, res) {
-    if (req.param('type') == null) {
+    if (req.param('type') == null || req.param('datatypes') == null) {
       FlashService.error(req, 'Please fill in all fields.');
       return res.redirect('/dashboard');
     }

@@ -1,0 +1,104 @@
+<div class="mini-banner auto">
+  <div class="container">
+    <h2>Datascrub Types Management</h2>
+    <% if (messages && messages['error'].length > 0) { %>
+      <div class="alert alert-danger">
+      <% messages['error'].forEach(function(message) { %>
+        <%= message %>
+        <br>
+      <% }); %>
+      </div>
+      <br>
+    <% } %>
+    <% if (messages && messages['warning'].length > 0) { %>
+      <div class="alert alert-warning">
+      <% messages['warning'].forEach(function(message) { %>
+        <%= message %>
+        <br>
+      <% }); %>
+      </div>
+      <br>
+    <% } %>
+    <% if (messages && messages['success'].length > 0) { %>
+      <div class="alert alert-success">
+      <% messages['success'].forEach(function(message) { %>
+        <%= message %>
+        <br>
+      <% }); %>
+      </div>
+      <br>
+    <% } %> 
+  </div>
+</div>
+
+<div class="sub-banner">
+  <div class="container">
+    <h2>Manage your various datascrub formats here.</h2>
+  </div>
+</div>
+
+<div class="container wrapper">
+  <div class="row">
+
+    <div class="col-md-5">
+      <form role="form" action="/datatype/create" method="POST" class="">
+        <h2>Import</h2>
+        <div class="form-group">
+          <label for="displayName">Display Name: </label><input type="text" id="displayName" class="form-control" placeholder="HarvardX" name="displayName" tabindex="2">
+        </div>
+        <div class="form-group">
+          <label for="fileSafeName">Folder Name: </label><input type="text" id="fileSafeName" class="form-control" placeholder="harvardx_output" name="fileSafeName" tabindex="2">
+        </div>
+        <input type="submit" class="btn btn-md btn-primary btn-block" value="Import" tabindex="1">
+        <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+      </form>
+    </div>
+
+    <div class="col-md-7">
+      <table class='table table-striped table-hover' id='datatype-table'>
+        <h2>Existing Datatypes</h2>
+        <thead>
+          <tr>
+            <th>Display Name</th>
+            <th>Folder Name</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+        <% _.each(datatypes, function(datatype) { %>
+          <tr data-id="<%= datatype.id %>" data-model="user">
+            <td><%= datatype.displayName %></td>
+            <td><%= datatype.fileSafeName %></td>
+            <td><a class="btn btn-sm btn-danger" data-toggle="modal" href="#deleteModal">Delete</a></td>
+          </tr>
+          <!-- Modal for Deleting User -->
+          <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                  <h3 class="modal-title" id="deleteLabel"><b>Delete Datascrub Type</b></h3>
+                </div>
+
+                <div class="modal-body">
+                  <p><b>Warning:</b> Are you sure you want to continue?</p>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <a type="submit" class="btn btn-danger" value="Delete" href="/datatype/destroy/<%= datatype.id %>">Delete</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Modal -->
+        <% }) %>
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

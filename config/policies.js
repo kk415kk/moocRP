@@ -88,5 +88,9 @@ module.exports.policies = {
     'demo': ['flash', 'isAdmin', 'hasID'],
     'reject': ['flash', 'isAdmin', 'hasID'],
     'deleteAll': ['flash', 'isAdmin']
-  }  
+  },
+
+  DatatypeController: {
+    '*': ['flash', 'isAdmin']
+  }
 };

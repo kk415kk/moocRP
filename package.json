@@ -3,7 +3,14 @@
   "private": true,
   "version": "0.1.0",
   "description": "Developed for research purposes, for sharing analytics",
-  "keywords": ["moocRP", "analytics", "edx", "research", "visualizations", "d3"],
+  "keywords": [
+    "moocRP",
+    "analytics",
+    "edx",
+    "research",
+    "visualizations",
+    "d3"
+  ],
   "dependencies": {
     "sails": "~0.10.3",
     "sails-disk": "~0.10.3",
@@ -44,5 +51,8 @@
     "url": "git://github.com/kk415kk/moocRP.git"
   },
   "author": "Kevin Kao",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "grunt-contrib-watch": "^0.5.3"
+  }
 }

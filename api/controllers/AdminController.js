@@ -29,38 +29,29 @@ module.exports = {
   _config: {},
 
   // View to show all users on page
-  manage_users: function(req, res, next) {
+  manage_users: function(req, res) {
     User.find(function foundUsers(err, users) {
-      if (err) {
-        FlashService.error(req, err);
-        return next(err);
-      }
-
       return res.view({ users: users, title: 'Manage Users' });
     });
   },
 
   // View to manage requests by researchers
-  manage_requests: function (req, res, next) {
+  manage_requests: function (req, res) {
     Request.find(function foundRequests(err, requests) {
-      if (err) {
-        FlashService.error(req, err);
-        return next(err);
-      }
-
       return res.view({ requests: requests, title: 'Manage Requests' });
     }); 
   },
 
   // View to manage uploads by researchers
-  manage_analytics: function(req, res, next) {
+  manage_analytics: function(req, res) {
     Visualization.find(function foundVisualizations(err, visualizations) {
-      if (err) {
-        FlashService.error(req, err);
-        return next(err);
-      }
-
       return res.view({ title: 'Manage Analytics', visualizations: visualizations });
+    });
+  },
+
+  manage_datatypes: function(req, res) {
+    Datatype.find(function foundDatatypes(err, datatypes) {
+      return res.view({ title: 'Manage Datascrub Types', datatypes: datatypes });
     });
   }
   
