@@ -40,6 +40,10 @@ module.exports = {
    */
   //_config: {}
 
+  index: function(req, res) {
+    return res.redirect('/analytics/analytics');
+  },
+
   analytics: function(req, res) {
     Visualization.find().exec(function (err, visualizations) {
       User.find().exec(function (err, users) {
