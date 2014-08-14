@@ -93,6 +93,12 @@ h5 {
 .pagination > .active > span:focus {
   background-color: #236B8E;
 }
+
+@media (min-width:769px) {
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+}
 /** End Pagination Styling **/
 
 /** Dropdown Styling **/
@@ -390,6 +396,14 @@ input[readonly] {
   font-size: 30px;
   vertical-align: middle;
   padding-left: 15px;
+}
+
+.star {
+  color: transparent;
+}
+
+.star:hover {
+  color: gold;
 }
 
 /** Banner Styling **/

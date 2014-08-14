@@ -51,6 +51,14 @@ module.exports = {
       type: 'STRING',
       required: true
     },
+    grantedRequests: {
+      type: 'ARRAY',
+      defaultsTo: []
+    },
+    starredVisuals: {
+      type: 'ARRAY',
+      defaultsTo: []
+    },
 
     // Instance methods
     toJSON: function() {

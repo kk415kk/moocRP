@@ -299,6 +299,11 @@ module.exports = {
     });
   },
 
+  // TODO: Implement "starring" visualizations feature
+  star: function(req, res) {
+    return res.redirect('/analytics');
+  },
+
   // Handles upload of visualization archive to server.
   upload: function(req, res) {
     if (req.param('type') == null || req.param('datatypes') == null) {

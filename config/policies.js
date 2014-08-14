@@ -92,5 +92,9 @@ module.exports.policies = {
 
   DatatypeController: {
     '*': ['flash', 'isAdmin']
+  },
+
+  ReportController: {
+    '*': ['flash', 'isAdmin']
   }
 };

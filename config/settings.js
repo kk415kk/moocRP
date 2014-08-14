@@ -27,7 +27,7 @@ module.exports = {
   protocol: 'http://',
 
   // Used for development purposes
-  bypassLogin: false,
+  bypassLogin: process.env.NODE_ENV == 'development' && false,
   bypassUserId: 0,
 
   // Time for a user's session to expire
