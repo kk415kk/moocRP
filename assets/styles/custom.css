@@ -31,6 +31,10 @@ h5 {
   color: gold;
 }
 
+.red {
+  color: red;
+}
+
 .tab {
   margin-right: 25px;
 }
@@ -101,7 +105,6 @@ h5 {
 }
 
 .open .dropdown-toggle.navbar-button {
-  color: #A0CFEC;
   background-color: inherit;
 }
 /** End Dropdown Styling **/
@@ -165,10 +168,6 @@ input[readonly] {
 /** End Panel Styling **/
 
 /** Miscellaneous **/
-.progress-bar {
-  background-color: #236B8E;
-}
-
 .footer {
   padding-bottom: 100px;
 }
@@ -344,7 +343,6 @@ input[readonly] {
 
 .navbar-active-button:focus,
 .navbar-button:focus {
-  color: #A0CFEC;
   text-decoration: none;
 }
 
@@ -361,7 +359,14 @@ input[readonly] {
 }
 
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
-  background: transparent;
+  background: #205A80;
+}
+
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+  background-color: #205A80;
+  border-color: transparent;
 }
 
 /** End Navbar Styling **/
@@ -542,7 +547,7 @@ textarea.full {
 }
 
 /** Modified Progress Bar **/
-.progress {
+/*.progress {
   height: 20px;
   margin-bottom: 20px;
   overflow: hidden;
@@ -614,7 +619,7 @@ textarea.full {
 .progress-striped .progress-bar-danger {
   background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
   background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
-}
+}*/
 
 
 /** Flip Effect **/
