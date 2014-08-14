@@ -56,8 +56,9 @@ module.exports = {
       defaultsTo: []
     },
     starredVisuals: {
-      type: 'ARRAY',
-      defaultsTo: []
+      dominant: true,
+      collection: 'visualization',
+      via: 'usersWhoStarred'
     },
 
     // Instance methods

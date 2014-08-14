@@ -47,6 +47,10 @@ module.exports = {
       type: 'ARRAY',
       required: true
     },
+    usersWhoStarred: {
+      collection: 'user',
+      via: 'starredVisuals'
+    },
 
     // Instance methods
     toJSON: function() {

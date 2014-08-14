@@ -301,7 +301,32 @@ module.exports = {
 
   // TODO: Implement "starring" visualizations feature
   star: function(req, res) {
-    return res.redirect('/analytics');
+    if (req.isSocket) {
+      User.findOne(req.session.user.id).populate('starredVisuals').exec(function (err, user) {
+
+        if (err || !user) sails.log.debug('Error: ' + err + ' [Users: ' + user + ']');
+
+        var alreadyStarred = false;
+        for (i = 0; i < user.starredVisuals.length; i++) {
+          if (user.starredVisuals[i].id == req.param('id')) {
+            alreadyStarred = true;
+          }
+        }
+
+        if (alreadyStarred) {
+          user.starredVisuals.remove(req.param('id'));
+        } else {
+          user.starredVisuals.add(req.param('id'));
+        }
+        user.save(function (err) {
+          if (!err) return { result: sails.config.constants.SUCCESS };
+          return { result: sails.config.constants.FAILURE };
+        });
+
+      });
+    } else {
+      return res.redirect('/analytics');
+    }
   },
 
   // Handles upload of visualization archive to server.

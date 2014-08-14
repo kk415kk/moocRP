@@ -388,6 +388,10 @@ input[readonly] {
 /**************
  * Glyphicons
  **************/
+.md {
+  font-size: 18px;
+}
+
 .lg {
   font-size: 80px;
 }
@@ -398,11 +402,19 @@ input[readonly] {
   padding-left: 15px;
 }
 
-.star {
-  color: transparent;
+.star-wrap {
+  text-align: center;
 }
 
-.star:hover {
+.gold-star {
+  color: gold;
+}
+
+.grey-star {
+  color: #ddd;
+}
+
+.grey-star:hover {
   color: gold;
 }
 
@@ -560,130 +572,66 @@ textarea.full {
   text-align: center;
 }
 
-/** Modified Progress Bar **/
-/*.progress {
-  height: 20px;
-  margin-bottom: 20px;
-  overflow: hidden;
-  background-color: #f5f5f5;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
-          box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
-}
-.progress-bar {
-  float: left;
-  width: 0;
-  height: 100%;
-  font-size: 12px;
-  line-height: 20px;
-  color: #fff;
-  text-align: center;
-  background-color: #428bca;
-  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
-          box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
-  -webkit-transition: width .6s ease;
-          transition: width .6s ease;
-}
-.progress-bar.progress-striped
-.progress-striped .progress-bar {
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
-  background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
-  background-size: 40px 40px;
-}
-.progress-bar.active,
-.progress.active .progress-bar {
-  -webkit-animation: progress-bar-stripes 2s linear infinite;
-          animation: progress-bar-stripes 2s linear infinite;
-}
-.progress-bar.progress-bar-success,
-.progress-bar-success {
-  background-color: #5cb85c;
-}
-.progress-bar-success.progress-striped,
-.progress-striped .progress-bar-success {
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
-  background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
-}
-
-.progress-bar.progress-bar-info,
-.progress-bar-info {
-  background-color: #5bc0de;
-}
-.progress-bar-info.progress-striped,
-.progress-striped .progress-bar-info {
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
-  background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
-}
-
-.progress-bar.progress-bar-warning,
-.progress-bar-warning {
-  background-color: #f0ad4e;
-}
-.progress-bar-warning.progress-striped,
-.progress-striped .progress-bar-warning {
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
-  background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
-}
-
-.progress-bar.progress-bar-danger,
-.progress-bar-danger {
-  background-color: #d9534f;
-}
-.progress-bar-danger.progress-striped
-.progress-striped .progress-bar-danger {
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
-  background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
-}*/
-
-
 /** Flip Effect **/
-/** CREDITS David Walsh **/
 
-/* entire container, keeps perspective */
 .flip-container {
+  width: 320px;
+  height: 320px;
+  margin: auto;
   position: relative;
   background-color: #0e6471;
   color: white;
-  perspective: 1000;
 }
-  /* flip the pane when hovered */
-  .flip-container:hover .flipper, .flip-container.hover .flipper {
-    transform: rotateY(180deg);
-  }
 
-.front, .back {
+.flipper {
+  width: 100%;
+  height: 100%;
+  -o-transition: all .5s;
+  -ms-transition: all .5s;
+  -moz-transition: all .5s;
+  -webkit-transition: all .5s;
+  transition: all .5s;
+  -webkit-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0px;
+  left: 0px;
   text-align: center;
   padding: 10px;
 }
 
-.flip-container, .front, .back {
-  width: 320px;
-  height: 320px;
-}
-
-/* flip speed goes here */
-.flipper {
-  transition: 0.6s;
-  transform-style: preserve-3d;
-  position: relative;
-}
-
-/* hide back of pane during swap */
-.front, .back {
-  backface-visibility: hidden;
-
-  position: absolute;
-}
-
-/* front pane, placed above back */
 .front {
   z-index: 2;
 }
 
-/* back, initially hidden pane */
 .back {
+  z-index: 1;
+  -webkit-transform: rotateY(-180deg);
+  -ms-transform: rotateY(-180deg);
+  -moz-transform: rotateY(-180deg);  
+  transform: rotateY(-180deg);  
+}
+
+.flip-container:hover .front {
+  z-index: 1;
+  -webkit-transform: rotateY(180deg);
+  -ms-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
   transform: rotateY(180deg);
 }
+
+.flip-container:hover .back {
+  z-index: 2;   
+  -webkit-transform: rotateY(0deg);
+  -ms-transform: rotateY(0deg);
+  -moz-transform: rotateY(0deg);
+  transform: rotateY(0deg);
+}
+
+
+/** CREDITS David Walsh **/
 
 /** Vertical Align Hacks **/
 .valign {

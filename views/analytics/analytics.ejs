@@ -52,7 +52,14 @@
     </div>
     <div class="col-md-6">
       <h3>Starred Visualizations</h3>
-      <p>8/13/14 - under development</p>
+      <% starredVisuals.forEach(function (visual) { %>
+        <% for (i = 0; i < users.length; i++) { %>
+          <% if (users[i].id == visual.userID) { %>
+            <a href="#<%= visual.name %>-<%= visual.userID %>">"<%= visual.name %>"</a> by <%= users[i].firstName %> <%= users[i].lastName %>
+            <% break; %>
+          <% } %>
+        <% } %>
+      <% }); %>
     </div>
 
     <div class="col-md-12">
@@ -76,9 +83,15 @@
 							<% for (i = 0; i < users.length; i++) { %>
 								<% if (visualization.userID == users[i].id) author = users[i]; %>
 							<% } %>
-							<tr>
+							<tr id="<%= visualization.name %>-<%= visualization.userID %>">
                 <!-- Implement on click to be glyphicon-star -->
-                <td><span class="star glyphicon glyphicon-star-empty sm"></span></td>
+                <td class="star-wrap">
+                  <% if (starredIds.indexOf(visualization.id) > -1) {%>
+                    <span id="star-<%= visualization.id %>" class="gold-star glyphicon glyphicon-star-empty md" onclick="starVisual(<%= visualization.id %>)"></span>
+                  <% } else { %>
+                    <span id="star-<%= visualization.id %>" class="grey-star glyphicon glyphicon-star-empty md" onclick="starVisual(<%= visualization.id %>)"></span>
+                  <% } %>
+                </td>
 								<td><%= visualization.name %></td>
 								<td><%= author.firstName %> <%= author.lastName %></td>
 								<td>
@@ -92,7 +105,7 @@
                         <% for (i = 0; i < currDataset.length; i++) { %>
                           <% var datatypeDisplayName = currDataset[i][0], datasetName = currDataset[i][1] %>
                           <% if (visualization.datatypes.indexOf(datatypeDisplayName) > -1) { %>
-											    <option value="<%= datatypeSafeName %>__<%= datasetName %>"><%= datatypeDisplayName %>: <%= datasetName %></option>
+                            <option value="<%= datatypeSafeName %>__<%= datasetName %>"><%= datatypeDisplayName %>: <%= datasetName %></option>
                           <% } %>
                         <% } %>
                       <% } %>
@@ -106,7 +119,7 @@
 				</table>
 			</form>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-offset-1 col-md-3">
 		<h3>Preview Pane</h3>
 		<br>
 		<br>
@@ -125,3 +138,24 @@ function addDataset(visualID) {
 }
 </script>
 
+<script>
+window.socket = io.socket;
+function starVisual(visualID) {
+  // TODO: Save the star
+  // Socket handling for notifications
+  var star = document.getElementById("star-" + visualID.toString());
+  if (star.className == "gold-star glyphicon glyphicon-star-empty md") {
+    star.className = "grey-star glyphicon glyphicon-star-empty md";
+  } else {
+    star.className = "gold-star glyphicon glyphicon-star-empty md";
+  }
+  window.socket.post('/visualization/star', { id: visualID, _csrf: "<%= _csrf %>" }, function (resData, jwres) {
+
+    for (var key in resData) {
+      if (resData.hasOwnProperty(key)) {
+        alert(resData[key]);
+      }
+    }
+  });
+}
+</script>
