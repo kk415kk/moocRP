@@ -4,7 +4,7 @@ Research platform for University of California, Berkeley researchers built by Ke
 Built on Node.js server with Sails.js framework for an MVC architecture. Python/Bash scripts and D3 visualizations mixed in.
 
 ## Current Release
-Releases will be numbered as **<major version>**.**<minor version>**.**<patch number>**
+Releases will be numbered as **< major version >**.**< minor version >**.**< patch number >**
 v0.1.1
 
 ## Author
