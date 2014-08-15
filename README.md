@@ -37,7 +37,7 @@ Kevin Kao
     ````
   * Windows:
   * Mac:
-* Sails.js 0.10.1
+* Sails.js 0.10.4
   * Ubuntu: ````sudo npm install -g sails````
   * Windows:
   * Mac:
@@ -103,13 +103,15 @@ forever start app.js --prod
 Note that all visualizations must use the field ````<%= dataset %>```` where they would normally pass in a text version of the dataset. There must be a ````main.html```` file inside the base of the uploaded archive that already has links to relevant scripts and additional files built into it.
 
 ## Changelog
-v0.1.0 - 08/11/2014: First minor version release.
+0.1.1 - 08/14/2014: Patch to add support for future additions of datascrub types. UI browser compatibility updates, refactored database models to be more efficient.
 
-v0.0.3 - 07/01/2014: First version with working request/download system, visualization upload system, user management UI.
+0.1.0 - 08/11/2014: First minor version release.
 
-v0.0.2a - 03/04/2014: Alpha version that replaced login system with Berkeley's CAS authentication.
+0.0.3 - 07/01/2014: First version with working request/download system, visualization upload system, user management UI.
 
-v0.0.1a - 02/01/2014: Alpha version with working login/verification system.
+0.0.2a - 03/04/2014: Alpha version that replaced login system with Berkeley's CAS authentication.
+
+0.0.1a - 02/01/2014: Alpha version with working login/verification system.
 
 ## Completed Features
 * SSL integration

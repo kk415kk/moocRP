@@ -176,6 +176,9 @@
 					<div id="starredVisuals" class="panel-collapse collapse">
 						<div class="panel-body">
 							<p>This is where your starred visualizations will appear.</p>
+							<% starredVisuals.forEach(function (starred) { %>
+								<p><a href="/analytics/#"><%= starred.name %></a></p>
+							<% }); %>
 						</div>
 					</div>
 				</div>

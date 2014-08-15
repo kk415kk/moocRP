@@ -47,6 +47,7 @@ module.exports = {
           title: 'Dashboard',
           datasets: datasets,
           datatypes: datatypes,
+          starredVisuals: user.starredVisuals,
           visualizations: user.visualizations,
           maxCount: 5
         });
