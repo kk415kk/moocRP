@@ -5,6 +5,7 @@ Built on Node.js server with Sails.js framework for an MVC architecture. Python/
 
 ## Current Release
 Releases will be numbered as **< major version >**.**< minor version >**.**< patch number >**
+
 v0.1.1
 
 ## Author
