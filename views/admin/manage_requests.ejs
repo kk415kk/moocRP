@@ -60,7 +60,7 @@
 			<% _.each(requests, function(request) { %>
 				<% if (!request.granted && !request.denied) { %>
 					<tr data-id="<%= request.id %>" data-model="request">
-						<td><%= request.userID %></td>
+						<td><%= request.requestingUser.id %></td>
 						<td><%= request.firstName %> <%= request.lastName %></td>
 						<td><%= request.email %></td>
 						<td><%= request.dataset %></td>
@@ -103,7 +103,7 @@
 			<% _.each(requests, function(request) { %>
 				<% if (request.granted) { %>
 					<tr data-id="<%= request.id %>" data-model="request">
-						<td><%= request.userID %></td>
+						<td><%= request.requestingUser.id %></td>
 						<td><%= request.firstName %> <%= request.lastName %></td>
 						<td><%= request.email %></td>
 						<td><%= request.dataset %></td>
@@ -137,7 +137,7 @@
 			<% _.each(requests, function(request) { %>
 				<% if (request.denied) { %>
 					<tr data-id="<%= request.id %>" data-model="request">
-						<td><%= request.userID %></td>
+						<td><%= request.requestingUser.id %></td>
 						<td><%= request.firstName %> <%= request.lastName %></td>
 						<td><%= request.email %></td>
 						<td><%= request.dataset %></td>

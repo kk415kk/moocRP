@@ -143,22 +143,13 @@ module.exports = {
 
   // Show user information
   show: function(req, res) {
-    User.findOne(req.param('id')).exec(function (err, user) {
+    User.findOne(req.param('id')).populateAll().exec(function (err, user) {
       if (err || !user) return res.redirect('404');
-
-      Request.find().where({ userID: user.id }).exec(function (err, requests) {
-        if (err || !requests) requests = [];
-
-        Visualization.find().where({ userID: user.id }).exec(function (err, visualizations) {
-        if (err || !visualizations) visualizations = [];
-
-          res.view({
-            title: 'User Information',
-            user: user,
-            requests: requests,
-            visualizations: visualizations
-          });
-        });
+      return res.view({
+        title: 'User Information',
+        user: user,
+        requests: user.requests,
+        visualizations: user.visualizations
       });
     }); 
   },

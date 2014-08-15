@@ -163,7 +163,7 @@ module.exports = {
 
   // Approve a visualization
   approve: function(req, res) {
-    Visualization.findOne(req.param('id')).exec(function (err, visualization) {
+    Visualization.findOne(req.param('id')).populate('owner').exec(function (err, visualization) {
       if (err) {
         FlashService.error(req, err);
         return res.redirect('/admin/manage_analytics');
@@ -177,7 +177,7 @@ module.exports = {
       var fileName = visualization.fileName,
           noExtFileName = UtilService.fileMinusExt(fileName),
           type = visualization.type,
-          userID = visualization.userID;
+          userID = visualization.owner.id;
 
 
       var pathToUploadedFile = path.join(UPLOAD_PATH, type, userID);
@@ -227,12 +227,12 @@ module.exports = {
 
   // Delete all visualizations
   deleteAll: function(req, res) {
-    Visualization.find().exec(function(err, visualizations) {
+    Visualization.find().populate('owner').exec(function(err, visualizations) {
       for (i = 0; i < visualizations.length; i++) {
         var visualization = visualizations[i];
         var visualID = visualization.id;
         var type = visualization.type;
-        var userID = visualization.userID;
+        var userID = visualization.owner.id;
         var fileName = visualization.seededName;
 
         try {
@@ -257,7 +257,7 @@ module.exports = {
 
   // Reject a visualization upload
   reject: function(req, res) {
-    Visualization.findOne(req.param('id')).exec(function (err, visualization) {
+    Visualization.findOne(req.param('id')).populate('owner').exec(function (err, visualization) {
       if (err) {
         sails.log.debug(err);
         FlashService.error(req, 'Error while rejecting visualization');
@@ -270,7 +270,7 @@ module.exports = {
       }
 
       var type = visualization.type,
-          userID = visualization.userID,
+          userID = visualization.owner.id,
           fileName = visualization.fileName,
           visualID = visualization.id.toString();
 
@@ -308,9 +308,7 @@ module.exports = {
 
         var alreadyStarred = false;
         for (i = 0; i < user.starredVisuals.length; i++) {
-          if (user.starredVisuals[i].id == req.param('id')) {
-            alreadyStarred = true;
-          }
+          if (user.starredVisuals[i].id == req.param('id')) alreadyStarred = true;
         }
 
         if (alreadyStarred) {
@@ -374,13 +372,8 @@ module.exports = {
         }
 
         Visualization.create(params, function visualizationCreated(err, visualization) {
-          if (err) {
-            FlashService.error(req, 'Error uploading visualization: ' + err);
-            return res.redirect('/dashboard');
-          }
-
-          if (!visualization) {
-            FlashService.error(req, 'Error uploading visualization');
+          if (err || !visualization) {
+            FlashService.error(req, err ? 'Error uploading visualization: ' + err : 'Error uploading visualization');
             return res.redirect('/dashboard');
           }
 

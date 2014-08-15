@@ -45,52 +45,51 @@ module.exports = {
   },
 
   analytics: function(req, res) {
-    Visualization.find().exec(function (err, visualizations) {
-      User.find().exec(function (err, users) {
-        User.findOne(req.session.user.id).populate('starredVisuals').exec(function (err, thisUser) {
-          Datatype.find().exec(function (err, datatypes) {
+    Visualization.find().populate('owner').exec(function (err, visualizations) {
+      User.findOne(req.session.user.id).populate('starredVisuals').exec(function (err, thisUser) {
+        Datatype.find().exec(function (err, datatypes) {
 
-            var fs = require('fs-extra');
-            fs.ensureDirSync(DATASET_EXTRACT_PATH);
-            var extractedDatasets = {};
+          var fs = require('fs-extra');
+          fs.ensureDirSync(DATASET_EXTRACT_PATH);
+          var extractedDatasets = {};
 
-            for (i = 0; i < datatypes.length; i++) {
-              var folderPath = path.resolve(DATASET_EXTRACT_PATH, datatypes[i].fileSafeName);
-              fs.ensureDirSync(folderPath);
+          for (i = 0; i < datatypes.length; i++) {
+            var folderPath = path.resolve(DATASET_EXTRACT_PATH, datatypes[i].fileSafeName);
+            fs.ensureDirSync(folderPath);
 
-              var datasetFolders = fs.readdirSync(folderPath);
-              var currDatatype = datatypes[i];
-              extractedDatasets[currDatatype.fileSafeName] = [];
+            var datasetFolders = fs.readdirSync(folderPath);
+            var currDatatype = datatypes[i];
+            extractedDatasets[currDatatype.fileSafeName] = [];
 
-              for (j = 0; j < datasetFolders.length; j++) {
-                var nextFolderPath = path.resolve(folderPath, datasetFolders[j]);
-                var datasets = fs.readdirSync(nextFolderPath);
+            for (j = 0; j < datasetFolders.length; j++) {
+              var nextFolderPath = path.resolve(folderPath, datasetFolders[j]);
+              var datasets = fs.readdirSync(nextFolderPath);
 
-                for (k = 0; k < datasets.length; k++) {
-                  var infoKey = currDatatype.fileSafeName
-                  var infoObj = [currDatatype.displayName, UtilService.fileMinusExt(datasets[k])];
-                  extractedDatasets[infoKey].push(infoObj);
-                }
+              for (k = 0; k < datasets.length; k++) {
+                var infoKey = currDatatype.fileSafeName
+                var infoObj = [currDatatype.displayName, UtilService.fileMinusExt(datasets[k])];
+                extractedDatasets[infoKey].push(infoObj);
               }
             }
+          }
 
-            var starredIdList = [];
-            thisUser.starredVisuals.forEach(function (starred) {
-              starredIdList.push(starred.id);
-            });
-
-            res.view({
-              title: 'Analytics',
-              visualizations: visualizations,
-              starredVisuals: thisUser.starredVisuals,
-              starredIds: starredIdList,
-              users: users,
-              datasets: extractedDatasets
-            });
-
+          // Get a list of visualization IDs that are starred by this current user
+          var starredIdList = [];
+          thisUser.starredVisuals.forEach(function (starred) {
+            starredIdList.push(starred.id);
           });
+
+          return res.view({
+            title: 'Analytics',
+            visualizations: visualizations,
+            starredVisuals: thisUser.starredVisuals,
+            starredIds: starredIdList,
+            datasets: extractedDatasets
+          });
+
         });
       });
+
     });
   },
 

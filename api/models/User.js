@@ -51,9 +51,13 @@ module.exports = {
       type: 'STRING',
       required: true
     },
-    grantedRequests: {
-      type: 'ARRAY',
-      defaultsTo: []
+    requests: {
+      collection: 'request',
+      via: 'requestingUser'
+    },
+    visualizations: {
+      collection: 'visualization',
+      via: 'owner'
     },
     starredVisuals: {
       dominant: true,

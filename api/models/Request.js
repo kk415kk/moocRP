@@ -26,9 +26,9 @@ module.exports = {
       email: true,
       required: true
     },
-    userID: {
-      type: 'STRING',
-      required: true,
+    requestingUser: {
+      model: 'user',
+      required: true
     },
     dataset: {
       type: 'STRING',

@@ -48,12 +48,9 @@ module.exports = {
   // Deny a data request
   deny: function(req, res) {
     Request.findOne(req.param('id'), function foundRequest(err, request) {
-      if (err) {
-        FlashService.error(req, err);
+      if (err || !request) {
+        FlashService.error(req, err ? err : 'Request does not exist');
         return res.redirect('/admin/manage_requests');
-      }
-      if (!request) {
-        FlashService.error(req, 'Request does not exist');
       }
 
       request.granted = false
@@ -76,7 +73,7 @@ module.exports = {
     var process = require('process');
     var fs = require('fs');
 
-    Request.findOne(req.param('request_id')).exec(function foundRequest(err, request) {
+    Request.findOne(req.param('request_id')).populate('requestingUser').exec(function foundRequest(err, request) {
       if (err) {
         FlashService.error(req, err);
         return res.redirect('/dashboard');
@@ -85,8 +82,7 @@ module.exports = {
         FlashService.error(req, "Request does not exist");
         return res.redirect('/dashboard');
       }
-      var data = request.dataset + '_' + request.userID + '.zip.gpg',
-          userID = req.session.user.id;
+      var data = request.dataset + '_' + request.requestingUser.id + '.zip.gpg',
           link = path.resolve(ENCRYPT_PATH, data);
 
       request.downloaded = true
@@ -119,41 +115,35 @@ module.exports = {
 
   // Grant the data request
   grant: function(req, res) {
-    Request.findOne(req.param('id'), function foundRequest(err, request) {
+    Request.findOne(req.param('id')).populate('requestingUser').exec(function foundRequest(err, request) {
       if (err || !request) {
         FlashService.error(req, err ? err : 'Request does not exist');
         return res.redirect('/admin/manage_requests');
       }
 
-      User.findOne(req.session.user.id, function foundUser(err, user) {
-        if (err || !user) {
-          FlashService.error(req, err ? err : 'An error has occurred');
+      EncryptionService.encrypt(request.requestingUser, request.dataset, request.requestType, function(error, stdout, stderr, cmd) {
+        if (error || stderr) {
+          sails.log.error('Command: ' + cmd + '\t [Error: ' + error + ']');
+          sails.log.debug('stdout: ' + stdout);
+          sails.log.debug('stderr: ' + stderr);
+          FlashService.error(req, 'An error occurred while encrypting dataset: ' + error);
           return res.redirect('/admin/manage_requests');
         }
 
-        EncryptionService.encrypt(req.session.user, request.dataset, request.requestType, function(error, stdout, stderr, cmd) {
-          if (error || stderr) {
-            sails.log.error('Command: ' + cmd + '\t [Error: ' + error + ']');
-            sails.log.debug('stdout: ' + stdout);
-            sails.log.debug('stderr: ' + stderr);
-            FlashService.error(req, 'An error occurred while encrypting dataset: ' + error);
-            return res.redirect('/admin/manage_requests');
+        request.granted = true;
+        request.denied = false;
+        request.save(function (err) {
+          if (err) {
+            sails.log.error(err);
+            FlashService.error(req, 'An error occurred while granting request');
+          } else {
+            Request.publishUpdate(request.id, {granted: true, denied: false});
+            FlashService.success(req, 'Successfully granted request');
           }
-
-          request.granted = true;
-          request.denied = false;
-          request.save(function (err) {
-            if (err) {
-              sails.log.error(err);
-              FlashService.error(req, 'An error occurred while granting request');
-            } else {
-              Request.publishUpdate(request.id, {granted: true, denied: false});
-              FlashService.success(req, 'Successfully granted request');
-            }
-            return res.redirect('/admin/manage_requests');
-          });
+          return res.redirect('/admin/manage_requests');
         });
-      }); 
+      });
+
     }); 
   }
 };

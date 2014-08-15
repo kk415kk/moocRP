@@ -193,7 +193,7 @@
 			<!-- Share Analytics -->
 			<div class="col-md-6">
 				<h3 class="section">Share Analytics</h3>
-				<p>Please place your main visualization code inside a "main.ejs" file inside your archive. Our system detects the code through that file only. Read our <a href="/privacy" target="_blank">privacy policy</a> for more information on how we use your analytics.</p>
+				<p>Please place your main visualization code inside a "main.html" file inside your archive. Our system detects the code through that file only. Read our <a href="/privacy" target="_blank">privacy policy</a> for more information on how we use your analytics.</p>
 				<form action="/visualization/upload" enctype="multipart/form-data" method="POST">
 	    		<label>Visualization: </label><input type="text" class="form-control" placeholder="visualization name" name="name">
 	    		<br>
@@ -220,7 +220,7 @@
 	        </div>
 	        <p>Note: All uploaded files must be compressed in .ZIP format.</p>
 	        <br>
-	        <input type="hidden" name="userID" value="<%= req.session.user.id %>" />
+	        <input type="hidden" name="owner" value="<%= user.id %>" />
 	        <input type="hidden" name="_csrf" value="<%= _csrf %>" />
 					<input type="submit" class="btn btn-sm btn-primary" value="Upload">
 				</form>
@@ -245,7 +245,7 @@
 					</select>
 					<br>
 					<input type="hidden" name="_csrf" value="<%= _csrf %>" />
-					<input type="hidden" name="userID" value="<%= user.id %>" />
+					<input type="hidden" name="requestingUser" value="<%= user.id %>" />
 					<input type="hidden" name="firstName" value="<%= user.firstName %>"/>
 					<input type="hidden" name="lastName" value="<%= user.lastName %>"/>
 					<input type="hidden" name="email" value="<%= user.email %>"/>

@@ -58,7 +58,7 @@
     <% _.each(visualizations, function(visualization) { %>
       <% if (!visualization.approved && !visualization.rejected) { %>
         <tr data-id="<%= visualization.id %>" data-model="visualization">
-          <td><%= visualization.userID %></td>
+          <td><%= visualization.owner.id %></td>
           <td><%= visualization.name %></td>
           <td><%= visualization.type %></td>
           <td><%= visualization.description %></td>
@@ -115,7 +115,7 @@
     <% _.each(visualizations, function(visualization) { %>
       <% if (visualization.approved) { %>
         <tr data-id="<%= visualization.id %>" data-model="visualization">
-          <td><%= visualization.userID %></td>
+          <td><%= visualization.owner.id %></td>
           <td><%= visualization.name %></td>
           <td><%= visualization.type %></td>
           <td><%= visualization.description %></td>
@@ -170,7 +170,7 @@
     <% _.each(visualizations, function(visualization) { %>
       <% if (visualization.rejected) { %>
         <tr data-id="<%= visualization.id %>" data-model="visualization">
-          <td><%= visualization.userID %></td>
+          <td><%= visualization.owner.id %></td>
           <td><%= visualization.name %></td>
           <td><%= visualization.type %></td>
           <td><%= visualization.description %></td>

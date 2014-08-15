@@ -31,20 +31,20 @@ module.exports = {
   // View to show all users on page
   manage_users: function(req, res) {
     User.find(function foundUsers(err, users) {
-      return res.view({ users: users, title: 'Manage Users' });
+      return res.view({ title: 'Manage Users', users: users });
     });
   },
 
   // View to manage requests by researchers
   manage_requests: function (req, res) {
-    Request.find(function foundRequests(err, requests) {
-      return res.view({ requests: requests, title: 'Manage Requests' });
+    Request.find().populate('requestingUser').exec(function foundRequests(err, requests) {
+      return res.view({ title: 'Manage Requests', requests: requests });
     }); 
   },
 
   // View to manage uploads by researchers
   manage_analytics: function(req, res) {
-    Visualization.find(function foundVisualizations(err, visualizations) {
+    Visualization.find().populate('owner').exec(function foundVisualizations(err, visualizations) {
       return res.view({ title: 'Manage Analytics', visualizations: visualizations });
     });
   },

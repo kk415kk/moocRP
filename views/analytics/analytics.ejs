@@ -53,19 +53,21 @@
     <div class="col-md-6">
       <h3>Starred Visualizations</h3>
       <% starredVisuals.forEach(function (visual) { %>
-        <% for (i = 0; i < users.length; i++) { %>
-          <% if (users[i].id == visual.userID) { %>
-            <a href="#<%= visual.name %>-<%= visual.userID %>">"<%= visual.name %>"</a> by <%= users[i].firstName %> <%= users[i].lastName %>
+        <% for (i = 0; i < visualizations.length; i++) { %>
+          <% if (visualizations[i].id == visual.id) { %>
+            <a href="#<%= visual.name %>-<%= visualizations[i].owner.id %>">"<%= visual.name %>"</a> by <%= visualizations[i].owner.firstName %> <%= visualizations[i].owner.lastName %>
             <% break; %>
           <% } %>
         <% } %>
       <% }); %>
     </div>
 
+    <!-- Divider -->
     <div class="col-md-12">
       <hr>
     </div>
 
+    <!-- Show all visualizations here -->
 		<div class="col-md-8">
 			<h3>Visualizations</h3>
 			<form action="/analytics/display">
@@ -79,11 +81,8 @@
 					</tr>
 					<% _.each(visualizations, function(visualization) {%>
 						<% if (visualization.approved) { %>
-							<% var author = null %>
-							<% for (i = 0; i < users.length; i++) { %>
-								<% if (visualization.userID == users[i].id) author = users[i]; %>
-							<% } %>
-							<tr id="<%= visualization.name %>-<%= visualization.userID %>">
+							<% var author = visualization.owner %>
+							<tr id="<%= visualization.name %>-<%= visualization.owner.id %>">
                 <!-- Implement on click to be glyphicon-star -->
                 <td class="star-wrap">
                   <% if (starredIds.indexOf(visualization.id) > -1) {%>
@@ -112,7 +111,7 @@
 										<% } %>
 									</select>
 								</td>
-								<td><a id="a-<%= visualization.id %>" class="btn btn-sm btn-primary" href="/analytics/share/<%= visualization.type %>/<%= visualization.userID %>/<%= visualization.id %>/select">Select</a></td>
+								<td><a id="a-<%= visualization.id %>" class="btn btn-sm btn-primary" href="/analytics/share/<%= visualization.type %>/<%= visualization.owner.id %>/<%= visualization.id %>/select">Select</a></td>
 							</tr>
 						<% } %>
 					<% }); %>

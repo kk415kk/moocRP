@@ -20,11 +20,9 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
-var path = require('path');
-var fs = require('fs');
+var fs = require('fs-extra');
 
 module.exports = {
-
   /**
    * Overrides for the settings in `config/controllers.js`
    * (specific to DashboardController)
@@ -32,26 +30,25 @@ module.exports = {
   _config: {},
 
   display: function(req, res) {
-    Request.find({ userID: req.session.user.id }).exec(function foundRequests(err, requests) {
-      Visualization.find({ userID: req.session.user.id }).exec(function foundVisualizations(err, visualizations) {
-        Datatype.find().exec(function foundDatatypes(err, datatypes) {
 
-          for (i = 0; i < datatypes.length; i++) datatypes[i] = datatypes[i].displayName;
+    User.findOne(req.session.user.id).populateAll().exec(function foundRequests(err, user) {
+      Datatype.find().exec(function foundDatatypes(err, datatypes) {
 
-          var datasets = fs.readdirSync(sails.config.paths.DATASET_NON_PII);
-          for (i = 0; i < datasets.length; i++) {
-            datasets[i] = UtilService.fileMinusExt(datasets[i]); // filter file extensions
-          }
-          
-          res.view({
-            user: req.session.user,
-            requests: requests,
-            title: 'Dashboard',
-            datasets: datasets,
-            datatypes: datatypes,
-            visualizations: visualizations,
-            maxCount: 5
-          });
+        for (i = 0; i < datatypes.length; i++) datatypes[i] = datatypes[i].displayName;
+
+        var datasets = fs.readdirSync(sails.config.paths.DATASET_NON_PII);
+        for (i = 0; i < datasets.length; i++) {
+          datasets[i] = UtilService.fileMinusExt(datasets[i]); // filter file extensions
+        }
+        
+        res.view({
+          user: user,
+          requests: user.requests,
+          title: 'Dashboard',
+          datasets: datasets,
+          datatypes: datatypes,
+          visualizations: user.visualizations,
+          maxCount: 5
         });
       });
     });

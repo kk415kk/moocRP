@@ -13,9 +13,9 @@ module.exports = {
   	/* e.g.
   	nickname: 'string'
   	*/
-    userID: {
-      type: 'STRING',
-      required: true,
+    owner: {
+      model: 'user',
+      required: true
     },
     name: {
       type: 'STRING',
