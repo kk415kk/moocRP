@@ -113,7 +113,7 @@ Note that all visualizations must use the field ````<%= dataset %>```` where the
 
 0.0.1a - 02/01/2014: Alpha version with working login/verification system.
 
-## Completed Features
+## Features
 * SSL integration
 * Node.js CAS client (login system)
 * Secure dataset request and download system

@@ -31,5 +31,5 @@ module.exports = {
   bypassUserId: 0,
 
   // Time for a user's session to expire
-  cookieExpiration: 3600000
+  cookieExpiration: 3600000,
 }

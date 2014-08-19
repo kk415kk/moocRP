@@ -29,13 +29,18 @@ module.exports = function(grunt) {
 			tasks: ['syncAssets' , 'linkAssets']
 		},
 
-		datasets: {
-			// Datasets to watch
-			files: ['../datasets/non_pii/**/**', '../datasets/pii/**/**'],
+		// datasets: {
+		// 	// Datasets to watch
+		// 	files: ['../datasets/non_pii/**/**', '../datasets/pii/**/**'],
 
-			// When new datasets are added:
-			tasks: ['extractDatasets']
-		}
+		// 	// To-do when new datasets are added:
+		// 	tasks: ['extractDatasets'],
+
+		// 	// Only when datasets are *added*
+		// 	options: {
+		// 		events: ['added', 'changed']
+		// 	}
+		// }
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-watch');

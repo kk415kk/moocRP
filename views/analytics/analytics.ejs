@@ -112,6 +112,9 @@
 									</select>
 								</td>
 								<td><a id="a-<%= visualization.id %>" class="btn btn-sm btn-primary" href="/analytics/share/<%= visualization.type %>/<%= visualization.owner.id %>/<%= visualization.id %>/select">Select</a></td>
+
+                <!-- TODO: Use sockets for optimized performance -->
+                <!-- <td><button id="a-<%= visualization.id %>" class="btn btn-sm btn-primary" onclick="loadVisual("<%= visualization.id %>", "<%= visualization.type %>", "<%= visualization.owner.id %>");">Select</button></td> -->
 							</tr>
 						<% } %>
 					<% }); %>
@@ -140,7 +143,6 @@ function addDataset(visualID) {
 <script>
 window.socket = io.socket;
 function starVisual(visualID) {
-  // TODO: Save the star
   // Socket handling for notifications
   var star = document.getElementById("star-" + visualID.toString());
   if (star.className == "gold-star glyphicon glyphicon-star-empty md") {
@@ -155,6 +157,25 @@ function starVisual(visualID) {
         alert(resData[key]);
       }
     }
+  });
+}
+</script>
+
+
+<script>
+window.socket = io.socket;
+function loadVisual(visualID, visualType, userID) {
+  // Socket handling for loading visualizations
+  var selectField = document.getElementById("select-" + visualID);
+  var dataset = selectField.options[selectField.selectedIndex].value;
+
+  var params = { visualType: visualType,
+                 visualID: visualID,
+                 userID: userID,
+                 datasetName: dataset }
+
+  window.socket.post('/analytics/view', params, function (resData, jwres) {
+    // do something
   });
 }
 </script>
