@@ -24,12 +24,12 @@ var path = require('path');
 var DATASET_EXTRACT_PATH = sails.config.paths.DATASET_EXTRACT_PATH;
 
 function encode(data) {
-  var cleanedData = JSON.stringify(data).replace(/\\\\/g, "\\\\\\")
-                                        .replace(/\\n/g, "\\\\n")
-                                        .replace(/\\"/g, '\\\\"')
-                                        .replace(/\\r/g, "\\\\r")
-                                        .replace(/\\t/g, "\\\\t")
-                                        .replace(/\\f/g, "\\\\f");
+  var cleanedData = JSON.stringify(data).replace(/\\n/g, "\\\\n");
+                                        //.replace(/\\\\/g, "\\\\\\")
+                                        // .replace(/\\"/g, '\\\\"')
+                                        // .replace(/\\r/g, "\\\\r")
+                                        // .replace(/\\t/g, "\\\\t")
+                                        // .replace(/\\f/g, "\\\\f");
   return JSON.parse(cleanedData);
 }
 
