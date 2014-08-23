@@ -41,6 +41,9 @@
     "shelljs": "latest",
     "nodemailer": "1.0"
   },
+  "bin": {
+    "setup": "./bin/setup.sh"
+  },
   "scripts": {
     "start": "node app.js",
     "debug": "node debug app.js"
@@ -50,9 +53,14 @@
     "type": "git",
     "url": "git://github.com/kk415kk/moocRP.git"
   },
-  "author": "Kevin Kao",
+  "author": "Kevin Kao <kkao@berkeley.edu>",
   "license": "MIT",
   "devDependencies": {
-    "grunt-contrib-watch": "^0.5.3"
+    "assert": "^1.1.1",
+    "grunt-cli": "latest",
+    "grunt-contrib-watch": "^0.5.3",
+    "grunt-mocha-test": "^0.11.0",
+    "mocha": "^1.21.4",
+    "sinon": "^1.10.3"
   }
 }
