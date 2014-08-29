@@ -99,48 +99,14 @@ module.exports = {
     var path = require('path');
 
     if (req.isSocket) {
-      // do something
-      User.findOne(req.session.user.id, function (err, user) {
-        // TODO: Use this user and add "granted" datasets to store somewhere, so user can only access datasets with granted access
+      res.write("var dataset = '");
+      var datastream = fs.createReadStream(
+        path.resolve(DATASET_EXTRACT_PATH, datatype, dataset, dataset + '.csv')
+      );
 
-        Visualization.findOne(req.param('visualID'), function (err, visualization) {
-
-          if (err) {
-            sails.log.error("Error occurred while loading visualization: " + err.code);
-
-            if (err.code != 'E_UNKNOWN') {
-              FlashService.error(req, 'Error occurred while loading visualization: ' + err);
-              return res.redirect('/analytics');
-            }
-          }
-
-          //TODO: Add dataset extraction script in future instead of bundling dataset in ZIP file
-          // Use resque
-          var requestedType = _.isEmpty(req.param('visualType')) ? 'error' : req.param('visualType'),
-              requestedUser = _.isEmpty(req.param('userID')) ? 'error' : req.param('userID'),
-              requestedVisual = _.isEmpty(req.param('visualID')) ? 'error' : req.param('visualID'),
-              requestedData = _.isEmpty(req.param('datasetName')) ? 'error' : req.param('datasetName'),
-              baseResource = 'analytics/share/' + requestedType + '/' + requestedUser + '/' + requestedVisual,
-              requestedPage = visualization ? baseResource + '/main' : baseResource,
-              requestedFile = sails.config.paths.views + '/' + requestedPage + '.ejs';
-
-          if (requestedData == 'error' || req.param('datasetName') == 'select') {
-            FlashService.error(req, 'Please select a dataset.');
-            return res.redirect('/analytics');
-          }
-
-          // TODO: Enforce blacklist of __ in file name of Datatype model
-          var datatype = requestedData.split('__')[0];
-          var dataset = requestedData.split('__')[1];
-
-          // TODO: Handle all types of files, not just CSV
-          // TODO: Create a job queue to extract all datasets
-
-          var datastream = fs.createReadStream(path.resolve(DATASET_EXTRACT_PATH, datatype, dataset, dataset + '.csv'));
-          datastream.pipe(res); 
-          var data = fs.readFileSync(path.resolve(DATASET_EXTRACT_PATH, datatype, dataset, dataset + '.csv'), 'utf-8');
-          return res.view(requestedPage, { title: 'Analytics', dataset: encode(data) });        
-        });
+      datastream.pipe(res, {end: false});
+      datastream.on('end', function() {
+        res.send("';");
       });
     } else {
       User.findOne(req.session.user.id, function (err, user) {
