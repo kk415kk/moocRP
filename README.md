@@ -4,20 +4,23 @@ Research platform for University of California, Berkeley researchers built by Ke
 
 Built on Node.js server with Sails.js framework for an MVC architecture. Python/Bash scripts and D3 visualizations mixed in.
 
-## Current Release
-Releases will be numbered as **< major version >**.**< minor version >**.**< patch number >**
+Releases will be numbered as ````< major version >.< minor version >.< patch number >````
 
-v0.1.1
+## Current Release
+0.1.1
 
 ## Author
 Kevin Kao
+
+## Table of Contents
+[Dependencies](#dependencies)
 
 ## Dependencies
 * git [any version]
   * Ubuntu: ````sudo apt-get install git````
   * Windows:
   * Mac:
-* Node.js ~0.10.25
+* Node.js ~0.10.25, minimum 0.10.x
   * Ubuntu: 
 
     ````
@@ -38,7 +41,7 @@ Kevin Kao
     ````
   * Windows:
   * Mac:
-* Sails.js 0.10.4
+* Sails.js ~0.10.4, minimum 0.10.x
   * Ubuntu: ````sudo npm install -g sails````
   * Windows:
   * Mac:
