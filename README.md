@@ -13,7 +13,15 @@ Releases will be numbered as ````< major version >.< minor version >.< patch num
 Kevin Kao
 
 ## Table of Contents
-[Dependencies](#dependencies)
+* [Dependencies](#dependencies)
+* [Setup Instructions](#setup-instructions)
+* [Deployment](#deploying-to-production)
+* [Visualization Instructions](documentation/visualizations.md)
+* [Changelog](#changelog)
+* [Features](#features)
+* [Bugs](#bugs)
+* [Roadmap](#roadmap)
+* [License](#license)
 
 ## Dependencies
 * git [any version]
