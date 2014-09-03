@@ -1,5 +1,5 @@
 <img src="https://travis-ci.org/kk415kk/moocRP.svg?branch=master"/>
-# moocRP
+# moocRP: Reproducible Research Platform
 Research platform for University of California, Berkeley researchers built by Kevin Kao in collaboration with Professor Zachary Pardos.
 
 Built on Node.js server with Sails.js framework for an MVC architecture. Python/Bash scripts and D3 visualizations mixed in.
@@ -24,12 +24,11 @@ Kevin Kao
 * [License](#license)
 
 ## Dependencies
-* git [any version]
-  * Ubuntu: ````sudo apt-get install git````
-  * Windows:
-  * Mac:
-* Node.js ~0.10.25, minimum 0.10.x
-  * Ubuntu: 
+
+**Ubuntu Instructions**
+
+* Install ````git````: ````sudo apt-get install git````
+* Install Node.js ~0.10.25, minimum 0.10.x:
 
     ````
     sudo apt-get install python-software-properties
@@ -37,26 +36,17 @@ Kevin Kao
     sudo apt-get update
     sudo apt-get install nodejs
     ````
-  * Windows:
-  * Mac:
-* npm ~1.4.23
-  * Ubuntu:
+
+* Install npm (Node.js package manager) ~1.4.23:
 
     Use ````aptitude```` to install npm and downgrade Node.js through the prompt if conflicts occur.
     ````
     sudo apt-get aptitude
     sudo aptitude install npm 
     ````
-  * Windows:
-  * Mac:
-* Sails.js ~0.10.4, minimum 0.10.x
-  * Ubuntu: ````sudo npm install -g sails````
-  * Windows:
-  * Mac:
-* MySQL Server
-  * Ubuntu: ````sudo apt-get install mysql-server-5.6````
-  * Windows:
-  * Mac:
+
+* Install MySQL server: ````sudo apt-get install mysql-server-5.6````
+* Install Sails.js ~0.10.4, minimum 0.10.x: ````sudo npm install -g sails````
 
 ## Setup Instructions
 First, create a new folder called moocRP_base to clone this repository to:
