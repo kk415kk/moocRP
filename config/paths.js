@@ -10,6 +10,9 @@ module.exports.paths = {
     // Stored Scaffolds Folder
     STORED_SCAFFOLDS_PATH: path.resolve('assets', 'scaffolds'),
 
+    // Assets Folder
+    ANALYTICS_ASSETS_PATH: path.resolve('assets', 'analytics'),
+
     // Dataset Paths
     DATASET_ROOT: path.resolve('..', 'datasets'),
     DATASET_NON_PII: path.resolve('..', 'datasets', 'non_pii'),

@@ -30,7 +30,6 @@ module.exports = {
   _config: {},
 
   display: function(req, res) {
-
     User.findOne(req.session.user.id).populateAll().exec(function foundRequests(err, user) {
       Datatype.find().exec(function foundDatatypes(err, datatypes) {
 

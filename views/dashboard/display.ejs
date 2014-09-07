@@ -212,7 +212,10 @@
 					<label>Visualization Type:</label><br>
 					<label class="undecorated"><input type="radio" name="type" value="D3"> D3.js</label><br>
 					<label class="undecorated"><input type="radio" name="type" value="Other" disabled> Other</label><br><br>
+					<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+					<input type="hidden" name="owner" value="<%= user.id %>" />
 
+					<!-- File field is placed last due to parse bug with large files -->
 	        <div class="input-group file-upload">
 	            <span class="input-group-btn">
 	                <span class="btn btn-primary btn-file">
@@ -223,8 +226,6 @@
 	        </div>
 	        <p>Note: All uploaded files must be compressed in .ZIP format.</p>
 	        <br>
-	        <input type="hidden" name="owner" value="<%= user.id %>" />
-	        <input type="hidden" name="_csrf" value="<%= _csrf %>" />
 					<input type="submit" class="btn btn-sm btn-primary" value="Upload">
 				</form>
 			</div>

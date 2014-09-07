@@ -120,6 +120,7 @@ nbproject
 
 # moocRP Uploads
 views/analytics/shared/*
+assets/analytics/*
 
 # SSL Keys
 ssl/key.pem

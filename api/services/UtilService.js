@@ -64,6 +64,7 @@ module.exports = {
   moveCommand: function(filePath, destination, allContents, cb) {
     var cmd = allContents ? 'mv ' + filePath + '/* ' + destination : 'mv ' + filePath + ' ' + destination
         exec = require('child_process').exec;
+    sails.log('Moving files: ' + cmd);
 
     exec(cmd, function(error, stdout, stderr) {
       if (error) {

@@ -35,6 +35,7 @@ var UPLOAD_PATH = sails.config.paths.UPLOAD_PATH,
     EXTRACT_PATH = sails.config.paths.EXTRACT_PATH,
     PUBLIC_SHARE_PATH = sails.config.paths.PUBLIC_SHARE_PATH,
     STORED_SCAFFOLDS_PATH = sails.config.paths.STORED_SCAFFOLDS_PATH,
+    ANALYTICS_ASSETS_PATH = sails.config.paths.ANALYTICS_ASSETS_PATH,
     MAIN_FILE = 'main.html',
     ARCHIVE_TYPES = ['zip'];
 
@@ -105,16 +106,21 @@ function extractArchive(pathToFile, type, fileName, userID) {
  * Scaffold from /visualizations/tmp/<type>/<userID>/<fileName>/main.html 
  * to /assets/visualizations/<type>/<userID>/<fileName>/<fileName>.ejs
  *
- * Also moves all files from /visualizations/tmp/<type>/<userID>/<fileName>/*
+ * Also moves all main.ejs file from /visualizations/tmp/<type>/<userID>/<fileName>/
  * to /views/analytics/<type>/<userID>/<visualizationID>/
+ *
+ * Then moves all CSS and JS dependencies from /visualizations/tmp/<type>/<userID>/<fileName>/css,
+ * /visualizations/tmp/<type>/<userID>/<visualizationID>/js
+ * to /assets/analytics/<type>/<userID>/<visualizationID>/css (or js)
  */
 function scaffoldVisualizations(pathToFile, type, fileName, userID, visualizationID, next) {
   sails.log.debug('Scaffolding visualization from ' + pathToFile + '/' + fileName + ' for user ' + userID);
   var visualizationFiles = shell.ls(pathToFile);
 
   if (visualizationFiles.length == 0 || visualizationFiles.indexOf(fileName) == -1) {
-    sails.log.debug('Could not find main.ejs');
-    return FAILURE;
+    sails.log.debug('Could not find ' + fileName + ' from these files: ');
+    sails.log.debug(visualizationFiles);
+    return next('Could not find ' + fileName, FAILURE);
   }
 
   // TODO: Add security parsing for d3Code
@@ -122,34 +128,68 @@ function scaffoldVisualizations(pathToFile, type, fileName, userID, visualizatio
   var preparedCode = fs.readFileSync(path.join(STORED_SCAFFOLDS_PATH, 'd3_scaffold.ejs'), 'utf-8').replace("<!--INSERT-->", d3Code);
 
   var sharePath = path.join(PUBLIC_SHARE_PATH, type, userID.toString(), visualizationID.toString());
+  var assetsPath = path.join(ANALYTICS_ASSETS_PATH, type, userID.toString(), visualizationID.toString())
+
+  //TO-DO: Parse HTML link tags in main.html and replace the correct src path
 
   try {
     fs.writeFile(path.join(pathToFile, UtilService.fileMinusExt(fileName) + '.ejs'), preparedCode, function (err) {
       if (err) {
+        sails.log('ERROR: Unable to scaffold file');
         sails.log.debug(err);
         fs.rmdirSync(sharePath);
-        return next(FAILURE);
+        return next(err, FAILURE);
       }
 
       fs.ensureDirSync(sharePath);
       fs.removeSync(path.join(pathToFile, fileName));
-      UtilService.moveCommand(pathToFile, sharePath, true, function(error, success) {
-        if (error) {
-          FlashService.error(req, 'An error occurred while scaffolding the visualizations package: ' + error);
-          return next(FAILURE);
-        } 
 
+      // Move main.ejs
+      UtilService.moveCommand(path.join(pathToFile, 'main.ejs'), sharePath, false, function(error, success) {
+        if (error) {
+          sails.log('An error occurred while scaffolding the visualizations package: ' + error);
+          return next(error, FAILURE);
+        } 
         if (!success) {
-          FlashService.error(req, 'An error occurred while scaffolding the visualizations package.');
-          return next(FAILURE);
+          sails.log('An error occurred while scaffolding the visualizations package.');
+           return next(error, FAILURE);
         }
 
-        fs.removeSync(pathToFile);
-        return next(SUCCESS);
+        // Move the CSS dependencies and the JS dependencies
+        fs.ensureDirSync(assetsPath);
+        fs.ensureDirSync(path.join(assetsPath, 'css'));
+        fs.ensureDirSync(path.join(assetsPath, 'js'));
+        fs.ensureDirSync(path.join(pathToFile, 'css'));
+        fs.ensureDirSync(path.join(pathToFile, 'js'));
+        UtilService.moveCommand(path.join(pathToFile, 'css'), path.join(assetsPath, 'css'), true, function(error, success) {
+          if (error) {
+            sails.log('An error occurred while extracting CSS of visualization: ' + error);
+             return next(error, FAILURE);
+          } 
+
+          if (!success) {
+            sails.log('An error occurred while extracting CSS of visualization.');
+             return next(error, FAILURE);
+          }
+          UtilService.moveCommand(path.join(pathToFile, 'js'), path.join(assetsPath, 'js'), true, function(error, success) {
+            if (error) {
+              sails.log('An error occurred while extracting JS of visualization: ' + error);
+               return next(error, FAILURE);
+            } 
+
+            if (!success) {
+              sails.log('An error occurred while extracting JS of visualization.');
+               return next(error, FAILURE);
+            }
+
+            fs.removeSync(pathToFile);
+            return next(null, SUCCESS);
+          });
+        });
       });
     });
   } catch (err) {
-    return next(FAILURE);
+    return next(FAILURE, err);
   }
 }
 
@@ -187,8 +227,9 @@ module.exports = {
       }
 
       var pathToExtractedFile = path.join(EXTRACT_PATH, type, userID, noExtFileName);
-      scaffoldVisualizations(pathToExtractedFile, type, MAIN_FILE, userID, visualization.id, function (success) {
+      scaffoldVisualizations(pathToExtractedFile, type, MAIN_FILE, userID, visualization.id, function (err, success) {
         if (success) {
+          sails.log('Success during scaffold');
           visualization.approved = true;
           visualization.rejected = false;
           visualization.save(function (err) {
@@ -200,6 +241,7 @@ module.exports = {
             return res.redirect('/admin/manage_analytics'); 
           });   
         } else {
+          sails.log('Failure during scaffold');
           FlashService.error(req, 'Error while scaffolding analytics');
           return res.redirect('/admin/manage_analytics');        
         }
@@ -242,6 +284,8 @@ module.exports = {
           fs.removeSync(path.join(EXTRACT_PATH, type, userID));
           sails.log.debug('Deleting ' + path.join(PUBLIC_SHARE_PATH, type, userID));
           fs.removeSync(path.join(PUBLIC_SHARE_PATH, type, userID));
+          sails.log.debug('Deleting ' + path.join(ANALYTICS_ASSETS_PATH, type, userID));
+          fs.removeSync(path.join(ANALYTICS_ASSETS_PATH, type, userID));
         } catch (err) {
           sails.log.error(err);
         }
@@ -281,6 +325,8 @@ module.exports = {
         fs.removeSync(path.join(EXTRACT_PATH, type, userID, UtilService.fileMinusExt(fileName)));
         sails.log.debug('Deleting ' + path.join(PUBLIC_SHARE_PATH, type, userID, visualID));
         fs.removeSync(path.join(PUBLIC_SHARE_PATH, type, userID, visualID));
+        sails.log.debug('Deleting ' + path.join(ANALYTICS_ASSETS_PATH, type, userID, visualID));
+        fs.removeSync(path.join(ANALYTICS_ASSETS_PATH, type, userID, visualID));
       } catch (err) {
         sails.log.error(err);
       }
