@@ -11,7 +11,8 @@ module.exports.paths = {
     STORED_SCAFFOLDS_PATH: path.resolve('assets', 'scaffolds'),
 
     // Assets Folder
-    ANALYTICS_ASSETS_PATH: path.resolve('assets', 'analytics'),
+    ANALYTICS_ASSETS_PATH: path.join('assets', 'analytics'),
+    ANALYTICS_REWRITE_PATH: '../../../../../analytics',
 
     // Dataset Paths
     DATASET_ROOT: path.resolve('..', 'datasets'),

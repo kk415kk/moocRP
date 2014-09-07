@@ -30,7 +30,6 @@
     "grunt-contrib-less": "0.11.1",
     "grunt-contrib-coffee": "~0.10.1",
     "lodash": "~2.4.1",
-    "connect-flash": "~0.1.1",
     "bcrypt": "latest",
     "request": "latest",
     "process": "latest",
@@ -39,7 +38,7 @@
     "adm-zip": "latest",
     "fs-extra": "latest",
     "shelljs": "latest",
-    "nodemailer": "1.0"
+    "cheerio": "~0.17.0"
   },
   "bin": {
     "setup": "./bin/setup.sh"

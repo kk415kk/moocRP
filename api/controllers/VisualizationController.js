@@ -36,6 +36,7 @@ var UPLOAD_PATH = sails.config.paths.UPLOAD_PATH,
     PUBLIC_SHARE_PATH = sails.config.paths.PUBLIC_SHARE_PATH,
     STORED_SCAFFOLDS_PATH = sails.config.paths.STORED_SCAFFOLDS_PATH,
     ANALYTICS_ASSETS_PATH = sails.config.paths.ANALYTICS_ASSETS_PATH,
+    ANALYTICS_REWRITE_PATH = sails.config.paths.ANALYTICS_REWRITE_PATH,
     MAIN_FILE = 'main.html',
     ARCHIVE_TYPES = ['zip'];
 
@@ -75,12 +76,13 @@ function extractArchive(pathToFile, type, fileName, userID) {
   var AdmZip = require('adm-zip');
 
   try {
-    var unzipper = new AdmZip(path.join(pathToFile, fileName));
-    var unzipTo = createExtractPath(type, userID, UtilService.fileMinusExt(fileName));
-    sails.log.debug('Unzipping archive to ' + unzipTo);
+    var unzipper = new AdmZip(path.join(pathToFile, fileName)),
+        unzipTo = createExtractPath(type, userID, UtilService.fileMinusExt(fileName)),
+        overwrite = true;
+
     fs.ensureDirSync(unzipTo);
 
-    var overwrite = true;
+    sails.log.debug('Unzipping archive to ' + unzipTo);
   } catch (err) {
     sails.log.debug("Error during extraction: " + err + " [filename: " + pathToFile + "/" + fileName + "]");
     return FAILURE
@@ -95,6 +97,60 @@ function extractArchive(pathToFile, type, fileName, userID) {
     return FAILURE;
   }
   return SUCCESS;
+}
+
+/**
+ * @param html
+ * @return html that has the correct dependencies linked
+ */
+function linkAssets(html, type, userID, visualID) {
+  var cheerio = require('cheerio'),
+      $ = cheerio.load(html);
+  var assetsPath = path.join(ANALYTICS_REWRITE_PATH.toString(), type.toString(), userID.toString(), visualID.toString());
+
+  // Parse and replace JS dependencies
+  // TODO: Check if src is outside URL
+  sails.log('Linking script assets');
+  var scriptTagsFound = $('script');
+  for (var key in scriptTagsFound) {
+    if (scriptTagsFound.hasOwnProperty(key)) {
+      var scriptElem = scriptTagsFound[key];
+
+      if (scriptElem.attribs && scriptElem.attribs.src) {
+        var currSource = scriptElem.attribs.src;
+        var pathElem = currSource.split("/")
+                                 .filter(function (arrElem) {
+                                   return arrElem;
+                                 }).join("/");
+        pathElem = path.join(assetsPath, pathElem);
+        $('script[src=\"' + currSource + '\"]').replaceWith("<script src='" + pathElem + "'>");
+      }
+    }
+  }
+
+  // Parse and replace CSS dependencies
+  sails.log('Linked stylesheet assets');
+  var linkTagsFound = $('link');
+  for (var key in linkTagsFound) {
+    if (linkTagsFound.hasOwnProperty(key)) {
+      var cssElem = linkTagsFound[key];
+
+      if (cssElem.attribs && cssElem.attribs.rel && cssElem.attribs.rel == 'stylesheet') {
+        var currSource = cssElem.attribs.href;
+        var pathElem = currSource.split("/")
+                                 .filter(function (arrElem) {
+                                   return arrElem;
+                                 }).join("/");
+        sails.log(pathElem);
+        pathElem = path.join(assetsPath, pathElem);
+        sails.log(pathElem);
+        sails.log("<link rel= 'stylesheet' href='" + pathElem + "'>");
+        $('link[href=\"' + currSource + '\"]').replaceWith("<link rel= 'stylesheet' href='" + pathElem + "'>");
+      }
+    }
+  }
+
+  return $.html();
 }
 
 /**
@@ -126,12 +182,12 @@ function scaffoldVisualizations(pathToFile, type, fileName, userID, visualizatio
   // TODO: Add security parsing for d3Code
   var d3Code = fs.readFileSync(path.join(pathToFile, fileName), 'utf-8');
   var preparedCode = fs.readFileSync(path.join(STORED_SCAFFOLDS_PATH, 'd3_scaffold.ejs'), 'utf-8').replace("<!--INSERT-->", d3Code);
+  preparedCode = linkAssets(preparedCode, type, userID, visualizationID);
 
   var sharePath = path.join(PUBLIC_SHARE_PATH, type, userID.toString(), visualizationID.toString());
   var assetsPath = path.join(ANALYTICS_ASSETS_PATH, type, userID.toString(), visualizationID.toString())
 
   //TO-DO: Parse HTML link tags in main.html and replace the correct src path
-
   try {
     fs.writeFile(path.join(pathToFile, UtilService.fileMinusExt(fileName) + '.ejs'), preparedCode, function (err) {
       if (err) {
@@ -236,7 +292,7 @@ module.exports = {
             if (err) {
               FlashService.error(req, 'Error while approving visualization package');
             } else {
-              FlashService.success(req, 'Successfully approved, extracted, and scaffoled analytics');
+              FlashService.success(req, 'Successfully approved, extracted, and scaffolded analytics');
             }
             return res.redirect('/admin/manage_analytics'); 
           });   
