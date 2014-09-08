@@ -17,7 +17,7 @@ Installation
     sudo apt-get install nodejs
     ````
 
-* Install npm (Node.js package manager) ~1.4.23:
+* Install npm (Node.js package manager) ~1.3.10:
 
     Use ````aptitude```` to install npm and downgrade Node.js through the prompt if conflicts occur.
     ````
@@ -26,7 +26,7 @@ Installation
     ````
 
 * Install MySQL server: ````sudo apt-get install mysql-server-5.6````
-* Install Sails.js ~0.10.4, minimum 0.10.x: ````sudo npm install -g sails````
+* Install Sails.js ~0.10.5, minimum 0.10.x: ````sudo npm install -g sails````
 
 ## Setup Instructions
 First, create a new folder called moocRP_base to clone this repository to:
