@@ -22,4 +22,8 @@ Uploaded files should be archived in a ZIP archive. The structure of the analyti
 ````main.html```` is used to display the main visualization - all script and stylesheet dependencies should be listed in ````main.html````. All script and CSS files should be placed in the ````js/```` and ````css/```` folders respectively.
 
 
+Reading Data
+---
+Note that all visualizations must use the field ````"<%= dataset %>"```` where they would normally pass in a text version of the dataset.
+
 Under construction.
