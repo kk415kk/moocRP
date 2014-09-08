@@ -24,13 +24,16 @@ var path = require('path');
 var DATASET_EXTRACT_PATH = sails.config.paths.DATASET_EXTRACT_PATH;
 
 function encode(data) {
-  var cleanedData = JSON.stringify(data).replace(/\\n/g, "\\\\n");
-                                        //.replace(/\\\\/g, "\\\\\\")
-                                        // .replace(/\\"/g, '\\\\"')
-                                        // .replace(/\\r/g, "\\\\r")
-                                        // .replace(/\\t/g, "\\\\t")
-                                        // .replace(/\\f/g, "\\\\f");
-  return JSON.parse(cleanedData);
+  if (data) {
+    var cleanedData = JSON.stringify(data).replace(/\\n/g, "\\\\n");
+                                          //.replace(/\\\\/g, "\\\\\\")
+                                          // .replace(/\\"/g, '\\\\"')
+                                          // .replace(/\\r/g, "\\\\r")
+                                          // .replace(/\\t/g, "\\\\t")
+                                          // .replace(/\\f/g, "\\\\f");
+    return JSON.parse(cleanedData);
+  }
+  return data;
 }
 
 module.exports = {
@@ -145,6 +148,7 @@ module.exports = {
           // TODO: Handle all types of files, not just CSV
           // TODO: Create a job queue to extract all datasets 
           var data = fs.readFileSync(path.resolve(DATASET_EXTRACT_PATH, datatype, dataset, dataset + '.csv'), 'utf-8');
+          //var data = undefined;
           return res.view(requestedPage, { title: 'Analytics', dataset: encode(data) });        
         });
       });
