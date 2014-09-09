@@ -509,6 +509,10 @@ input[readonly] {
 .container .gray {
 	color: gray;
 }
+
+#analytics-container {
+  border: 2px solid #074e68;
+}
 /** End Containers **/
 
 /** Forms **/

@@ -181,8 +181,8 @@ function scaffoldVisualizations(pathToFile, type, fileName, userID, visualizatio
 
   // TODO: Add security parsing for d3Code
   var d3Code = fs.readFileSync(path.join(pathToFile, fileName), 'utf-8');
-  var preparedCode = fs.readFileSync(path.join(STORED_SCAFFOLDS_PATH, 'd3_scaffold.ejs'), 'utf-8').replace("<!--INSERT-->", d3Code);
-  preparedCode = linkAssets(preparedCode, type, userID, visualizationID);
+  var preparedCode = linkAssets(d3Code, type, userID, visualizationID);
+  preparedCode = fs.readFileSync(path.join(STORED_SCAFFOLDS_PATH, 'd3_scaffold.ejs'), 'utf-8').replace("<!--INSERT-->", preparedCode);
 
   var sharePath = path.join(PUBLIC_SHARE_PATH, type, userID.toString(), visualizationID.toString());
   var assetsPath = path.join(ANALYTICS_ASSETS_PATH, type, userID.toString(), visualizationID.toString())
