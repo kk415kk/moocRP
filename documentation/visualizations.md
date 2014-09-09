@@ -30,4 +30,8 @@ Pre-processing Data
 ---
 TODO
 
+Sample Analytics Module
+---
+See a modification of [Sven Charleer's analytics module](http://www.github.com/kk415kk/moocrp_visualization).
+
 Under construction.
