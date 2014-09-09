@@ -24,6 +24,10 @@ Uploaded files should be archived in a ZIP archive. The structure of the analyti
 
 Reading Data
 ---
-Note that all visualizations must use the field ````"<%= dataset %>"```` where they would normally pass in a text version of the dataset.
+moocRP uses a templating system called EJS. EJS allows moocRP to pass data from the server to the client through special variables using their syntax of brackets. Where you normally load in data in your analytics module, you should replace with ````"<%- dataset %>"```` or ````"<%= dataset %>"````. This allows your visualization to access the string-represented version of the dataset, which you can then process into any format you'd like.
+
+Pre-processing Data
+---
+TODO
 
 Under construction.
