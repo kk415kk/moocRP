@@ -48,7 +48,7 @@ Once the setup script is run, the file structure setup should be in this format:
 -------- /api
 -------- /assets
 ------------ /scaffolds
------------- /visualizations
+------------ /analytics
 -------- ...
 -------- /logs
 -------- /bin

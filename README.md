@@ -7,7 +7,7 @@ Built on Node.js server with Sails.js framework for an MVC architecture. Python/
 Releases will be numbered as ````< major version >.< minor version >.< patch number >````
 
 ## Current Release
-0.1.1
+0.1.2
 
 ## Author
 Kevin Kao
@@ -31,6 +31,8 @@ forever start app.js --prod
 ````
 
 ## Changelog
+0.1.2 - 09/08/2014: Patch for update on completion of moocRP analytics module specifications and import abilities. Dependency of Sails supported up to 0.10.5.
+
 0.1.1 - 08/14/2014: Patch to add support for future additions of datascrub types. UI browser compatibility updates, refactored database models to be more efficient.
 
 0.1.0 - 08/11/2014: First minor version release.
