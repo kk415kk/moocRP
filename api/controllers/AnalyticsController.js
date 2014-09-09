@@ -147,9 +147,25 @@ module.exports = {
 
           // TODO: Handle all types of files, not just CSV
           // TODO: Create a job queue to extract all datasets 
-          var data = fs.readFileSync(path.resolve(DATASET_EXTRACT_PATH, datatype, dataset, dataset + '.csv'), 'utf-8');
+          //var data = JSON.stringify(JSON.parse(fs.readFileSync(path.resolve(DATASET_EXTRACT_PATH, datatype, dataset, dataset + '.csv'), 'utf-8')));
           //var data = undefined;
-          return res.view(requestedPage, { title: 'Analytics', dataset: encode(data) });        
+
+          var csvDataPath = path.resolve(DATASET_EXTRACT_PATH, datatype, dataset, dataset + '.csv');
+          var jsonDataPath = path.resolve(DATASET_EXTRACT_PATH, datatype, dataset, dataset + '.json');
+
+          var data = undefined;
+          fs.stat(csvDataPath, function (err, stats) {
+            if (err) {
+              fs.stat(jsonDataPath, function (err, stats) {
+                if (!err) { data = JSON.parse(fs.readFileSync(jsonDataPath, 'utf-8')); }
+                return res.view(requestedPage, { title: 'Analytics', dataset: data });   
+              });
+            } else {
+              data = fs.readFileSync(csvDataPath, 'utf-8');
+              return res.view(requestedPage, { title: 'Analytics', dataset: encode(data) });   
+            }
+          });
+     
         });
       });
     }
