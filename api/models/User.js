@@ -88,7 +88,7 @@ module.exports = {
         values.admin = true;
       }
 
-      var matchingBerkeleyEmail = /@berkeley.edu$/;
+      var matchingBerkeleyEmail = /berkeley.edu$/;
       if (!matchingBerkeleyEmail.test(values.email)) {
         FlashService.error(req, err);
         return next(err);
