@@ -76,7 +76,7 @@ module.exports.policies = {
     '*': ['flash'],
     'show': ['isAdmin', 'flash', 'hasID'],
     'switch': ['isAdmin', 'flash', 'hasID'],
-    'edit': ['isAdmin', 'flash', 'hasID'],
+    'edit': ['flash', 'hasID'],
     'destroy': ['isAdmin', 'flash', 'hasID'],
     'save': ['isAuthenticated', 'flash', 'hasID']
   },

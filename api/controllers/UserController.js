@@ -76,12 +76,17 @@ module.exports = {
   // Edit user details
   edit: function(req, res, next) {
     // Find the user from the id passed in via params
-    User.findOne(req.param('id'), function foundUser(err, user) {
-      if (err) sails.log.debug(err);
-      if (err || !user) return res.redirect('404');
-      
-      return res.view({ user: user, title: 'Edit' });
-    });
+    if (req.session.user && !req.session.user.admin && req.session.user.id != req.param('id')) {
+      sails.log.error("Attempt to access administrative action by " + req.session.user.id);
+      return res.redirect('/user/edit/' + req.session.user.id);
+    } else {
+      User.findOne(req.param('id'), function foundUser(err, user) {
+        if (err) sails.log.debug(err);
+        if (err || !user) return res.redirect('404');
+        
+        return res.view({ user: user, title: 'Edit' });
+      });
+    }
   },
 
   // Login page

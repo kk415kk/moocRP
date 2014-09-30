@@ -11,13 +11,13 @@ module.exports = function(req, res, next) {
 
   // User is allowed, proceed to the next policy, 
   // or if this is the last policy, the controller
-  if (req.session.authenticated && req.session.user && req.session.user.admin && req.param('id')) {
+  if (req.session.authenticated && req.session.user && req.param('id')) {
     return next();
   }
 
   // User is not allowed
   // (default res.forbidden() behavior can be overridden in `config/403.js`)
   //return res.forbidden('You are not permitted to perform this action.');
-  sails.log.error("error occurred while attempting to access page without passing in 'id' param");
-  return res.redirect('404');
+  sails.log.error("Error occurred while attempting to access page without passing in 'id' param");
+  return res.redirect('/');
 };
