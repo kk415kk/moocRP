@@ -50,27 +50,27 @@ module.exports = {
   analytics: function(req, res) {
     Visualization.find().populate('owner').exec(function (err, visualizations) {
       User.findOne(req.session.user.id).populate('starredVisuals').exec(function (err, thisUser) {
-        Datatype.find().exec(function (err, datatypes) {
+        DataModel.find().exec(function (err, dataModels) {
 
           var fs = require('fs-extra');
           fs.ensureDirSync(DATASET_EXTRACT_PATH);
           var extractedDatasets = {};
 
-          for (i = 0; i < datatypes.length; i++) {
-            var folderPath = path.resolve(DATASET_EXTRACT_PATH, datatypes[i].fileSafeName);
+          for (i = 0; i < dataModels.length; i++) {
+            var folderPath = path.resolve(DATASET_EXTRACT_PATH, dataModels[i].fileSafeName);
             fs.ensureDirSync(folderPath);
 
             var datasetFolders = fs.readdirSync(folderPath);
-            var currDatatype = datatypes[i];
-            extractedDatasets[currDatatype.fileSafeName] = [];
+            var currDataModel = dataModels[i];
+            extractedDatasets[currDataModel.fileSafeName] = [];
 
             for (j = 0; j < datasetFolders.length; j++) {
               var nextFolderPath = path.resolve(folderPath, datasetFolders[j]);
               var datasets = fs.readdirSync(nextFolderPath);
 
               for (k = 0; k < datasets.length; k++) {
-                var infoKey = currDatatype.fileSafeName
-                var infoObj = [currDatatype.displayName, UtilService.fileMinusExt(datasets[k])];
+                var infoKey = currDataModel.fileSafeName
+                var infoObj = [currDataModel.displayName, UtilService.fileMinusExt(datasets[k])];
                 extractedDatasets[infoKey].push(infoObj);
               }
             }
@@ -102,6 +102,7 @@ module.exports = {
     var path = require('path');
 
     if (req.isSocket) {
+      // UNDER CONSTRUCTION - NOT IN USE
       res.write("var dataset = '");
       var datastream = fs.createReadStream(
         path.resolve(DATASET_EXTRACT_PATH, datatype, dataset, dataset + '.csv')
@@ -114,9 +115,7 @@ module.exports = {
     } else {
       User.findOne(req.session.user.id, function (err, user) {
         // TODO: Use this user and add "granted" datasets to store somewhere, so user can only access datasets with granted access
-
         Visualization.findOne(req.param('visualID'), function (err, visualization) {
-
           if (err) {
             sails.log.error("Error occurred while loading visualization: " + err.code);
 
@@ -141,17 +140,17 @@ module.exports = {
             return res.redirect('/analytics');
           }
 
-          // TODO: Enforce blacklist of __ in file name of Datatype model
-          var datatype = requestedData.split('__')[0];
+          // TODO: Enforce blacklist of __ in file name of DataModel model
+          var dataModel = requestedData.split('__')[0];
           var dataset = requestedData.split('__')[1];
 
           // TODO: Handle all types of files, not just CSV
           // TODO: Create a job queue to extract all datasets 
-          //var data = JSON.stringify(JSON.parse(fs.readFileSync(path.resolve(DATASET_EXTRACT_PATH, datatype, dataset, dataset + '.csv'), 'utf-8')));
+          //var data = JSON.stringify(JSON.parse(fs.readFileSync(path.resolve(DATASET_EXTRACT_PATH, dataModel, dataset, dataset + '.csv'), 'utf-8')));
           //var data = undefined;
 
-          var csvDataPath = path.resolve(DATASET_EXTRACT_PATH, datatype, dataset, dataset + '.csv');
-          var jsonDataPath = path.resolve(DATASET_EXTRACT_PATH, datatype, dataset, dataset + '.json');
+          var csvDataPath = path.resolve(DATASET_EXTRACT_PATH, dataModel, dataset, dataset + '.csv');
+          var jsonDataPath = path.resolve(DATASET_EXTRACT_PATH, dataModel, dataset, dataset + '.json');
 
           var data = undefined;
           fs.stat(csvDataPath, function (err, stats) {

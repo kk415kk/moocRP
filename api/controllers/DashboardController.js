@@ -31,9 +31,9 @@ module.exports = {
 
   display: function(req, res) {
     User.findOne(req.session.user.id).populateAll().exec(function foundRequests(err, user) {
-      Datatype.find().exec(function foundDatatypes(err, datatypes) {
+      DataModel.find().exec(function foundDataModels(err, dataModels) {
 
-        for (i = 0; i < datatypes.length; i++) datatypes[i] = datatypes[i].displayName;
+        for (i = 0; i < dataModels.length; i++) dataModels[i] = dataModels[i].displayName;
 
         var datasets = fs.readdirSync(sails.config.paths.DATASET_NON_PII);
         for (i = 0; i < datasets.length; i++) {
@@ -45,7 +45,7 @@ module.exports = {
           requests: user.requests,
           title: 'Dashboard',
           datasets: datasets,
-          datatypes: datatypes,
+          dataModels: dataModels,
           starredVisuals: user.starredVisuals,
           visualizations: user.visualizations,
           maxCount: 5

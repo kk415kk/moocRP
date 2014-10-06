@@ -1,6 +1,6 @@
 <div class="mini-banner auto">
   <div class="container">
-    <h2>Datascrub Types Management</h2>
+    <h2>Data Models Management</h2>
     <% if (messages && messages['error'].length > 0) { %>
       <div class="alert alert-danger">
       <% messages['error'].forEach(function(message) { %>
@@ -33,7 +33,7 @@
 
 <div class="sub-banner">
   <div class="container">
-    <h2>Manage your various datascrub formats here.</h2>
+    <h2>Manage your various data models here.</h2>
   </div>
 </div>
 
@@ -41,7 +41,7 @@
   <div class="row">
 
     <div class="col-md-5">
-      <form role="form" action="/datatype/create" method="POST" class="">
+      <form role="form" action="/datamodel/create" method="POST" class="">
         <h2>Import</h2>
         <div class="form-group">
           <label for="displayName">Display Name: </label><input type="text" id="displayName" class="form-control" placeholder="HarvardX" name="displayName" tabindex="2">
@@ -55,31 +55,54 @@
     </div>
 
     <div class="col-md-7">
-      <table class='table table-striped table-hover' id='datatype-table'>
-        <h2>Existing Datatypes</h2>
+      <table class='table table-striped table-hover' id='datamodel-table'>
+        <h2>Existing Data Models</h2>
         <thead>
           <tr>
             <th>Display Name</th>
             <th>Folder Name</th>
+            <th>Edit</th>
             <th>Delete</th>
           </tr>
         </thead>
 
         <tbody>
 
-        <% _.each(datatypes, function(datatype) { %>
-          <tr data-id="<%= datatype.id %>" data-model="user">
-            <td><%= datatype.displayName %></td>
-            <td><%= datatype.fileSafeName %></td>
+        <% _.each(dataModels, function(dataModel) { %>
+          <tr data-id="<%= dataModel.id %>" data-model="data_model">
+            <td><%= dataModel.displayName %></td>
+            <td><%= dataModel.fileSafeName %></td>
+            <td><a class="btn btn-sm btn-primary" data-toggle="modal" href="#editModal">Edit</a></td>
             <td><a class="btn btn-sm btn-danger" data-toggle="modal" href="#deleteModal">Delete</a></td>
           </tr>
-          <!-- Modal for Deleting User -->
+          <!-- Modal for Editing Data Model -->
+          <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                  <h3 class="modal-title" id="editLabel"><b>Edit Data Model</b></h3>
+                </div>
+
+                <div class="modal-body">
+                  <p>This is under construction</p>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <a type="submit" class="btn btn-primary" value="Delete" href="#/datamodel/edit/<%= dataModel.id %>">Save</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Modal -->
+          <!-- Modal for Deleting Data Model -->
           <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                  <h3 class="modal-title" id="deleteLabel"><b>Delete Datascrub Type</b></h3>
+                  <h3 class="modal-title" id="deleteLabel"><b>Delete Data Model</b></h3>
                 </div>
 
                 <div class="modal-body">
@@ -88,7 +111,7 @@
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <a type="submit" class="btn btn-danger" value="Delete" href="/datatype/destroy/<%= datatype.id %>">Delete</a>
+                  <a type="submit" class="btn btn-danger" value="Delete" href="/datamodel/destroy/<%= dataModel.id %>">Delete</a>
                 </div>
               </div>
             </div>

@@ -202,10 +202,10 @@
 	    		<br>
 					<label>Description: </label><textarea rows="7" type="text" class="form-control" name="description"></textarea>
 					<br>
-					<label>Datatype Support:</label>
-					<select class="form-control limit-width" size="4" name="datatypes" multiple>
-						<% _.each(datatypes, function(datatype) { %>
-							<option value="<%= datatype %>"><%= datatype %></option>
+					<label>Data Model Support:</label>
+					<select class="form-control limit-width" size="4" name="dataModels" multiple>
+						<% _.each(dataModels, function(dataModel) { %>
+							<option value="<%= dataModel %>"><%= dataModel %></option>
 						<% }) %>
 					</select>
 					<br>

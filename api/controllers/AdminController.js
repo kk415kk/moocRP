@@ -49,9 +49,9 @@ module.exports = {
     });
   },
 
-  manage_datatypes: function(req, res) {
-    Datatype.find(function foundDatatypes(err, datatypes) {
-      return res.view({ title: 'Manage Datascrub Types', datatypes: datatypes });
+  manage_data_models: function(req, res) {
+    DataModel.find(function foundDataModels(err, dataModels) {
+      return res.view({ title: 'Manage Data Models', dataModels: dataModels });
     });
   }
   
