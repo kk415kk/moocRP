@@ -43,7 +43,7 @@ module.exports = {
       required: true
     },
     // i.e. HarvardX, StanfordX, moocDB
-    datatypes: {
+    dataModels: {
       type: 'ARRAY',
       required: true
     },

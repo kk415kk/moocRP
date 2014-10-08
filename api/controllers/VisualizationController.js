@@ -431,7 +431,8 @@ module.exports = {
 
   // Handles upload of visualization archive to server.
   upload: function(req, res) {
-    if (req.param('type') == null || req.param('datatypes') == null) {
+    sails.log(req.params.all());
+    if (req.param('type') == null || req.param('dataModels') == null) {
       FlashService.error(req, 'Please fill in all fields.');
       return res.redirect('/dashboard');
     }

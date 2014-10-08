@@ -151,12 +151,14 @@ module.exports = {
 
           var csvDataPath = path.resolve(DATASET_EXTRACT_PATH, dataModel, dataset, dataset + '.csv');
           var jsonDataPath = path.resolve(DATASET_EXTRACT_PATH, dataModel, dataset, dataset + '.json');
+          sails.log(jsonDataPath);
 
           var data = undefined;
           fs.stat(csvDataPath, function (err, stats) {
             if (err) {
               fs.stat(jsonDataPath, function (err, stats) {
                 if (!err) { data = JSON.parse(fs.readFileSync(jsonDataPath, 'utf-8')); }
+                sails.log(data)
                 return res.view(requestedPage, { title: 'Analytics', dataset: data });   
               });
             } else {

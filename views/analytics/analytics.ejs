@@ -98,13 +98,13 @@
 										<option value="select">select</option>
                     <!-- Key: the safe file name of the data type, 
                          Value: an array where the 0th element is the display name of the data type, the 1st element is the actual dataset filename minus ext -->
-										<% for (var datatypeSafeName in datasets) { %>
-                      <% if (datasets.hasOwnProperty(datatypeSafeName)) { %>
-                        <% var currDataset = datasets[datatypeSafeName] %>
+										<% for (var dataModelSafeName in datasets) { %>
+                      <% if (datasets.hasOwnProperty(dataModelSafeName)) { %>
+                        <% var currDataset = datasets[dataModelSafeName] %>
                         <% for (i = 0; i < currDataset.length; i++) { %>
-                          <% var datatypeDisplayName = currDataset[i][0], datasetName = currDataset[i][1] %>
-                          <% if (visualization.datatypes.indexOf(datatypeDisplayName) > -1) { %>
-                            <option value="<%= datatypeSafeName %>__<%= datasetName %>"><%= datatypeDisplayName %>: <%= datasetName %></option>
+                          <% var dataModelDisplayName = currDataset[i][0], datasetName = currDataset[i][1] %>
+                          <% if (visualization.dataModels.indexOf(dataModelDisplayName) > -1) { %>
+                            <option value="<%= dataModelSafeName %>__<%= datasetName %>"><%= dataModelDisplayName %>: <%= datasetName %></option>
                           <% } %>
                         <% } %>
                       <% } %>
