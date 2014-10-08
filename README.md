@@ -16,6 +16,7 @@ Kevin Kao
 * [Installation](documentation/installation.md)
 * [Deployment](#deploying-to-production)
 * [Visualization Instructions](documentation/visualizations.md)
+* [edX Data Scrubbing](documentation/edX-datascrub.md)
 * [Changelog](#changelog)
 * [Features](#features)
 * [Bugs](#bugs)
