@@ -32,7 +32,8 @@
 <div class="container">
 	<form action="/user/create" method="POST" class="form-signin">
 		Since this is your first time using this service, please fill in the following information for our records.
-		<br><br>
+    <br>
+    <br><br>
 		<label>First Name: </label><input type="text" class="form-control" placeholder="first name" name="firstName" tabindex="1">
 		<label>Last Name: </label><input type="text" class="form-control" placeholder="last name" name="lastName" tabindex="1">
 		<label>Email: </label><input type="email" class="form-control" placeholder="example@berkeley.edu" name="email" tabindex="1">
@@ -40,7 +41,7 @@
 		<input type="text" class="form-control" placeholder="64CD7S" name="publicKeyID" tabindex="1">
 		<label>GPG Public Key:</label> <div class="pull-right"><a href="#GPGModal" data-toggle="modal" tabindex="2">(?)</a></div>
 		<br>
-		<textarea class="form-control" placeholder="copy your public key here" name="publicKey" tabindex="1"></textarea>
+		<textarea class="form-control" placeholder="copy your public key here. please include the BEGIN header and the END header." name="publicKey" tabindex="1"></textarea>
 		<br>
 
 		<input type="submit" class="btn btn-lg btn-primary btn-block" value="Create" tabindex="1">
@@ -60,6 +61,7 @@
       <div class="modal-body">
         <p>
         	Note that GPG and SSH keys are NOT interchangeable. Submitting your SSH keys will result in problems when decrypting your downloaded datasets.
+          <br><br>
 	        <b>To generate a GPG public key/id:</b><br>
 	        <ul>
 	        	<li>Run the command <div class="codebox">gpg --gen-key</div></li>
