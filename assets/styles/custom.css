@@ -385,6 +385,7 @@ input[readonly] {
  * END
  *******/
 
+
 /**************
  * Glyphicons
  **************/
@@ -535,6 +536,19 @@ textarea.full {
 		text-align: center;
 		margin-top: 0px;
 	}	
+}
+
+
+input[type=search] {
+  height: 17px;
+  line-height: 1;
+  font-size: 14px;
+}
+
+select.input-sm {
+  height: 27px;
+  line-height: 17px;
+  padding: 5px 8px;
 }
 
 .form-qualifiers input[type="text"] {
