@@ -8,11 +8,12 @@ var SUCCESS = sails.config.constants.SUCCESS,
 
 var TYPES = ['pii', 'non_pii'],
     DATASET_ROOT = sails.config.paths.DATASET_ROOT,
+    DATASET_DOWNLOAD_ROOT = sails.config.paths.DATASET_DOWNLOAD_ROOT,
     ENCRYPT_PATH = sails.config.paths.DATASET_ENCRYPT_PATH;
 
 function generateFilePath(dataset, type) {
   if (dataset == null || TYPES.indexOf(type) == -1) return '';
-  return path.resolve(DATASET_ROOT, type, dataset);
+  return path.resolve(DATASET_DOWNLOAD_ROOT, type, dataset);
 }
 
 function generateEncryptedPath(dataset, userID) {

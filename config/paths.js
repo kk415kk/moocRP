@@ -16,8 +16,9 @@ module.exports.paths = {
 
     // Dataset Paths
     DATASET_ROOT: path.resolve('..', 'datasets'),
-    DATASET_NON_PII: path.resolve('..', 'datasets', 'non_pii'),
-    DATASET_PII: path.resolve('..', 'datasets', 'pii'),
+    DATASET_DOWNLOAD_ROOT: path.resolve('..', 'datasets', 'available'),
+    DATASET_NON_PII: path.resolve('..', 'datasets', 'available', 'non_pii'),
+    DATASET_PII: path.resolve('..', 'datasets', 'available', 'pii'),
     DATASET_EXTRACT_PATH: path.resolve('..', 'datasets', 'extracted'),
     DATASET_ENCRYPT_PATH: path.resolve('..', 'datasets', 'encrypted')
 

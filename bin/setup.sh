@@ -11,7 +11,7 @@ echo ""
 # Grab this script's absolute filepath to its directory
 SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-DATASET_FOLDERS=( "encrypted" "extracted" "non_pii" "pii" )
+DATASET_FOLDERS=( "encrypted" "extracted" "available" "available/non_pii" "available/pii" )
 VISUAL_FOLDERS=(tmp archives)
 LOG_FILES=(production.log development.log)
 
