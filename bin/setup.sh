@@ -15,7 +15,7 @@ DATASET_FOLDERS=( "encrypted" "extracted" "non_pii" "pii" )
 VISUAL_FOLDERS=(tmp archives)
 LOG_FILES=(production.log development.log)
 
-DATABASE_SETUP=dbSetup.sql
+DATABASE_SETUP=db_setup.sql
 
 ERRORS=0
 
