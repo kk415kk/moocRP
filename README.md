@@ -7,7 +7,7 @@ Built on Node.js server with Sails.js framework for an MVC architecture. Python/
 Releases will be numbered as ````< major version >.< minor version >.< patch number >````
 
 ## Current Release
-0.1.2
+0.1.3
 
 ## Author
 Kevin Kao
@@ -26,12 +26,19 @@ Kevin Kao
 ## Deploying to Production
 Configure the production settings in your ````config/local.js```` file. Ensure that the port and env settings are correct.
 
-To run the application in production continuously, we use the ````forever```` package:
+To run the application in production continuously, we use the ````forever```` package (install it through ````sudo npm install forever````). Run this script to start the server:
 ````
-forever start app.js --prod
+./bin/start_server.sh
+````
+
+For development purposes, you can run:
+````
+./bin/dev_start_server.sh
 ````
 
 ## Changelog
+0.1.3 - 10/18/2014: Patch to update start up and setup scripts. Fixed bug that deleted the wrong entries in requests/analytics tables. Added search/description features to analytics. Changed data type support to data model support. Fixed minor bugs with registration; removed launch from production minification to prevent bugs in UI.
+
 0.1.2 - 09/08/2014: Patch for update on completion of moocRP analytics module specifications and import abilities. Dependency of Sails supported up to 0.10.5.
 
 0.1.1 - 08/14/2014: Patch to add support for future additions of datascrub types. UI browser compatibility updates, refactored database models to be more efficient.
@@ -69,7 +76,7 @@ forever start app.js --prod
 - [x] Begin populating Github wiki for instructions on use
 - [ ] Perform penetration testing and security checks
 - [ ] Scale/stress testing + test suites need to be developed
-- [ ] Add features to star/"bookmark" visualizations
+- [x] Add features to star/"bookmark" visualizations
 - [ ] Implement alternative login system for non-CAS institutions
 
 ## License

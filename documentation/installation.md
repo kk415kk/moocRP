@@ -54,8 +54,9 @@ Once the setup script is run, the file structure setup should be in this format:
 -------- /bin
 ------------ setup.sh [setup script to create directory structure]
 ---- /datasets
--------- /non_pii
--------- /pii
+-------- /available
+---------- /non_pii
+---------- /pii
 -------- /extracted
 -------- /encrypted
 ---- /visualizations
