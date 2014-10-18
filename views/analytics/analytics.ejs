@@ -87,7 +87,7 @@
   					<% _.each(visualizations, function(visualization) {%>
   						<% if (visualization.approved) { %>
   							<% var author = visualization.owner %>
-  							<tr id="<%= visualization.name %> by <%= visualization.owner.firstName %> <%=visualization.owner.lastName %>" description="<%=visualization.description%>">
+  							<tr id="<%= visualization.name %>-<%= visualization.owner.id %>" name="<%= visualization.name %>" owner="<%= visualization.owner.firstName %> <%=visualization.owner.lastName %>" description="<%=visualization.description%>">
                   <!-- Implement on click to be glyphicon-star -->
                   <td class="star-wrap">
                     <% if (starredIds.indexOf(visualization.id) > -1) {%>
@@ -129,7 +129,7 @@
 		</div>
 		<div class="col-md-offset-1 col-md-3">
   		<h3>Description</h3>
-  		<div id="description">
+  		<div id="analytics-description">
   		<p>Hover over a row to see the description.</p>
       </div>
 		</div>
@@ -184,8 +184,8 @@ function loadVisual(visualID, visualType, userID) {
   });
 }
 
-function description(title, d) {
-  $("#description").html("<br><h4>" + title + "</h4>" + "<p>" + d + "</p>");
+function description(name, owner, d) {
+  $("#analytics-description").html("<h4><u>" + name + " by " + owner + "</u></h4>" + "<p>" + d + "</p>");
 }
 </script>
 
@@ -195,9 +195,10 @@ function description(title, d) {
     $('#analytics-modules').dataTable();
     $('#analytics-modules tbody tr').hover(
       function() {
-        var title = $(this).attr('id')
+        var owner = $(this).attr('owner');
+        var name = $(this).attr('name');
         var d = $(this).attr('description');
-        description(title,d);
+        description(name,owner,d);
       },
       function() {
         

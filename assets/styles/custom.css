@@ -487,6 +487,11 @@ input[readonly] {
 }
 /** End Banner Styling **/
 
+#analytics-description {
+  border: 1px solid black;
+  padding: 15px;
+}
+
 /** Containers **/
 .wrapper {
   padding: 40px 40px 40px 40px;
