@@ -35,16 +35,19 @@ module.exports = {
 
         for (i = 0; i < dataModels.length; i++) dataModels[i] = dataModels[i].displayName;
 
-        var datasets = fs.readdirSync(sails.config.paths.DATASET_NON_PII);
-        for (i = 0; i < datasets.length; i++) {
-          datasets[i] = UtilService.fileMinusExt(datasets[i]); // filter file extensions
+        var non_pii_datasets = fs.readdirSync(sails.config.paths.DATASET_NON_PII);
+        for (i = 0; i < non_pii_datasets.length; i++) {
+          non_pii_datasets[i] = UtilService.fileMinusExt(non_pii_datasets[i]); // filter file extensions
         }
+
+        var pii_datasets = [];
         
         res.view({
           user: user,
           requests: user.requests,
           title: 'Dashboard',
-          datasets: datasets,
+          non_pii_datasets: non_pii_datasets,
+          pii_datasets: pii_datasets,
           dataModels: dataModels,
           starredVisuals: user.starredVisuals,
           visualizations: user.visualizations,

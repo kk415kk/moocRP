@@ -238,13 +238,19 @@
 					<br><br>
 					Note that a dataset can only be downloaded once for security reasons, and you must provide your GPG public key for encrypting your download. Your GPG key is saved in your profile. For instructions on how to find your GPG key, see <a href="#">here</a>.</p>
 					<label>Request Type:</label><br>
-					<label class="undecorated"><input type="radio" name="requestType" value="pii"> Full PII Data</label><br>
-					<label class="undecorated"><input type="radio" name="requestType" value="non-pii" checked> Full Non-PII data</label><br><br>
+					<label class="undecorated"><input type="radio" name="requestType" value="pii" disabled> PII Data</label><br>
+					<label class="undecorated"><input type="radio" name="requestType" value="non-pii" checked> Non-PII data</label><br><br>
 
 					<label>Dataset:</label>
 					<select class="form-control limit-width" size="7" name="dataset">
-						<% _.each(datasets, function(dataset) { %>
-							<option value="<%= dataset %>"><%= dataset %></option>
+						<option disabled>Non-PII: </option>
+						<% _.each(non_pii_datasets, function(non_pii_dataset) { %>
+							<option value="<%= non_pii_dataset %>"><%= non_pii_dataset %></option>
+						<% }) %>
+						<option disabled></option>
+						<option disabled>PII: </option>
+						<% _.each(pii_datasets, function(pii_dataset) { %>
+							<option value="<%= pii_dataset %>"><%= pii_dataset %></option>
 						<% }) %>
 					</select>
 					<br>
