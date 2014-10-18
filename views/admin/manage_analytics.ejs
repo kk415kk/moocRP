@@ -64,11 +64,11 @@
           <td><%= visualization.description %></td>
           <td><%= visualization.fileName %></td>
           <td><a href="/visualization/approve/<%= visualization.id %>" class="btn btn-sm btn-success">Approve</a></td>
-          <td><a href="#rejectModal1" data-toggle="modal" class="btn btn-sm btn-warning">Reject</a></td>
+          <td><a href="#rejectModal1-<%= visualization.id %>" data-toggle="modal" class="btn btn-sm btn-warning">Reject</a></td>
           <td><a href="/visualization/demo/<%= visualization.id %>" class="btn btn-sm btn-primary">Demo</a></td>
 
           <!-- Modal for Rejecting Visualization -->
-          <div class="modal fade" id="rejectModal1" tabindex="-1" role="dialog" aria-labelledby="rejectLabel1" aria-hidden="true">
+          <div class="modal fade" id="rejectModal1-<%= visualization.id %>" tabindex="-1" role="dialog" aria-labelledby="rejectLabel1" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -120,11 +120,11 @@
           <td><%= visualization.type %></td>
           <td><%= visualization.description %></td>
           <td><%= visualization.fileName %></td>
-          <td><a href="#rejectModal2" data-toggle="modal" class="btn btn-sm btn-warning">Reject</a></td>
+          <td><a href="#rejectModal2-<%= visualization.id %>" data-toggle="modal" class="btn btn-sm btn-warning">Reject</a></td>
           <td><a href="#/visualization/show/<%= visualization %>" class="btn btn-sm btn-primary">Demo</a></td>
 
           <!-- Modal for Rejecting Visualization -->
-          <div class="modal fade" id="rejectModal2" tabindex="-1" role="dialog" aria-labelledby="rejectLabel2" aria-hidden="true">
+          <div class="modal fade" id="rejectModal2-<%= visualization.id %>" tabindex="-1" role="dialog" aria-labelledby="rejectLabel2" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -144,7 +144,6 @@
             </div>
           </div>
           <!-- End Modal -->
-
         </tr>
         <% } %>
       <% }) %>
@@ -175,10 +174,10 @@
           <td><%= visualization.type %></td>
           <td><%= visualization.description %></td>
           <td><%= visualization.fileName %></td>
-          <td><a href="#destroyModal" data-toggle="modal" class="btn btn-sm btn-danger">Destroy</a></td>
+          <td><a href="#destroyModal-<%= visualization.id %>" data-toggle="modal" class="btn btn-sm btn-danger">Destroy</a></td>
 
           <!-- Modal for Destroying Visualization -->
-          <div class="modal fade" id="destroyModal" tabindex="-1" role="dialog" aria-labelledby="destroyLabel" aria-hidden="true">
+          <div class="modal fade" id="destroyModal-<%= visualization.id %>" tabindex="-1" role="dialog" aria-labelledby="destroyLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">

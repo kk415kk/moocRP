@@ -357,6 +357,7 @@ module.exports = {
 
   // Reject a visualization upload
   reject: function(req, res) {
+    sails.log(req.param('id'));
     Visualization.findOne(req.param('id')).populate('owner').exec(function (err, visualization) {
       if (err) {
         sails.log.debug(err);

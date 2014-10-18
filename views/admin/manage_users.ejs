@@ -70,7 +70,7 @@
 			<td><a href="/user/show/<%= user.id %>" class="btn btn-sm btn-primary">Show</a></td>
 			<td><a href="/user/edit/<%= user.id %>" class="btn btn-sm btn-warning">Edit</a></td>
 
-			<td><a class="btn btn-sm btn-danger" data-toggle="modal" href="#deleteModal">Delete</a>
+			<td><a class="btn btn-sm btn-danger" data-toggle="modal" href="#deleteModal-<%= user.id %>">Delete</a>
 			</td>
 			<% if (!user.admin) { %>
 				<td><a href="/user/switch/<%= user.id %>" class="btn btn-sm btn-primary">Make Admin</a></td>
@@ -81,7 +81,7 @@
 		</tr>
 
 		<!-- Modal for Deleting User -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal-<%= user.id %>" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">

@@ -90,7 +90,7 @@ module.exports.policies = {
     'deleteAll': ['flash', 'isAdmin'],
   },
 
-  DatatypeController: {
+  DataModelController: {
     '*': ['flash', 'isAdmin']
   },
 
