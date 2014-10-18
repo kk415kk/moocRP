@@ -11,23 +11,39 @@ var TYPES = ['pii', 'non_pii'],
     DATASET_DOWNLOAD_ROOT = sails.config.paths.DATASET_DOWNLOAD_ROOT,
     ENCRYPT_PATH = sails.config.paths.DATASET_ENCRYPT_PATH;
 
-function generateFilePath(dataset, type) {
+function generateFilePath(dataModel, dataset, type) {
   if (dataset == null || TYPES.indexOf(type) == -1) return '';
-  return path.resolve(DATASET_DOWNLOAD_ROOT, type, dataset);
+  return path.resolve(DATASET_DOWNLOAD_ROOT, type, dataModel, dataset);
 }
 
-function generateEncryptedPath(dataset, userID) {
+function generateEncryptedPath(dataModel, dataset, userID) {
   if (dataset == null) return '';
-  return path.resolve(ENCRYPT_PATH, dataset + '_' + userID);
+  return path.resolve(ENCRYPT_PATH, dataModel + '__' + dataset + '_' + userID);
 }
 
 function encryptCommand(user, dataset, type, cb) {
   if (user == null) return '';
-  var pathToDataset = UtilService.addFileExt(generateFilePath(dataset, type), '.zip'),
-      pathToEncrypted = UtilService.addFileExt(generateEncryptedPath(dataset, user.id), '.zip.gpg')
-      encryptCmd = 'gpg --trust-model always --batch --yes --output ' + pathToEncrypted + ' --encrypt -r ' + user.publicKeyID + ' ' + pathToDataset;
-      sails.log.info('Encrypting: ' + encryptCmd);
-  return encryptCmd;
+  sails.log(dataset);
+
+  var dataArr = dataset.split("__");
+  var dataModel = dataArr[0];
+  DataModel.find({ displayName: dataModel }, function(err, dataModels) {
+    if (err || !dataModels) {
+      return ""
+    }
+
+    dataModel = dataModels[0].fileSafeName;
+    var dataset = dataArr[1];
+    var pathToDataset = UtilService.addFileExt(generateFilePath(dataModel, dataset, type), '.zip'),
+        pathToEncrypted = UtilService.addFileExt(generateEncryptedPath(dataModel, dataset, user.id), '.zip.gpg')
+        encryptCmd = 'gpg --trust-model always --batch --yes --output ' + pathToEncrypted + ' --encrypt -r ' + user.publicKeyID + ' ' + pathToDataset;
+        sails.log.info('Encrypting: ' + encryptCmd);
+
+    var exec = require('child_process').exec
+    exec(encryptCmd, function(error, stdout, stderr) {
+      return cb(error, stdout, stderr, encryptCmd);
+    });
+  });
 }
 
 function mapTypes(type) {
@@ -76,12 +92,6 @@ module.exports = {
   },
 
   encrypt: function(user, dataset, type, cb) {
-    var exec = require('child_process').exec,
-        cmd = encryptCommand(user, dataset, mapTypes(type));
-
-    // TODO: Move this into encrypt function
-    exec(cmd, function(error, stdout, stderr) {
-      return cb(error, stdout, stderr, cmd);
-    });
+    encryptCommand(user, dataset, mapTypes(type), cb);
   }
 }

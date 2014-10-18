@@ -15,6 +15,7 @@ module.exports = {
 
       FlashService.success(req, 'Successfully imported a new data model.');
       fs.ensureDirSync(path.join(sails.config.paths.DATASET_EXTRACT_PATH, dataModel.fileSafeName));
+      fs.ensureDirSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, dataModel.fileSafeName));
       return res.redirect('/admin/manage_data_models');
     });
   },
@@ -28,6 +29,7 @@ module.exports = {
     });
   },
   edit: function(req, res) {
+    // TO-DO: Link file names of data scrub output to a data model
     var params = req.params.all(),
         updateParams = {};
 
@@ -44,6 +46,5 @@ module.exports = {
       });
     });
   }
-	
 };
 

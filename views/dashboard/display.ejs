@@ -244,14 +244,19 @@
 					<label>Dataset:</label>
 					<select class="form-control limit-width" size="7" name="dataset">
 						<option disabled>Non-PII: </option>
-						<% _.each(non_pii_datasets, function(non_pii_dataset) { %>
-							<option value="<%= non_pii_dataset %>"><%= non_pii_dataset %></option>
-						<% }) %>
+						<% for (var dataModel in non_pii_datasets) { %>
+							<% _.each(non_pii_datasets[dataModel], function(non_pii_dataset) { %>
+								<option value="<%= dataModel %>__<%= non_pii_dataset %>"><%= dataModel %>: <%= non_pii_dataset %></option>
+							<% }) %>
+						<% } %>
+						
 						<option disabled></option>
 						<option disabled>PII: </option>
-						<% _.each(pii_datasets, function(pii_dataset) { %>
-							<option value="<%= pii_dataset %>"><%= pii_dataset %></option>
-						<% }) %>
+						<% for (var dataModel in pii_datasets) { %>
+							<% _.each(pii_datasets[dataModel], function(pii_dataset) { %>
+								<option value="<%= dataModel %>__<%= pii_dataset %>"><%= dataModel %>: <%= pii_dataset %></option>
+							<% }) %>
+						<% } %>
 					</select>
 					<br>
 					<input type="hidden" name="_csrf" value="<%= _csrf %>" />

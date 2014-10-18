@@ -82,20 +82,27 @@ module.exports = {
         FlashService.error(req, "Request does not exist");
         return res.redirect('/dashboard');
       }
-      var data = request.dataset + '_' + request.requestingUser.id + '.zip.gpg',
-          link = path.resolve(ENCRYPT_PATH, data);
 
-      request.downloaded = true
-      request.save(function (err) {
-        if (err) {
-          sails.log.error(err);
-          FlashService.error(req, err);
-          return res.redirect('/dashboard');
-        } else {
-          sails.log.debug("Request " + request.id + " is being fulfilled and downloaded");
-          sails.log.debug("Downloading: " + link);
-          return res.download(link);
-        }
+      var dataArr = request.dataset.split('__');
+      var dataModelName = dataArr[0];
+      DataModel.findOne({ displayName: dataModelName }, function(err, dataModel) {
+        var data = dataModel.fileSafeName + "__" + dataArr[1] + '_' + request.requestingUser.id + '.zip.gpg',
+            link = path.resolve(ENCRYPT_PATH, data);
+
+        sails.log(link);
+
+        request.downloaded = true
+        request.save(function (err) {
+          if (err) {
+            sails.log.error(err);
+            FlashService.error(req, err);
+            return res.redirect('/dashboard');
+          } else {
+            sails.log.debug("Request " + request.id + " is being fulfilled and downloaded");
+            sails.log.debug("Downloading: " + link);
+            return res.download(link);
+          }
+        });
       });
     });   
   },
