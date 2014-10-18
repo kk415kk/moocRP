@@ -193,7 +193,7 @@ function description(title, d) {
   // Table pagination
   $(document).ready(function() {
     $('#analytics-modules').dataTable();
-    $('#analytics-modules tr').hover(
+    $('#analytics-modules tbody tr').hover(
       function() {
         var title = $(this).attr('id')
         var d = $(this).attr('description');
