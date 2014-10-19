@@ -43,6 +43,7 @@
     <div class="col-md-5">
       <form role="form" action="/datamodel/create" method="POST" class="">
         <h2>Import</h2>
+        <p>Note that the names cannot include "__".</p>
         <div class="form-group">
           <label for="displayName">Display Name: </label><input type="text" id="displayName" class="form-control" placeholder="HarvardX" name="displayName" tabindex="2">
         </div>
@@ -55,7 +56,7 @@
     </div>
 
     <div class="col-md-7">
-      <table class='table table-striped table-hover' id='datamodel-table'>
+      <table id="dataModelTable" class='table table-striped table-hover' id='datamodel-table'>
         <h2>Existing Data Models</h2>
         <thead>
           <tr>
@@ -67,61 +68,108 @@
         </thead>
 
         <tbody>
+          <% _.each(dataModels, function(dataModel) { %>
+            <tr id="<%= dataModel.id %>" data-id="<%= dataModel.id %>" data-model="data_model">
+              <td><%= dataModel.displayName %></td>
+              <td><%= dataModel.fileSafeName %></td>
+              <td><a class="btn btn-sm btn-primary" data-toggle="modal" href="#editModal-<%= dataModel.id %>">Edit</a></td>
+              <td><a class="btn btn-sm btn-danger" data-toggle="modal" href="#deleteModal-<%= dataModel.id %>">Delete</a></td>
+            </tr>
+            <!-- Modal for Editing Data Model -->
+            <div class="modal fade" id="editModal-<%= dataModel.id %>" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h3 class="modal-title" id="editLabel"><b>Edit Data Model</b></h3>
+                  </div>
 
-        <% _.each(dataModels, function(dataModel) { %>
-          <tr data-id="<%= dataModel.id %>" data-model="data_model">
-            <td><%= dataModel.displayName %></td>
-            <td><%= dataModel.fileSafeName %></td>
-            <td><a class="btn btn-sm btn-primary" data-toggle="modal" href="#editModal">Edit</a></td>
-            <td><a class="btn btn-sm btn-danger" data-toggle="modal" href="#deleteModal">Delete</a></td>
-          </tr>
-          <!-- Modal for Editing Data Model -->
-          <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                  <h3 class="modal-title" id="editLabel"><b>Edit Data Model</b></h3>
-                </div>
+                  <div class="modal-body">
+                    <p>This is under construction</p>
+                  </div>
 
-                <div class="modal-body">
-                  <p>This is under construction</p>
-                </div>
-
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <a type="submit" class="btn btn-primary" value="Delete" href="#/datamodel/edit/<%= dataModel.id %>">Save</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- End Modal -->
-          <!-- Modal for Deleting Data Model -->
-          <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                  <h3 class="modal-title" id="deleteLabel"><b>Delete Data Model</b></h3>
-                </div>
-
-                <div class="modal-body">
-                  <p><b>Warning:</b> Are you sure you want to continue?</p>
-                </div>
-
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <a type="submit" class="btn btn-danger" value="Delete" href="/datamodel/destroy/<%= dataModel.id %>">Delete</a>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <a type="submit" class="btn btn-primary" value="Delete" href="#/datamodel/edit/<%= dataModel.id %>">Save</a>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!-- End Modal -->
-        <% }) %>
+            <!-- End Modal -->
+            <!-- Modal for Deleting Data Model -->
+            <div class="modal fade" id="deleteModal-<%= dataModel.id %>" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h3 class="modal-title" id="deleteLabel"><b>Delete Data Model</b></h3>
+                  </div>
 
+                  <div class="modal-body">
+                    <p><b>Warning:</b> Are you sure you want to continue?</p>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <a type="submit" class="btn btn-danger" value="Delete" href="/datamodel/destroy/<%= dataModel.id %>">Delete</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End Modal -->
+          <% }) %>
         </tbody>
       </table>
     </div>
+  </div>
+  <br>
+  <hr>
+  <br>
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Manage Associated Files</h3>
 
+      <form action="#">
+        <table class='table table-striped table-hover' id='datamodel-table'>
+          <h2>Existing Data Models</h2>
+          <thead>
+            <tr>
+              <th>Display Name</th>
+              <th>Associated Files</th>
+              <th>Add</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% _.each(dataModels, function(dataModel) { %>
+              <tr data-id="<%= dataModel.id %>" data-model="data_model">
+                <td width="15%"><%= dataModel.displayName %></td>
+                <td width="45%">
+                  <%= dataModel.files %>
+                </td>
+                <td width="25%">
+                  <div class="input-group">
+                    <label class="sr-only">Add</label>
+                    <input type="text" class="form-control input-sm" placeholder="Filename" style="display:inline; width:70%; margin-right:15px;">
+                    <a class="btn btn-sm btn-primary">Add</a>
+                  </div>
+                </td>
+                <td width="10%"><a class="btn btn-sm btn-danger" data-toggle="modal" href="#removeFileModal-<%= dataModel.id %>">Remove</a></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </form>
+
+    </div>
   </div>
 </div>
+
+<script>
+  $(document).ready(function () {
+    $('#dataModelTable tr').on("click", function() {
+      var id = $(this).attr('id');
+    });
+  });
+</script>
