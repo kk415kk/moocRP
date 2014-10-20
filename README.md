@@ -1,4 +1,4 @@
-<img src="https://travis-ci.org/kk415kk/moocRP.svg?branch=master"/> <img src="assets/images/favicon.png" alt="moocRP logo" width="40" height="40">
+<img src="https://travis-ci.org/kk415kk/moocRP.svg?branch=master"/>
 # moocRP: Reproducible Research Platform
 Research platform for University of California, Berkeley researchers built by Kevin Kao in collaboration with Professor Zachary Pardos.
 
