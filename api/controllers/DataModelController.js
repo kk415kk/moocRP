@@ -59,24 +59,9 @@ module.exports = {
   },
   edit: function(req, res) {
     // TO-DO: Link file names of data scrub output to a data model
-    var params = req.params.all(),
-        updateParams = {};
-
-    DataModel.findOne(params['id'], function(err, dataModel) {
-      updateParams['files'] = dataModel.files
-
-      if (params['file'] != '') {
-        updateParams['files'].append(params['file']);
-      }
-
-      DataModel.update(params['id'], updateParams, function (err) {
-        if (err) sails.log.error(err);
-        return res.redirect('/admin/manage_data_models')
-      });
-    });
+    return res.redirect('/admin/manage_data_models');
   },
   remove_file: function(req, res) {
-    // TODO
     DataModel.findOne(req.param('id'), function(err, dataModel) {
       if (err || !dataModel) {
         FlashService.error('Unable to complete request.');
@@ -99,7 +84,6 @@ module.exports = {
           return res.redirect('/admin/manage_data_models');
         })
       }
-
     });
   }
 };

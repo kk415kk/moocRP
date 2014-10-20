@@ -112,6 +112,7 @@ module.exports = {
       datastream.on('end', function() {
         res.send("';");
       });
+      // UNDER CONSTRUCTION -- END
     } else {
       User.findOne(req.session.user.id, function (err, user) {
         // TODO: Use this user and add "granted" datasets to store somewhere, so user can only access datasets with granted access
@@ -143,29 +144,53 @@ module.exports = {
           // TODO: Enforce blacklist of __ in file name of DataModel model
           var dataModel = requestedData.split('__')[0];
           var dataset = requestedData.split('__')[1];
+          var datasetFolderPath = path.resolve(DATASET_EXTRACT_PATH, dataModel, dataset);
+          //var datasetFiles = fs.readdirSync(datasetFolderPath);
+
+          DataModel.findOne({ fileSafeName: dataModel }, function (err, fDataModel) {
+            var filesForView = {};
+            for (i = 0; i < fDataModel.files.length; i++) {
+              var cFile = fDataModel.files[i].replace('*', dataset);
+              var pathTocFile = path.resolve(datasetFolderPath, cFile);
+              var stats = fs.statSync(pathTocFile);
+              if (stats.isFile()) {
+                var fileContents = fs.readFileSync(pathTocFile, 'utf-8');
+                if (/csv$/.test(cFile)) {
+                  fileContents = encode(fileContents);
+                } else if (/json$/.test(cFile)) {
+                  fileContents = JSON.parse(fileContents);
+                } else {
+                  fileContents = fileContents;
+                }
+                filesForView[cFile] = fileContents;
+              }
+            }
+
+            return res.view(requestedPage, { title: 'Analytics', dataset: filesForView });
+          });
 
           // TODO: Handle all types of files, not just CSV
           // TODO: Create a job queue to extract all datasets 
           //var data = JSON.stringify(JSON.parse(fs.readFileSync(path.resolve(DATASET_EXTRACT_PATH, dataModel, dataset, dataset + '.csv'), 'utf-8')));
           //var data = undefined;
 
-          var csvDataPath = path.resolve(DATASET_EXTRACT_PATH, dataModel, dataset, dataset + '.csv');
-          var jsonDataPath = path.resolve(DATASET_EXTRACT_PATH, dataModel, dataset, dataset + '.json');
-          sails.log(jsonDataPath);
+          // var csvDataPath = path.resolve(DATASET_EXTRACT_PATH, dataModel, dataset, dataset + '.csv');
+          // var jsonDataPath = path.resolve(DATASET_EXTRACT_PATH, dataModel, dataset, dataset + '.json');
+          // sails.log(jsonDataPath);
 
-          var data = undefined;
-          fs.stat(csvDataPath, function (err, stats) {
-            if (err) {
-              fs.stat(jsonDataPath, function (err, stats) {
-                if (!err) { data = JSON.parse(fs.readFileSync(jsonDataPath, 'utf-8')); }
-                sails.log(data)
-                return res.view(requestedPage, { title: 'Analytics', dataset: data });   
-              });
-            } else {
-              data = fs.readFileSync(csvDataPath, 'utf-8');
-              return res.view(requestedPage, { title: 'Analytics', dataset: encode(data) });   
-            }
-          });
+          // var data = undefined;
+          // fs.stat(csvDataPath, function (err, stats) {
+          //   if (err) {
+          //     fs.stat(jsonDataPath, function (err, stats) {
+          //       if (!err) { data = JSON.parse(fs.readFileSync(jsonDataPath, 'utf-8')); }
+          //       sails.log(data)
+          //       return res.view(requestedPage, { title: 'Analytics', dataset: data });   
+          //     });
+          //   } else {
+          //     data = fs.readFileSync(csvDataPath, 'utf-8');
+          //     return res.view(requestedPage, { title: 'Analytics', dataset: encode(data) });   
+          //   }
+          // });
      
         });
       });
