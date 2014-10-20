@@ -128,39 +128,75 @@
   <div class="row">
     <div class="col-md-12">
       <h3>Manage Associated Files</h3>
+      <p>For files that use the name of the course in the filename, denote with a "*". For example, "CS188-1x-prod-output.csv" should be inputted as "*-prod-output.csv".</p>
+      <table class='table table-striped table-hover' id='datamodel-table'>
+        <thead>
+          <tr>
+            <th>Display Name</th>
+            <th>Associated Files</th>
+            <th>Add</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
 
-      <form action="#">
-        <table class='table table-striped table-hover' id='datamodel-table'>
-          <h2>Existing Data Models</h2>
-          <thead>
-            <tr>
-              <th>Display Name</th>
-              <th>Associated Files</th>
-              <th>Add</th>
-              <th>Remove</th>
-            </tr>
-          </thead>
+        <tbody>
+          <% _.each(dataModels, function(dataModel) { %>
+            <tr data-id="<%= dataModel.id %>" data-model="data_model">
+              <td width="15%"><%= dataModel.displayName %></td>
+              <td width="45%">
+                <ul>
+                <% _.each(dataModel.files, function(f) { %>
+                  <li><%= f %></li>
+                <% }) %>
+                </ul>
+              </td>
+              <td width="25%">
+                <div class="input-group">
+                  <label class="sr-only">Add</label>
+                  <form action="/datamodel/add_file/<%= dataModel.id %>" method="POST">
+                    <input type="text" name="file" class="form-control input-sm" placeholder="Filename" style="display:inline; width:70%; margin-right:15px;">
+                    <input type="hidden" name="_csrf" value="<%= _csrf %>">
+                    <input type="submit" class="btn btn-sm btn-primary" value="Add">
+                  </form>
+                </div>
+              </td>
+              <td width="10%"><a class="btn btn-sm btn-danger" data-toggle="modal" href="#removeFileModal-<%= dataModel.id %>">Remove</a></td>
+              <!-- Modal for Deleting Data Model -->
+              <div class="modal fade" id="removeFileModal-<%= dataModel.id %>" tabindex="-1" role="dialog" aria-labelledby="removeLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                      <h3 class="modal-title" id="removeLabel"><b><%= dataModel.displayName %>: Remove Associated File</b></h3>
+                    </div>
+                    <form action="/datamodel/remove_file/<%= dataModel.id %>" method="POST">
+                    <div class="modal-body">
+                                          
+                        <p>Please select a file to remove to continue.</p>
+                        <div class="form-group">
+                          <label>Associated Files</label>
+                          <select class="form-control" name="file">
+                            <% _.each(dataModel.files, function(dataFile) { %>
+                              <option value="<%= dataFile %>"><%= dataFile %></option>
+                            <% }) %>
+                          </select>
+                        </div>
+                    </div>
 
-          <tbody>
-            <% _.each(dataModels, function(dataModel) { %>
-              <tr data-id="<%= dataModel.id %>" data-model="data_model">
-                <td width="15%"><%= dataModel.displayName %></td>
-                <td width="45%">
-                  <%= dataModel.files %>
-                </td>
-                <td width="25%">
-                  <div class="input-group">
-                    <label class="sr-only">Add</label>
-                    <input type="text" class="form-control input-sm" placeholder="Filename" style="display:inline; width:70%; margin-right:15px;">
-                    <a class="btn btn-sm btn-primary">Add</a>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <input type="hidden" name="_csrf" value="<%= _csrf %>">
+                      <input type="submit" class="btn btn-danger" value="Remove">
+                    </div>
+                    </form>
                   </div>
-                </td>
-                <td width="10%"><a class="btn btn-sm btn-danger" data-toggle="modal" href="#removeFileModal-<%= dataModel.id %>">Remove</a></td>
-              </tr>
-            <% }) %>
-          </tbody>
-        </table>
-      </form>
+                </div>
+              </div>
+              <!-- End Modal -->
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
 
     </div>
   </div>

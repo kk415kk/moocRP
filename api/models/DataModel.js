@@ -28,7 +28,8 @@ module.exports = {
     // We use __ as a separator, so disallow it in names.
     var prohibit = /__/;
     if (prohibit.test(values.displayName) || prohibit.test(values.fileSafeName)) {
-      return res.redirect('/admin/manage_data_models');
+      // Handle somehow
+      return next(new Error('Please use a filename that does not have __ in it.'));
     }
     return next();
   }

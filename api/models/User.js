@@ -90,8 +90,8 @@ module.exports = {
 
       var matchingBerkeleyEmail = /berkeley.edu$/;
       if (!matchingBerkeleyEmail.test(values.email)) {
-        FlashService.error(req, err);
-        return next(err);
+        // TODO: Add some new page
+        return next();
       }
       return next();
     });
