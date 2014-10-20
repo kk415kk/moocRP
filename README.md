@@ -37,9 +37,11 @@ For development purposes, you can run:
 ````
 
 ## Changelog
-````0.1.3 - 10/18/2014:```` Patch to update start up and setup scripts. Fixed bug that deleted the wrong entries in requests/analytics tables. Added search/description features to analytics. Changed data type support to data model support. Fixed minor bugs with registration; removed launch from production minification to prevent bugs in UI.
+````
+0.1.3 - 10/18/2014: Patch to update start up and setup scripts. Fixed bug that deleted the wrong entries in requests/analytics tables. Added search/description features to analytics. Changed data type support to data model support. Fixed minor bugs with registration; removed launch from production minification to prevent bugs in UI.
+````
 
-````0.1.2 - 09/08/2014:```` Patch for update on completion of moocRP analytics module specifications and import abilities. Dependency of Sails supported up to 0.10.5.
+0.1.2 - 09/08/2014: Patch for update on completion of moocRP analytics module specifications and import abilities. Dependency of Sails supported up to 0.10.5.
 
 0.1.1 - 08/14/2014: Patch to add support for future additions of datascrub types. UI browser compatibility updates, refactored database models to be more efficient.
 
