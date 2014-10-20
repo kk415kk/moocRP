@@ -1,5 +1,5 @@
 <img src="https://travis-ci.org/kk415kk/moocRP.svg?branch=master"/>
-# <img src="assets/images/favicon.png" alt="moocRP logo" width="50" height="50"> moocRP: Open-Source Analytics Platform
+# <img src="assets/images/favicon.png" alt="moocRP logo" width="40" height="40"> moocRP: Reproducible Research Platform
 Research platform for University of California, Berkeley researchers built by Kevin Kao in collaboration with Professor Zachary Pardos.
 
 Built on Node.js server with Sails.js framework for an MVC architecture. Python/Bash scripts and D3 visualizations mixed in.
