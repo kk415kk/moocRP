@@ -100,7 +100,7 @@
             <% if (session.authenticated) { %>
             <!-- Logout button -->
             <div class="navbar-right">
-              <li><div class="navbar-text">Logged in as <a href="/dashboard"><font color="lightblue"><%= session.user.firstName %> <%= session.user.lastName %></font></a></div>
+              <li><div class="navbar-text">Logged in as <a href="/dashboard"><font color="#5cb85c"><%= session.user.firstName %> <%= session.user.lastName %></font></a></div>
               <a class="btn btn-default navbar-btn navbar-right" href="/" onclick="window.open('/logout')">Logout</a></li>
             </div>
             <% } %>
