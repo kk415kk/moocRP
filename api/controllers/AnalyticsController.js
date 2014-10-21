@@ -64,15 +64,20 @@ module.exports = {
             var currDataModel = dataModels[i];
             extractedDatasets[currDataModel.fileSafeName] = [];
 
-            for (j = 0; j < datasetFolders.length; j++) {
-              var nextFolderPath = path.resolve(folderPath, datasetFolders[j]);
-              var datasets = fs.readdirSync(nextFolderPath);
 
-              for (k = 0; k < datasets.length; k++) {
-                var infoKey = currDataModel.fileSafeName
-                var infoObj = [currDataModel.displayName, UtilService.fileMinusExt(datasets[k])];
-                extractedDatasets[infoKey].push(infoObj);
-              }
+            for (j = 0; j < datasetFolders.length; j++) {
+              var infoKey = currDataModel.fileSafeName
+              var infoObj = [currDataModel.displayName, datasetFolders[j]];
+              extractedDatasets[infoKey].push(infoObj);
+
+              // var nextFolderPath = path.resolve(folderPath, datasetFolders[j]);
+              // var datasets = fs.readdirSync(nextFolderPath);
+
+              // for (k = 0; k < datasets.length; k++) {
+              //   var infoKey = currDataModel.fileSafeName
+              //   var infoObj = [currDataModel.displayName, UtilService.fileMinusExt(datasets[k])];
+              //   extractedDatasets[infoKey].push(infoObj);
+              // }
             }
           }
 
@@ -165,8 +170,7 @@ module.exports = {
                 filesForView[cFile] = fileContents;
               }
             }
-
-            return res.view(requestedPage, { title: 'Analytics', dataset: filesForView });
+            return res.view(requestedPage, { title: 'Analytics', datasetName: dataset, dataset: filesForView });
           });
 
           // TODO: Handle all types of files, not just CSV

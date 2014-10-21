@@ -44,7 +44,8 @@ module.exports = {
 
       FlashService.success(req, 'Successfully imported a new data model.');
       fs.ensureDirSync(path.join(sails.config.paths.DATASET_EXTRACT_PATH, dataModel.fileSafeName));
-      fs.ensureDirSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, dataModel.fileSafeName));
+      fs.ensureDirSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'non_pii', dataModel.fileSafeName));
+      fs.ensureDirSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'pii', dataModel.fileSafeName));
       return res.redirect('/admin/manage_data_models');
     });
   },
@@ -54,6 +55,8 @@ module.exports = {
 
       FlashService.success(req, 'Successfully removed a data model.');
       fs.rmdirSync(path.join(sails.config.paths.DATASET_EXTRACT_PATH, dataModel[0].fileSafeName));
+      fs.rmdirSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'non_pii', dataModel[0].fileSafeName));
+      fs.rmdirSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'pii', dataModel[0].fileSafeName));
       return res.redirect('/admin/manage_data_models');
     });
   },
