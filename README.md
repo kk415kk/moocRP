@@ -7,7 +7,7 @@ Built on Node.js server with Sails.js framework for an MVC architecture. Python/
 Releases will be numbered as ````< major version >.< minor version >.< patch number >````
 
 ## Current Release
-0.1.3
+The current release version is:  ````0.1.3````
 
 ## Author
 Kevin Kao
@@ -37,19 +37,19 @@ For development purposes, you can run:
 ````
 
 ## Changelog
-0.1.3 - 10/18/2014: Patch to update start up and setup scripts. Fixed bug that deleted the wrong entries in requests/analytics tables. Added search/description features to analytics. Changed data type support to data model support. Fixed minor bugs with registration; removed launch from production minification to prevent bugs in UI.
+````0.1.3```` - 10/18/2014: Patch to update start up and setup scripts. Fixed bug that deleted the wrong entries in requests/analytics tables. Added search/description features to analytics. Changed data type support to data model support. Fixed minor bugs with registration; removed launch from production minification to prevent bugs in UI.
 
-0.1.2 - 09/08/2014: Patch for update on completion of moocRP analytics module specifications and import abilities. Dependency of Sails supported up to 0.10.5.
+````0.1.2```` - 09/08/2014: Patch for update on completion of moocRP analytics module specifications and import abilities. Dependency of Sails supported up to 0.10.5.
 
-0.1.1 - 08/14/2014: Patch to add support for future additions of datascrub types. UI browser compatibility updates, refactored database models to be more efficient.
+````0.1.1```` - 08/14/2014: Patch to add support for future additions of datascrub types. UI browser compatibility updates, refactored database models to be more efficient.
 
-0.1.0 - 08/11/2014: First minor version release.
+````0.1.0```` - 08/11/2014: First minor version release.
 
-0.0.3 - 07/01/2014: First version with working request/download system, visualization upload system, user management UI.
+````0.0.3```` - 07/01/2014: First version with working request/download system, visualization upload system, user management UI.
 
-0.0.2a - 03/04/2014: Alpha version that replaced login system with Berkeley's CAS authentication.
+````0.0.2a```` - 03/04/2014: Alpha version that replaced login system with Berkeley's CAS authentication.
 
-0.0.1a - 02/01/2014: Alpha version with working login/verification system.
+````0.0.1a```` - 02/01/2014: Alpha version with working login/verification system.
 
 ## Features
 * SSL integration
