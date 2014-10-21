@@ -70,7 +70,7 @@
     </div>
 
     <!-- Show all visualizations here -->
-		<div class="col-md-8">
+		<div class="col-md-9">
 			<h3>Visualizations</h3>
 			<form action="/analytics/display">
 				<table id="analytics-modules" class="table table-striped table-hover">
@@ -99,7 +99,7 @@
   								<td><%= visualization.name %></td>
   								<td><%= author.firstName %> <%= author.lastName %></td>
   								<td>
-  									<select id="select-<%= visualization.id %>" name="requestedData" onchange="addDataset(<%= visualization.id %>);">
+  									<select id="select-<%= visualization.id %>" class="form-control" name="requestedData" onchange="addDataset(<%= visualization.id %>);" style="width:100%;">
   										<option value="select">select</option>
                       <!-- Key: the safe file name of the data type, 
                            Value: an array where the 0th element is the display name of the data type, the 1st element is the actual dataset filename minus ext -->
@@ -127,7 +127,8 @@
 				</table>
 			</form>
 		</div>
-		<div class="col-md-offset-1 col-md-3">
+		<div class="col-md-3">
+      <br><br><br><br>
   		<h3>Description</h3>
   		<div id="analytics-description">
   		<p>Hover over a row to see the description.</p>
