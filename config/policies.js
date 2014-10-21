@@ -91,7 +91,8 @@ module.exports.policies = {
   },
 
   DataModelController: {
-    '*': ['flash', 'isAdmin']
+    '*': ['flash', 'isAdmin'],
+    'info': ['flash', 'isAuthenticated']
   },
 
   ReportController: {

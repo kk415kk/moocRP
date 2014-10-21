@@ -64,6 +64,11 @@ module.exports = {
     // TO-DO: Link file names of data scrub output to a data model
     return res.redirect('/admin/manage_data_models');
   },
+  info: function(req, res) {
+    DataModel.find().exec(function findDM(err, dataModels) {
+      return res.view({ title: "Develop", dataModels: dataModels });
+    });
+  },
   remove_file: function(req, res) {
     DataModel.findOne(req.param('id'), function(err, dataModel) {
       if (err || !dataModel) {

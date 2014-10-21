@@ -71,6 +71,7 @@
               <!-- Dashboard -->
               <li><a id="Dashboard" class="navbar-button" href="/dashboard">Dashboard</a></li>
               <li><a id="Analytics" class="navbar-button" href="/analytics">Analytics</a></li>
+              <li><a id="Develop" class="navbar-button" href="/datamodel/info">Develop</a></li>
               <% if (session.user && session.user.admin) { %>
                   <!-- Admin Panel, Qualifiers -->
                   <li class="dropdown" id='Admin Panel'>
@@ -99,7 +100,7 @@
             <% if (session.authenticated) { %>
             <!-- Logout button -->
             <div class="navbar-right">
-              <li><div class="navbar-text">Logged in as <font color="lightblue"><%= session.user.firstName %> <%= session.user.lastName %></font></div>
+              <li><div class="navbar-text">Logged in as <a href="/dashboard"><font color="lightblue"><%= session.user.firstName %> <%= session.user.lastName %></font></a></div>
               <a class="btn btn-default navbar-btn navbar-right" href="/" onclick="window.open('/logout')">Logout</a></li>
             </div>
             <% } %>

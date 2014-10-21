@@ -1,0 +1,59 @@
+<div class="mini-banner auto">
+  <div class="container">
+    <h2>Develop</h2>
+    <% if (messages && messages['error'].length > 0) { %>
+      <div class="alert alert-danger">
+      <% messages['error'].forEach(function(message) { %>
+        <%= message %>
+        <br>
+      <% }); %>
+      </div>
+      <br>
+    <% } %>
+    <% if (messages && messages['warning'].length > 0) { %>
+      <div class="alert alert-warning">
+      <% messages['warning'].forEach(function(message) { %>
+        <%= message %>
+        <br>
+      <% }); %>
+      </div>
+      <br>
+    <% } %>
+    <% if (messages && messages['success'].length > 0) { %>
+      <div class="alert alert-success">
+      <% messages['success'].forEach(function(message) { %>
+        <%= message %>
+        <br>
+      <% }); %>
+      </div>
+      <br>
+    <% } %> 
+  </div>
+</div>
+<div class="sub-banner">
+  <div class="container">
+    <h2>Guide for contributing analytics modules</h2>
+  </div>
+</div>
+<div class="container wrapper">
+  <div class="row">
+    <div class="col-md-12">
+      <p>Welcome to the Developer's Guide for moocRP.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-5">
+      <h3>Data Models</h3>
+        <ul>
+        <% _.each(dataModels, function(dataModel) { %>
+          <li><%= dataModel.displayName %></li>
+        <% }) %>
+        </ul>
+    </div>
+
+    <div class="col-md-7">
+      <h3>Descriptions</h3>
+      <p>Under construction.</p>
+    </div>
+  </div>
+</div>
