@@ -34,8 +34,13 @@ var dataFiles = {}
     dataFiles["<%= dataFile %>"] = <%- JSON.stringify(dataset[dataFile]) %>;
   <% } %>
 <% } %>
-
 ````
+
+Each data model will have its own associated files. To access a particular file in your script, you can simply call ````dataFiles[some_file_name]```` to access the raw contents of the file. To know what associated files there are for each model, see [the data models page](#). (under construction)
+
+FAQs
+---
+TODO
 
 Pre-processing Data
 ---
