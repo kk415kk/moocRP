@@ -53,7 +53,7 @@
 <div class="modal fade" id="GPGModal" tabindex="-1" role="dialog" aria-labelledby="GPGModal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div classs="modal-header">
+      <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h3 class="modal-title" id="GPGLabel"><b>Generating and finding your GPG public key</b></h3>
       </div>
@@ -64,17 +64,17 @@
           <br><br>
 	        <b>To generate a GPG public key/id:</b><br>
 	        <ul>
-	        	<li>Run the command <div class="codebox">gpg --gen-key</div></li>
+	        	<li>Run the command <code>gpg --gen-key</code></li>
 	        	<li>For the comment, put "Used for moocRP"</li>
 	        </ul>
 	      </p>
 	      <p>
         	<b>To find your GPG public key/id:</b><br>
         	<ul>
-        		<li>Run the command <div class="codebox">gpg --list-keys</div></li>
+        		<li>Run the command <code>gpg --list-keys</code></li>
         		<li>Find the row labelled "pub" where the command in the third column is "Used for moocRP".</li>
         		<li>In the second column of that row, copy the alphanumeric string of length 8 as your GPG key ID.</li>
-        		<li>Run the command <div class="codebox">gpg --armor --export insert_your_key_id_here</div>, where your replace insert_your_key_id_here with your actual key id that you found in Step 2.</li>
+        		<li>Run the command <code>gpg --armor --export insert_your_key_id_here</code>, where you replace <i>insert_your_key_id_here</i> with your actual key id that you found in Step 2.</li>
         		<li>Copy and paste the output as your GPG key.</li>
         	</ul>
         </p>

@@ -375,6 +375,18 @@ input[readonly] {
   border-color: transparent;
 }
 
+a.btn.btn-default.btn-sm.navbar-btn {
+  max-height: 30px;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 9px;
+  color: #333;
+  font-size: 14px;
+}
+
+a.btn.btn-default.btn-sm.navbar-btn:hover {
+  background-color: #eee;
+}
 /** End Navbar Styling **/
 
 .undecorated {

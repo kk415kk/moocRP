@@ -29,6 +29,7 @@ module.exports = {
   // Used for development purposes
   bypassLogin: process.env.NODE_ENV == 'development' && false,
   bypassUserId: 0,
+  noCheckGPG: true,
 
   // Time for a user's session to expire
   cookieExpiration: 3600000,

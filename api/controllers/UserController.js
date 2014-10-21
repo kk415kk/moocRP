@@ -48,12 +48,19 @@ module.exports = {
       User.create(params, function userCreated(err, user) {
         if (err || !user) {
           sails.log.debug('Error occurred: ' + err);
-          FlashService.error(req, "Please fill in all fields and use a @berkeley.edu email.");
+          FlashService.error(req, "Please fill in all fields and use an @berkeley.edu email.");
           return res.redirect('/signup');
         } else {
-          SessionService.createSession(req, user);
-          EncryptionService.importPublicKey(user);
-          return res.redirect('/dashboard');
+          var success = EncryptionService.importPublicKey(user);
+          if (!success) {
+            User.destroy(user.id, function(err) {
+              FlashService.error(req, "Invalid GPG key - please enter a valid GPG key/id pair.");
+              return res.redirect('/signup');
+            });
+          } else {
+            SessionService.createSession(req, user);
+            return res.redirect('/dashboard');
+          }
         }
       });
     }

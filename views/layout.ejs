@@ -60,7 +60,7 @@
           </button>
           <a class="navbar-brand" href="/"><img src="/images/favicon.png" style="max-width:30px; margin:-10px; margin-right:-10px;"></img> moocRP<font class="sub gold">beta</font></a>
         </div>
-        <div class="navbar-collapse collapse">
+        <ul class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
 
             <!-- About -->
@@ -99,21 +99,17 @@
           <ul class="nav navbar-nav navbar-right">
             <% if (session.authenticated) { %>
             <!-- Logout button -->
-            <div class="navbar-right">
-              <li><div class="navbar-text">Logged in as <a href="/dashboard"><font color="#5cb85c"><%= session.user.firstName %> <%= session.user.lastName %></font></a></div>
-              <a class="btn btn-default navbar-btn navbar-right" href="/" onclick="window.open('/logout')">Logout</a></li>
-            </div>
+              <li><p class="navbar-text">Logged in as <a href="/dashboard"><font color="#5cb85c"><%= session.user.firstName %> <%= session.user.lastName %></font></a></p></li>
+              <li><a class="btn btn-default btn-sm navbar-btn" href="/" onclick="window.open('/logout')">Logout</a></li>
             <% } %>
 
             <!-- Login button -->
             <% if (!session.authenticated) { %>
-              <li><div class="navbar-right">
-                <a class="btn btn-default navbar-btn navbar-right" href="/login">Login</a>
-              </div></li>
+              <li><a class="btn btn-default btn-sm navbar-btn" href="/login">Login</a></li>
             <% } %>
             <!-- end section -->
           </ul>
-        </div> <!-- end navbar-collapse div -->
+        </ul> <!-- end navbar-collapse div -->
       </div>
     </nav>
 

@@ -219,7 +219,7 @@
 					<label>Description: </label><textarea rows="7" type="text" class="form-control" name="description"></textarea>
 					<br>
 					<label>Data Model Support:</label>
-					<select class="form-control limit-width" size="4" name="dataModels" multiple>
+					<select class="form-control limit-width" size="4" name="dataModels">
 						<% _.each(dataModels, function(dataModel) { %>
 							<option value="<%= dataModel %>"><%= dataModel %></option>
 						<% }) %>

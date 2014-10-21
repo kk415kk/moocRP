@@ -91,7 +91,7 @@ module.exports = {
       var matchingBerkeleyEmail = /berkeley.edu$/;
       if (!matchingBerkeleyEmail.test(values.email)) {
         // TODO: Add some new page
-        return next();
+        return next("Please use a Berkeley email address.");
       }
       return next();
     });
