@@ -258,7 +258,7 @@
 					<label class="undecorated"><input type="radio" name="requestType" value="non-pii" checked> Non-PII data</label><br><br>
 
 					<label>Dataset:</label>
-					<select class="form-control limit-width" size="7" name="dataset" style="resize:both;">
+					<select class="form-control limit-width" size="7" name="dataset" style="resize:both; overflow-x:scroll;">
 						<option disabled>Non-PII: </option>
 						<% for (var dataModel in non_pii_datasets) { %>
 							<% _.each(non_pii_datasets[dataModel], function(non_pii_dataset) { %>
