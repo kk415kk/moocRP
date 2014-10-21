@@ -54,24 +54,27 @@ For development purposes, you can run:
 ## Features
 * SSL integration
 * Node.js CAS client (login system)
-* Secure dataset request and download system
-* Visualization upload and approval system
+* Simple data distribution system (dataset request and download system)
+* Generalized analytics/visualizations sharing platform
 * Administration controls
-* UI theme
-* Visualization to dataset hook
+* Sleek, responsive UI
 * GPG encryption system for dataset downloads
+* Support for multiple data models, from edX to Coursera, the HarvardX tools to raw data
+* Multi-file support for multiple flat files per data model
 
 ## Bugs
 * When deploying in production, moocRP must be deployed once first in development mode so that the database tables are created - find a way to automate this.
 
 ## Roadmap
-- [ ] Add "Reports" messaging system for managing bug handling/error messages
+- [P] Add "Reports" messaging system for managing bug handling/error messages
 - [ ] Integrate JIRA ticketing system for open source release and collaboration
 - [x] Add support for hooking datasets to the visualization upload system
 - [ ] Strip out CAS client to package into npm package
 - [x] Add profile updates for users
 - [ ] Add support for sharing research papers
 - [ ] Add support for running pre-processing scripts on datasets before visualizing (i.e. machine learning code)
+- [x] Add multi-file support for each data model
+- [P] Convert to using pub/sub and piping system for large datasets
 - [ ] Investigate and implement automatic code review security
 - [x] Begin populating Github wiki for instructions on use
 - [ ] Perform penetration testing and security checks
