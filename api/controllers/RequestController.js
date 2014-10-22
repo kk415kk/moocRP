@@ -86,6 +86,10 @@ module.exports = {
       var dataArr = request.dataset.split('__');
       var dataModelName = dataArr[0];
       DataModel.findOne({ displayName: dataModelName }, function(err, dataModel) {
+        if (err || !dataModel) {
+          FlashService.error(req, "Download unavailable due to update - please make a new request.");
+          return res.redirect('/dashboard');
+        }
         var data = dataModel.fileSafeName + "__" + dataArr[1] + '_' + request.requestingUser.id + '.zip.gpg',
             link = path.resolve(ENCRYPT_PATH, data);
 
