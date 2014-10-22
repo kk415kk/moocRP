@@ -234,7 +234,6 @@ input[readonly] {
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
   color: #ffffff;
-
 }
 
 .navbar-inverse .navbar-nav > .active > a,
@@ -298,7 +297,7 @@ input[readonly] {
     border-color: #080808;
   }
   .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
-    color: #999999;
+    color: #FFFFFF;
   }
   .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover,
   .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus {
@@ -316,6 +315,10 @@ input[readonly] {
   .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:focus {
     color: #444444;
     background-color: transparent;
+  }
+
+  .dropdown-header {
+    color: #FFFFFF;
   }
 }
 
