@@ -53,6 +53,12 @@ module.exports = {
     DataModel.find(function foundDataModels(err, dataModels) {
       return res.view({ title: 'Manage Data Models', dataModels: dataModels });
     });
+  },
+
+  manage_notices: function(req, res) {
+    Notice.find(function foundNotices(err, notices) {
+      return res.view({ title: 'Manage Notices', notices: notices});
+    });
   }
   
 };
