@@ -30,7 +30,7 @@ module.exports = {
   validate: function(url, cb) {
     var request = require('request');
 
-    request({uri: url, secureProtocol: 'SSLv3_method' }, function(err, response, body) {
+    request({uri: url, secureProtocol: 'TLSv1_method' }, function(err, response, body) {
       var uid = undefined;
 
       if (!err && body) {

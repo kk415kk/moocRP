@@ -216,6 +216,7 @@ module.exports = {
     if (ticket) {
       sails.log.debug('CAS ticket issued: ' + ticket);
       AuthService.validate(AuthService.validateRoute({ticket: ticket}), function(err, uid) {
+        sails.log.debug('User authenticating...: ' + uid);
         // Check to see if user exists in our database
         User.findOne(uid, function foundUser(err, user) {
           // If user already exists, continue to dashboard
