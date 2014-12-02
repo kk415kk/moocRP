@@ -27,3 +27,6 @@ _Sample Entry_:
 2014-01-23T07:48:43.123460+00:00,5.462487,applevo,page_view,Course Info,tab_name,,,1.2.3.4,"{""POST"": {}, ""GET"": {}}",/courses/University/Course/info,,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.77 Safari/537.36"
 ```
 
+The filename to retrieve from the data dictionary for this data model is _course_name_.csv.
+
+*work in progress*
