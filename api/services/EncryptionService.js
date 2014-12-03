@@ -54,10 +54,10 @@ function mapTypes(type) {
 
 module.exports = {
   //TODO
-  importPublicKey: function(user) {
+  importPublicKey: function(user, cb) {
     if (!user) {
       sails.log.debug('No user found');
-      return FAILURE;
+      return cb(FAILURE);
     }
 
     var keyDirPath = path.resolve('..', 'keys');
@@ -68,7 +68,7 @@ module.exports = {
       if (err) {
         sails.log.error('Error while importing key - unable to write key to file: ' + err + ' [path: ' + keyPath + ']');
         //TODO: Add notice for public key
-        return FAILURE;
+        return cb(FAILURE);
       } else {
         var importCmd = 'gpg --import ' + keyPath;
         sails.log.debug('Importing public key for user ' + user.id + ': ' + importCmd);
@@ -81,10 +81,10 @@ module.exports = {
           if (error) {
             sails.log.error('Error while importing key: ' + error);
             fs.unlinkSync(keyPath);
-            return FAILURE;
+            return cb(FAILURE);
           } else {
             fs.unlinkSync(keyPath);
-            return SUCCESS;
+            return cb(SUCCESS);
           }
         });
       }
