@@ -56,9 +56,12 @@ def writeCombLog(fname, log):
         return
     outfile = open(fname, 'a')
     for d in sorted(iter(log)):
-        for l in log[d]:
-            i += 1
-            outfile.write(l)
+        last_l = None
+        for l in sorted(log[d]):
+            if not (l == last_l):
+              i += 1
+              outfile.write(l)
+              last_l = l
     print 'wrote', str(i), 'lines to output file', fname
     print '-----------------'
     outfile.close()
