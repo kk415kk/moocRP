@@ -129,6 +129,12 @@ re_problem_show_answer2 = re.compile("^showanswer$")
 re_problem_reset = re.compile("^reset_problem$")
 re_problem_reset_fail = re.compile("^reset_problem_fail$")
 
+re_discard1 = re.compile("problem\/(?!problem_check).+problem_check$")
+re_discard2 = re.compile("problem\/(?!problem_save).+problem_save$")
+re_discard3 = re.compile("problem\/(?!problem_reset).+problem_reset$")
+re_discard4 = re.compile("problem\/(?!problem_show).+problem_show$")
+re_discard5 = re.compile("(?!goto_position).+goto_position$")
+
 re_wiki_view = re.compile("wiki")
 
 #re_email = re.compile("[^@]+@[^@]+\.[^@]+")
@@ -695,6 +701,10 @@ class LogParser:
               o = self.__getForumObject(event_type)
               r = None
               m = None
+
+          ### DISCARD ### 
+          elif(re_discard1.search(event_type) or re_discard2.search(event_type) or re_discard3.search(event_type) or re_discard4.search(event_type) or re_discard5.search(event_type)):
+            return self.checkIgnoreEvent(log_item)
 
           ### PAGE ### 
           # need to make sure these objects can be found in course axes; otherwise, likely just noise/malformed urls
