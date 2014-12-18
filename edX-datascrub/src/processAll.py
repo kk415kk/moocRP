@@ -7,5 +7,6 @@ if __name__ == '__main__':
   clfile = open(info_file, 'rU')
   clreader = csv.reader(clfile)
   for cname, start, end in clreader:
+    os.system("rm dates.txt")
     os.system("processLogData.py " + cname + " " + start + " " + end)
     os.system("transformOneLog.sh " + cname + ".log " + info_file[:info_file.rfind('/')] + "/" + cname + "_axis.csv")
