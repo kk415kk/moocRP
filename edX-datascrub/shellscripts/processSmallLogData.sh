@@ -13,6 +13,7 @@ if [ "$?" = "0" ]; then
 # Separate out the log entries in each directory by the class.
     for line in `ls | grep prod`;
     do
+	echo $line
 	cd $line
 	separateClassLogs.py $1
 	cd ..

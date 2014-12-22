@@ -98,6 +98,12 @@ def makePersonClick(axis, log, outpath, outpath_discards=None, limit=-1):
     total_discards = 0
     total_activities = 0
     start_time = datetime.datetime.now()
+    
+    # discard stat
+    discard_problem_check = 0
+    discard_problem_save = 0
+    discard_goto = 0
+    discard_other = 0
 
     for line in open(log, "r"):
         if(line_num == limit): break
@@ -108,13 +114,27 @@ def makePersonClick(axis, log, outpath, outpath_discards=None, limit=-1):
             
         activity = parser.parseActivity(line)
 
-        if activity is not None:
+        if activity is None:
+          total_discards += 1
+          discard_other += 1
+          f = open(parser.error_file, "a")
+          f.write(line)
+          f.close()
+        elif isinstance(activity,str):
+          total_discards += 1
+          if(activity not in discard_counts):
+            discard_counts[activity] = 1
+          else:
+            discard_counts[activity] += 1
+        else:
             total_activities += 1
             if activity["verb"] not in unique_verbs:
                 unique_verbs[activity["verb"]] = activity
             if(activity["actor"] not in unique_users):
                 unique_users[activity["actor"]] = 1
             
+            #outcsv.writerow([activity["time"], "", activity["actor"], activity["verb"], activity["object"]["object_name"], activity["object"]["object_type"], activity["result"], activity["meta"], activity["ip"], activity["event"], activity["event_type"], activity["page"], activity["agent"]])
+
             # record activity
             user = activity["actor"]
             if user in activities_without_durations:
@@ -126,16 +146,16 @@ def makePersonClick(axis, log, outpath, outpath_discards=None, limit=-1):
             else:
                 # store it to log later
                 activities_without_durations[user] = activity
-        else:
-            total_discards += 1
-            log_item_clean = json.loads(line)
-            if(log_item_clean["event_type"] not in discard_counts):
-                discard_counts[log_item_clean["event_type"]] = 1
-            else:
-                discard_counts[log_item_clean["event_type"]] += 1
-            if outcsv_discards is not None: 
-                try: outcsv_discards.writerow([log_item_clean["time"], log_item_clean["event"], log_item_clean["event_type"], log_item_clean["page"], log_item_clean["username"]])
-                except UnicodeEncodeError: pass #print log_item_clean
+        # else:
+        #     total_discards += 1
+        #     log_item_clean = json.loads(line)
+        #     if(log_item_clean["event_type"] not in discard_counts):
+        #         discard_counts[log_item_clean["event_type"]] = 1
+        #     else:
+        #         discard_counts[log_item_clean["event_type"]] += 1
+        #     if outcsv_discards is not None: 
+        #         try: outcsv_discards.writerow([log_item_clean["time"], log_item_clean["event"], log_item_clean["event_type"], log_item_clean["page"], log_item_clean["username"]])
+        #         except UnicodeEncodeError: pass #print log_item_clean
     
     # write remaining activities without durations (will have empty "secs_to_next")
     for k,v in activities_without_durations.items():
@@ -146,6 +166,9 @@ def makePersonClick(axis, log, outpath, outpath_discards=None, limit=-1):
     print "total_log_items: " + str(line_num)
     print "total_activities: " + str(total_activities)
     print "total_discards: " + str(total_discards)
+    for d in discard_counts:
+      print "discard_" + d + ": " + str(discard_counts[d])
+    print "discard_other: " + str(discard_other)
     print "pct_discarded: " + str(100.0 * total_discards / line_num) + "%"
     print "unique_users: " + str(len(unique_users.keys()))
     print "unique_verbs: " + str(len(unique_verbs.keys()))

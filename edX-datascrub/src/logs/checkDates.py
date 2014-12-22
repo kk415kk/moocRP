@@ -17,8 +17,10 @@ def get_class_list():
         f = open('ClassList.csv','r')
         courses = {}
         for line in f:
-            (course,start,end) = line.split(',')
-            courses[course] = (start,end)
+            tokens = line.split(',')
+            if len(tokens) == 3:
+                (course,start,end) = tokens
+                courses[course] = (start,end)
         f.close()
         return courses
     else:
@@ -69,7 +71,7 @@ if __name__ == '__main__':
 
             class_list[cl] = (oldStartDate, endDate)
             (yy,mm,dd) = oldEndDate.split('-')
-            newStartDate = "%s-%s-%d" % (yy,mm,int(dd)+1)
+            newStartDate = "%s-%s-%02d" % (yy,mm,int(dd)+1)
             dates[cl] = (newStartDate, newEndDate)
         else:
             if startDate == "-":

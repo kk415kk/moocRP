@@ -62,6 +62,7 @@ possible_verbs = ["annotation_create"
                     ,"problem_save"
                     ,"problem_view"
                     ,"problem_show_answer"
+                    ,"problem_reset"
                     ,"seq_goto"
                     ,"seq_next"
                     ,"seq_prev"
@@ -71,7 +72,9 @@ possible_verbs = ["annotation_create"
                     ,"video_play"
                     ,"video_seek"
                     ,"video_show_transcript"
-                    ,"wiki_view"]
+                    ,"wiki_view"
+                    ,"accordion"
+                    ,"enroll"]
 
 # TODO: ADD THESE TO COURSE AXIS (?)
 # top-level tabs are not available in course axes so I've hard-coded them in here; 
@@ -86,36 +89,14 @@ top_level_tabs = {
     ,"open_ended_problems" : "Open Ended Problems"
     ,"peer_grading" : "Peer Grading"
     ,"instructor" : "Instructor"
-    ,"about" : "About" # where is this page? (/courses/HarvardX/ER22x/2013_Spring/about)
+    ,"about" : "About"
 
-    # CB22x/2013_Spring
-    ,"01356a17b5924b17a04b7fc2426a3798" : "Syllabus"
-    ,"57e9991c0d794ff58f7defae3e042e39" : "Advice for Participants"
-
-    # ER22x/2013_Spring
-    ,"7a8a540432444be59bd3b6a6ddf725ff" : "Weekly Forum Digest"
-    ,"677191905f71448aab5346a3ed038f87" : "Frequently Asked Questions"
-
-    # PH278x/2013_Spring
-    ,"1e7a1201a4214fbaa1d675393c61be5f" : "Syllabus"
-    ,"861a584197fc40a1af55117629d087b8" : "Textbook"
-    ,"782c7c85b9784de5a18199d1c2eaedfa" : "Readings"
-    ,"73f5c222bdc3440bb8dd0423c86e219d" : "Solution Discussion Groups"
-
-    # PH207x/2012_Fall
-    ,"datasets" : "Data Sets"
-    ,"faq" : "FAQ"
-
-    # CS50x/2012
-    ,"discuss" : "CS50 Discuss"
-    ,"gradebook" : "CS50 Gradebook"
-    ,"spaces" : "CS50 Spaces"
-
-    # HLS1x[A|B|C|D]/Copyright
     ,"Logistics" : "Logistics"
     ,"Syllabus" : "Syllabus"
     ,"Resources" : "Resources"
     ,"Staff" : "Course Staff and Teaching Fellows"
+
+    ,"courseware" : "Courseware"
 }
 
 # REGEX
@@ -137,12 +118,22 @@ re_seq_prev = re.compile("^seq_prev$")
 re_poll_view = re.compile("poll_question\/[^/]+\/get_state")
 re_poll_answer = re.compile("poll_question\/[^/]+\/(?!get_state).+")
 
-re_problem_view = re.compile("problem\/[^/]+\/problem_get$")
+#re_problem_view = re.compile("problem\/[^/]+\/problem_get$")
+re_problem_view = re.compile("problem\/(?!problem_get).+problem_get$")
 re_problem_save_success = re.compile("^save_problem_success$")
 re_problem_save_fail = re.compile("^save_problem_fail$")
 re_problem_check = re.compile("^problem_check$") # we want the server event b/c contains correctness info
 re_problem_check2 = re.compile("^save_problem_check$") # also needs to be a server event
-re_problem_show_answer = re.compile("^showanswer$")
+re_problem_show_answer = re.compile("^show_answer$")
+re_problem_show_answer2 = re.compile("^showanswer$")
+re_problem_reset = re.compile("^reset_problem$")
+re_problem_reset_fail = re.compile("^reset_problem_fail$")
+
+re_discard1 = re.compile("problem\/(?!problem_check).+problem_check$")
+re_discard2 = re.compile("problem\/(?!problem_save).+problem_save$")
+re_discard3 = re.compile("problem\/(?!problem_reset).+problem_reset$")
+re_discard4 = re.compile("problem\/(?!problem_show).+problem_show$")
+re_discard5 = re.compile("(?!goto_position).+goto_position$")
 
 re_wiki_view = re.compile("wiki")
 
@@ -185,8 +176,11 @@ re_forum_comment_update = re.compile("discussion\/comments\/[^/]+/update$")
 re_forum_comment_upvote = re.compile("discussion\/comments\/[^/]+/upvote$")
 
 re_page_view_courseware = re.compile("courseware\/[^/]+([^/]+)*\/?")
-re_page_view_main = re.compile("courses\/[^/]+\/[^/]+\/[^/]+\/[^/]+") # very general, run after everything else
+re_page_view_main = re.compile("courses\/.+") # very general, run after everything else
 re_page_close = re.compile("^page_close$")
+
+re_accordion = re.compile("^accordion$")
+re_enroll = re.compile("^edx.course.enrollment.activated$")
 
 
 # PARSER OBJECT
@@ -201,12 +195,11 @@ class LogParser:
         '''
         start = axis_csv.rfind("/")
         end = axis_csv.find("_axis.csv")
-        if start == -1:
-          start = 0
         if end == -1:
           end = len(axis_csv)
-        self.error_file = os.getcwd() + axis_csv[start:end]+".error"
+        self.error_file = os.getcwd() + "/" + axis_csv[start+1:end]+".error"
         os.system("rm " + self.error_file)
+        self.error_ignore = ["problem_check", "problem_save", "problem_reset", "problem_show", "goto_position", "load_video", "problem_graded"]
 
         # we need to build two axis lookup dicts
         self.axis_path_to_courseware_name = {} # used for page_view and page_close
@@ -221,7 +214,9 @@ class LogParser:
             path = line[7].strip()
             courseware_name = ""
 
-            if(category == "chapter"): 
+            if(category == "tab"): 
+                courseware_name = name
+            elif(category == "chapter"): 
                 current_chapter = name
                 courseware_name = current_chapter
             elif(category == "sequential"): 
@@ -249,12 +244,16 @@ class LogParser:
         log_item_json = json.loads(log_item)
 
         try:
-            event = str(log_item_json["event"]) # cast to string b/c as dict isn't consistent in logs
             event_type = log_item_json["event_type"]
+            event_type = event_type.replace(";_", "/").replace("\n","")
             page = log_item_json["page"]
-        except Exception:
-            # malformed log_item
-            return None
+        except Exception as e:
+            return self.checkError(log_item)
+
+        try:
+            event = str(log_item_json["event"]) # cast to string b/c as dict isn't consistent in logs
+        except:
+            event = log_item_json["event"]
         
         e = None
         e_get = None
@@ -369,6 +368,7 @@ class LogParser:
           elif(re_problem_view.search(event_type)):
               # logged when a problem is loaded onscreen; often several at once
               # event_type: [server] "/courses/HarvardX/CB22x/2013_Spring/modx/i4x://HarvardX/CB22x/problem/bb8a422a718a4788b174220ed0e9c0d7/problem_get"
+              # event_type: [server] "/courses/BerkeleyX/CS10/Beauty_and_Joy_of_Computing/xblock/i4x:;_;_BerkeleyX;_CS10;_problem;_2b65df7a24ae487c9944cd8a42c1c079/handler/xmodule_handler/problem_get"
               v = "problem_view"
               o = self.__getCoursewareObject(event_type.split("problem/")[1].split("/")[0])
               r = None
@@ -391,14 +391,28 @@ class LogParser:
               o = self.__getCoursewareObject(event.split("problem/")[1].split("'")[0])
               r = "success" if event_type.split("problem_")[1] == "save" else "fail"
               m = None
-          elif(re_problem_show_answer.search(event_type)):
+          elif(re_problem_show_answer.search(event_type) or re_problem_show_answer2.search(event_type)):
               # when a user clicks 'Show Answer', three events are logged...
               # event_type: [browser] "problem_show"
-              # event_type: [server] "/courses/HarvardX/CB22x/2013_Spring/modx/i4x://HarvardX/CB22x/problem/2a3fe3442faf4c5ab644768bdad794de/problem_show" <-- we use this
-              # event_type: [server] "showanswer" or "show_answer"
+              # event_type: [server] "/courses/HarvardX/CB22x/2013_Spring/modx/i4x://HarvardX/CB22x/problem/2a3fe3442faf4c5ab644768bdad794de/problem_show"
+              # event_type: [server] "showanswer" or "show_answer" <-- we use this
               v = "problem_show_answer"
               o = self.__getCoursewareObject(event.split("problem/")[1].split("'")[0])
               r = None
+              m = None
+          elif re_problem_reset.search(event_type):
+              # when a user clicks 'Reset,' two events are logged...
+              # event_type: [server] "/courses/BerkeleyX/CS10/Beauty_and_Joy_of_Computing/xblock/i4x:;_;_BerkeleyX;_CS10;_problem;_7a50a69b46d640bd88f0f4a43998c098/handler/xmodule_handler/problem_reset"
+              # event_type: [server] "reset_problem" <-- we use this one
+              v = "problem_reset"
+              o = self.__getCoursewareObject(event.split("problem/")[1].split("'")[0])
+              r = None
+              m = None
+          elif re_problem_reset_fail.search(event_type):
+              # event_type: [server] "reset_problem_fail"
+              v = "problem_reset"
+              o = self.__getCoursewareObject(event.split("problem/")[1].split("'")[0])
+              r = "fail"
               m = None
 
           ### WIKI ###
@@ -519,14 +533,7 @@ class LogParser:
               }
               r = None
               m = None
-          elif(re_forum_search.search(event_type)):
-              if e_get == None:
-                f = open(self.error_file, "a")
-                f.write("-------------------- error ----------------------\n")
-                f.write("event = " + event + "\n")
-                f.write("event_type = " + event_type + "\n")
-                f.close()
-
+          elif(re_forum_search.search(event_type) and e_get):
               v = "forum_search"
               r = None
               try: 
@@ -549,6 +556,21 @@ class LogParser:
                   "object_type" : "search_text",
                   "object_name" : o_name
               }
+
+          elif re_forum_search.search(event_type):
+              v = "forum_search"
+              r = None
+              m = {
+                  "text": "malformed json",
+                  "sort_key": None,
+                  "sort_order": None,
+                  "page": None
+                  }
+              o = {
+                  "object_type" : "search_text",
+                  "object_name" : "malformed json"
+              }
+              
 
           ### FORUM - THREADS ###
           # (note: thread and comment events are coded separately in case we want to break apart later)
@@ -680,6 +702,10 @@ class LogParser:
               r = None
               m = None
 
+          ### DISCARD ### 
+          elif(re_discard1.search(event_type) or re_discard2.search(event_type) or re_discard3.search(event_type) or re_discard4.search(event_type) or re_discard5.search(event_type)):
+            return self.checkIgnoreEvent(log_item)
+
           ### PAGE ### 
           # need to make sure these objects can be found in course axes; otherwise, likely just noise/malformed urls
           elif(re_page_view_courseware.search(event_type)):
@@ -688,12 +714,7 @@ class LogParser:
               v = "page_view"
               path = event_type.split("courseware")[1]
               if(path[-1] == "/"): path = path[:-1]
-              try: o_name = self.axis_path_to_courseware_name[path]
-              except KeyError: return None # page is noise b/c not in axis
-              o = {
-                  "object_type" : "courseware_name",
-                  "object_name" : o_name
-              }
+              o = self.__getCoursewareObjectFromPath(path)
               r = None
               m = None
           elif(re_page_view_main.search(event_type)):
@@ -703,8 +724,8 @@ class LogParser:
               last_item = event_type.split("/")[-1]
               if(last_item == ""): # sometimes has trailing slash
                   last_item = event_type.split("/")[-2]
-              try: o_name = top_level_tabs[last_item]
-              except KeyError: return None # if not in our list of tabs, must be noise
+              try: o_name = self.getTabName(last_item)
+              except KeyError as e: raise e #return None # if not in our list of tabs, must be noise
               o = {
                   "object_type" : "tab_name",
                   "object_name" : o_name
@@ -717,29 +738,40 @@ class LogParser:
               # or sometimes: 'https://www.edx.org/courses/HarvardX/CB22x/2013_Spring/courseware/69569a7536674a3c87d9675ddb48f100/a038464de48d45de8d8032c9b6382508/#'
               v = "page_close"
               try: path = page.split("courseware")[1]
-              except IndexError:
+              except IndexError as e:
                   # print "page_close IndexError: " + page
-                  return None # usually: https://courses.edx.org/courses/HarvardX/ER22x/2013_Spring/discussion/forum
+                  raise e #return None # usually: https://courses.edx.org/courses/HarvardX/ER22x/2013_Spring/discussion/forum
               if(len(path) > 0 and path[-1] == "#"): path = path[:-1]
               if(len(path) > 0 and path[-1] == "/"): path = path[:-1]
-              try: o_name = self.axis_path_to_courseware_name[path]
-              except KeyError: return None # page is noise b/c not in axis
+              o = self.__getCoursewareObjectFromPath(path)
+              r = None
+              m = None
+          elif(re_accordion.search(event_type)):
+              v = "accordion"
+              try: path = page.split("courseware")[1]
+              except IndexError as e:
+                  # print "page_close IndexError: " + page
+                  raise e
+              if(len(path) > 0 and path[-1] == "#"): path = path[:-1]
+              if(len(path) > 0 and path[-1] == "/"): path = path[:-1]
+              o = self.__getCoursewareObjectFromPath(path)
+              r = None
+              m = None
+          elif(re_enroll.search(event_type)):
+              v = "enroll"
               o = {
-                  "object_type" : "courseware_name",
-                  "object_name" : o_name
+                  "object_type" : "",
+                  "object_name" : ""
               }
               r = None
               m = None
               
           else:
-              return None
+              return self.checkIgnoreEvent(log_item)
         except Exception as e:
-          f = open(self.error_file, "a")
-          traceback.print_exc(file=f)
-          f.close()
-          return None
+          return self.checkError(log_item)
 
-        if(v == "page_view" and o_name == None): return None
+        #if(v == "page_view" and o_name == None): return None
 
         # unicode is the worst
         try: o.update((k, v.encode('utf8', 'replace')) for k, v in o.items())
@@ -783,3 +815,41 @@ class LogParser:
             "object_name" : o_name
         }
         return o
+
+
+    def __getCoursewareObjectFromPath(self, path):
+        try: o_name = self.axis_path_to_courseware_name[path]
+        except KeyError: o_name = "[Axis Lookup Failed: " + path + "]"
+        o = {
+            "object_type" : "courseware_name",
+            "object_name" : o_name
+        }
+        return o
+
+    def getTabName(self, item):
+      if item in top_level_tabs:
+        return top_level_tabs[item]
+      elif item in self.axis_url_name_to_courseware_name:
+        return self.axis_url_name_to_courseware_name[item]
+      else:
+        return item
+
+    def checkIgnoreEvent(self, log_item):
+      match = None
+      for phase in self.error_ignore:
+        if log_item.find(phase) >= 0:
+          return phase
+      
+      log_item_json = json.loads(log_item)
+      if log_item_json["username"] == "":
+        return "empty_username"
+      return None
+
+    def checkError(self, log_item):
+      match = self.checkIgnoreEvent(log_item)
+      if not match:
+        f = open(self.error_file, "a")
+        traceback.print_exc(file=f)
+        f.close()
+      return match
+      
