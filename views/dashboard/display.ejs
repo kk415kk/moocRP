@@ -175,7 +175,15 @@
 						<hr>
 						<h5>Pending Visualizations</h5>
 						<% _.each(visualizations, function(visualization) { %>
-							<% if (!visualization.approved) { %>
+							<% if (!visualization.approved && !visualization.rejected) { %>
+								<%= visualization.name %>
+								<br>
+							<% } %>
+						<% }); %>
+						<hr>
+						<h5>Rejected Visualizations</h5>
+						<% _.each(visualizations, function(visualization) { %>
+							<% if (visualization.rejected) { %>
 								<%= visualization.name %>
 								<br>
 							<% } %>
