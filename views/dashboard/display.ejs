@@ -255,7 +255,7 @@
 					Note that a dataset can only be downloaded once for security reasons, and you must provide your GPG public key for encrypting your download. Your GPG key is saved in your profile. For instructions on how to find your GPG key, see <a href="#">here</a>.</p>
 					<label>Request Type:</label><br>
 					<label class="undecorated"><input type="radio" name="requestType" value="pii" disabled> PII Data</label><br>
-					<label class="undecorated"><input type="radio" name="requestType" value="non-pii" checked> Non-PII data</label><br><br>
+					<label class="undecorated"><input type="radio" name="requestType" value="non-pii" checked> Non-PII data</label><br>
 
 					<label>Dataset:</label>
 					<select class="form-control limit-width" size="7" name="dataset" style="resize:both; overflow-x:scroll;">
@@ -274,6 +274,8 @@
 							<% }) %>
 						<% } %>
 					</select>
+					<br>
+					<label>Reason: </label><textarea rows="7" type="text" class="form-control" name="reason" placeholder="Please explain what you want to do with the data, and why you need the PII version (if applicable)." disabled></textarea>
 					<br>
 					<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 					<input type="hidden" name="requestingUser" value="<%= user.id %>" />
