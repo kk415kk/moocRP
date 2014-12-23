@@ -38,7 +38,7 @@ git clone git@github.com:kk415kk/moocRP.git
 
 After cloning this repository, run the setup script to create the correct directory structure. Enter in the correct MySQL user and password when prompted. This will create the database as well.
 ````
-./bin/setup.sh
+./bin/setup/setup.sh
 ````
 
 Once the setup script is run, the file structure setup should be in this format:

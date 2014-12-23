@@ -29,14 +29,9 @@ Kevin Kao
 ## Deploying to Production
 Configure the production settings in your ````config/local.js```` file. Ensure that the port and env settings are correct.
 
-To run the application in production continuously, we use the ````forever```` package (install it through ````sudo npm install forever````). Run this script to start the server:
+To run the application in production continuously, we use the ````pm2```` package (install it through ````sudo npm install pm2 -g````). Run this script to start the server:
 ````
-./bin/start_server.sh
-````
-
-For development purposes, you can run:
-````
-./bin/dev_start_server.sh
+./bin/run_moocRP.sh
 ````
 
 ## Changelog
