@@ -63,6 +63,3 @@ module.exports = {
   noCheckGPG: true
 };
 ```
-
-
-```moocRP/config/settings.js```
