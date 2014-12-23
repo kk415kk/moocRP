@@ -2,8 +2,13 @@
 
 Data Models
 ================
+This page is a work in-progress. You can contribute to it by forking this repository and making pull requests.
 
-## HarvardX
+## Raw edX Event Tracking
+
+## Raw edX-Database
+
+## X-API (HarvardX)
 The schema of the HarvardX data model is:
 time,secs_to_next,actor,verb,object_name,object_type,result,meta,ip,event,event_type,page,agent
 
@@ -29,4 +34,8 @@ _Sample Entry_:
 
 The filename to retrieve from the data dictionary for this data model is _course_name_.csv.
 
-*work in progress*
+## MOOCdb
+
+## Stanford 
+
+## Placeholder

@@ -16,6 +16,7 @@ Kevin Kao
 
 ## Table of Contents
 * [Installation](documentation/installation.md)
+* [Configuration](documenation/configuration.md)
 * [Deployment](#deploying-to-production)
 * [Visualization Instructions](documentation/visualizations.md)
 * [Data Models](documentation/data_models.md)
