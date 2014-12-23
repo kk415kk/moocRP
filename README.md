@@ -29,7 +29,9 @@ Kevin Kao
 ## Deploying to Production
 Before deployment, you must read the [configuration documentation](documentation/configuration.md). The `local.js` file must be added to the configuration before moocRP will launch correctly. Ensure that the port and database settings are correct.
 
-To run the application in production continuously, we use the ````pm2```` package (install it through ````sudo npm install pm2 -g````). Run this script to start the server:
+To run the application in production continuously, we use the ````pm2```` package (install it through ````sudo npm install pm2 -g````). See more optimization settings for launching using pm2 [here](https://github.com/Unitech/pm2). We provide the basic launch scripts below.
+
+Run this script to start the server:
 ````
 ./bin/run_moocRP.sh
 ````
