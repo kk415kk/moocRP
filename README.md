@@ -27,7 +27,7 @@ Kevin Kao
 * [License](#license)
 
 ## Deploying to Production
-Configure the production settings in your ````config/local.js```` file. Ensure that the port and env settings are correct.
+Before deployment, you must read the [configuration documentation](documentation/configuration.md). The `local.js` file must be added to the configuration before moocRP will launch correctly. Ensure that the port and database settings are correct.
 
 To run the application in production continuously, we use the ````pm2```` package (install it through ````sudo npm install pm2 -g````). Run this script to start the server:
 ````
