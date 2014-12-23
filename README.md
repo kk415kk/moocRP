@@ -1,6 +1,6 @@
 <img src="https://travis-ci.org/kk415kk/moocRP.svg?branch=master"/>
 # moocRP: Reproducible Research Platform
-Research platform for University of California, Berkeley researchers built by Kevin Kao in collaboration with Professor Zachary Pardos.
+Research platform for University of California, Berkeley researchers built by Kevin Kao in collaboration with Professor Zachary Pardos. To contribute to this project, please fork the project and make pull requests, or create Github issues.
 
 Built on Node.js server with Sails.js framework for an MVC architecture. Python/Bash scripts and D3 visualizations mixed in.
 
@@ -8,8 +8,7 @@ Releases will be numbered as ````< major version >.< minor version >.< patch num
 
 ## Current Release
 The current release version is:  ````0.1.3````
-
-Last update: 12/1/15
+Last update: 12/23/15
 
 ## Author
 Kevin Kao
