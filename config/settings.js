@@ -8,7 +8,7 @@ module.exports = {
 
   // Maps the different deployment environments to their respective IP addresses - used by CAS
   appEnvMap: {
-    test: '107.170.238.122:4150',
+    test: 'localhost:1337',
     development: 'localhost:1337',
     production: 'cahl.berkeley.edu:15100'
   },
@@ -32,5 +32,5 @@ module.exports = {
   noCheckGPG: true,
 
   // Time for a user's session to expire
-  cookieExpiration: 3600000,
+  cookieExpiration: 3600000
 }

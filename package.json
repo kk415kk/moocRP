@@ -1,7 +1,7 @@
 {
   "name": "moocRP",
   "private": true,
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "Developed for research purposes, for sharing analytics",
   "keywords": [
     "moocRP",
@@ -38,7 +38,8 @@
     "adm-zip": "latest",
     "fs-extra": "latest",
     "shelljs": "latest",
-    "cheerio": "~0.17.0"
+    "cheerio": "~0.17.0",
+    "pm2": "latest"
   },
   "bin": {
     "setup": "./bin/setup.sh"

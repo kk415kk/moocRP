@@ -19,14 +19,14 @@ DATABASE_SETUP=db_setup.sql
 
 ERRORS=0
 
-for folder in "${DATASET_FOLDERS[@]}"; do CREATE="$SCRIPT_PATH/../../datasets/${folder}"; echo "[x] Creating $CREATE"; mkdir -p "$CREATE"; done
-for folder in "${VISUAL_FOLDERS[@]}"; do CREATE="$SCRIPT_PATH/../../visualizations/${folder}"; echo "[x] Creating $CREATE"; mkdir -p "$CREATE"; done
+for folder in "${DATASET_FOLDERS[@]}"; do CREATE="$SCRIPT_PATH/../../../datasets/${folder}"; echo "[x] Creating $CREATE"; mkdir -p "$CREATE"; done
+for folder in "${VISUAL_FOLDERS[@]}"; do CREATE="$SCRIPT_PATH/../../../visualizations/${folder}"; echo "[x] Creating $CREATE"; mkdir -p "$CREATE"; done
 
-mkdir -p "$SCRIPT_PATH/../logs"
+mkdir -p "$SCRIPT_PATH/../../logs"
 
 for files in "${LOG_FILES[@]}"
 do 
-  CREATE="$SCRIPT_PATH/../logs/${files}" 
+  CREATE="$SCRIPT_PATH/../../logs/${files}" 
   echo "[x] Creating $CREATE"
 
   if [ ! -e "$CREATE" ] ; then
