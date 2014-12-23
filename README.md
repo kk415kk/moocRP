@@ -34,6 +34,11 @@ To run the application in production continuously, we use the ````pm2```` packag
 ./bin/run_moocRP.sh
 ````
 
+To stop the server, run:
+```
+./bin/stop_moocRP.sh
+```
+
 ## Changelog
 ````0.1.3```` - 10/18/2014: Patch to update start up and setup scripts. Fixed bug that deleted the wrong entries in requests/analytics tables. Added search/description features to analytics. Changed data type support to data model support. Fixed minor bugs with registration; removed launch from production minification to prevent bugs in UI.
 
