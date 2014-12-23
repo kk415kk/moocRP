@@ -86,12 +86,28 @@
 
                   <div class="modal-body">
                     <p>This is under construction</p>
+                    <form id='editModalForm-<%= dataModel.id %>'>
+                      <label>Display Name: </label><input class='form-control' type='text' name='displayName' placeholder='<%= dataModel.displayName %>' value='<%= dataModel.displayName %>'>
+                      <br>
+                      <label>Folder Name: </label><input class='form-control' type='text' name='folderName' placeholder='<%= dataModel.fileSafeName %>' value='<%= dataModel.fileSafeName %>'>
+                      <br>
+                      <input type="hidden" name="_csrf" value="<%= _csrf %>">
+                    </form>
                   </div>
 
                   <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <a type="submit" class="btn btn-primary" value="Delete" href="#/datamodel/edit/<%= dataModel.id %>">Save</a>
+                    <a id='editModalSubmit-<%= dataModel.id %>' type="submit" class="btn btn-primary" value="Save">Save</a>
                   </div>
+
+                  <script>
+                    $('#editModalSubmit-<%= dataModel.id %>').click(function() {
+                      $.post("/datamodel/edit/<%= dataModel.id %>", $("#editModalForm-<%= dataModel.id %>").serialize(), function(data) {
+                        location.reload();
+                        return false;
+                      })
+                    })
+                  </script>
                 </div>
               </div>
             </div>
