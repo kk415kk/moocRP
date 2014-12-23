@@ -3,7 +3,7 @@
 ## Configuration Files
 There are a small handful of config files to be aware of to configure moocRP. Below, each is discussed in detail.
 
-```moocRP/config/local.js```
+`moocRP/config/local.js`
 This file holds the local configuration that is NOT pushed to Github.
 
 A sample local.js file is displayed below:
