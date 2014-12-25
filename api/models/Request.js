@@ -30,6 +30,10 @@ module.exports = {
       model: 'user',
       required: true
     },
+    dataModel: {
+      type: 'INTEGER',
+      required: true
+    },
     dataset: {
       type: 'STRING',
       required: true

@@ -35,14 +35,24 @@ module.exports = {
    
   // Create a data request
   create: function(req, res) {
-  	Request.create(req.params.all(), function requestCreated(err, request) {
-  		if (err) {
-  			FlashService.error(req, "Please fill in all fields");
-			} else {
-        FlashService.success(req, 'Successfully created a data request');
-      }
-      return res.redirect('/dashboard');
-  	});
+    var params = req.params.all(),
+        dataModelName = params['dataset'].split('__')[0],
+        dataset = params['dataset'].split('__')[1];
+
+    // TODO: Deny data requests if a data model is deleted
+    DataModel.findOne({ displayName: dataModel }, function(err, datamodel) {
+      params['dataModel'] = datamodel.id;
+      params['dataset'] = dataset;
+
+      Request.create(params, function requestCreated(err, request) {
+        if (err) {
+          FlashService.error(req, "Please fill in all fields");
+        } else {
+          FlashService.success(req, 'Successfully created a data request');
+        }
+        return res.redirect('/dashboard');
+      });
+    });
   }, 
 
   // Deny a data request
@@ -83,15 +93,13 @@ module.exports = {
         return res.redirect('/dashboard');
       }
 
-      var dataArr = request.dataset.split('__');
-      var dataModelName = dataArr[0];
-      DataModel.findOne({ displayName: dataModelName }, function(err, dataModel) {
+      DataModel.findOne(request.dataModel, function(err, dataModel) {
         if (err || !dataModel) {
           FlashService.error(req, "Download unavailable due to update - please make a new request.");
           return res.redirect('/dashboard');
         }
-        var data = dataModel.fileSafeName + "__" + dataArr[1] + '_' + request.requestingUser.id + '.zip.gpg',
-            link = path.resolve(ENCRYPT_PATH, data);
+        var data = request.dataset + '_' + request.requestingUser.id + '.zip.gpg',
+            link = path.resolve(ENCRYPT_PATH, dataModel.fileSafeName, data);
 
         sails.log(link);
 
@@ -132,7 +140,7 @@ module.exports = {
         return res.redirect('/admin/manage_requests');
       }
 
-      EncryptionService.encrypt(request.requestingUser, request.dataset, request.requestType, function(error, stdout, stderr, cmd) {
+      EncryptionService.encrypt(request.requestingUser, request.dataModel, request.dataset, request.requestType, function(error, stdout, stderr, cmd) {
         if (error || stderr) {
           sails.log.error('Command: ' + cmd + '\t [Error: ' + error + ']');
           sails.log.debug('stdout: ' + stdout);

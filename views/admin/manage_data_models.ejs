@@ -86,7 +86,7 @@
 
                   <div class="modal-body">
                     <p>This is under construction</p>
-                    <form id='editModalForm-<%= dataModel.id %>'>
+                    <form id='editModalForm-<%= dataModel.id %>' action='/datamodel/save/<%= dataModel.id %>'>
                       <label>Display Name: </label><input class='form-control' type='text' name='displayName' placeholder='<%= dataModel.displayName %>' value='<%= dataModel.displayName %>'>
                       <br>
                       <label>Folder Name: </label><input class='form-control' type='text' name='folderName' placeholder='<%= dataModel.fileSafeName %>' value='<%= dataModel.fileSafeName %>'>
@@ -102,10 +102,7 @@
 
                   <script>
                     $('#editModalSubmit-<%= dataModel.id %>').click(function() {
-                      $.post("/datamodel/edit/<%= dataModel.id %>", $("#editModalForm-<%= dataModel.id %>").serialize(), function(data) {
-                        location.reload();
-                        return false;
-                      })
+                      $('#editModalForm-<%= dataModel.id %>').submit();
                     })
                   </script>
                 </div>

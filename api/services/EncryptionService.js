@@ -18,24 +18,23 @@ function generateFilePath(dataModel, dataset, type) {
 
 function generateEncryptedPath(dataModel, dataset, userID) {
   if (dataset == null) return '';
-  return path.resolve(ENCRYPT_PATH, dataModel + '__' + dataset + '_' + userID);
+  return path.resolve(ENCRYPT_PATH, dataModel, dataset + '_' + userID);
 }
 
-function encryptCommand(user, dataset, type, cb) {
+function encryptCommand(user, datamodel_id, dataset, type, cb) {
   if (user == null) return '';
-  sails.log(dataset);
 
   var dataArr = dataset.split("__");
   var dataModel = dataArr[0];
-  DataModel.find({ displayName: dataModel }, function(err, dataModels) {
-    if (err || !dataModels) {
+  DataModel.findOne(datamodel_id, function(err, dataModel) {
+    if (err || !dataModel) {
       return ""
     }
 
-    dataModel = dataModels[0].fileSafeName;
+    dataModelName = dataModel.fileSafeName;
     var dataset = dataArr[1];
-    var pathToDataset = UtilService.addFileExt(generateFilePath(dataModel, dataset, type), '.zip'),
-        pathToEncrypted = UtilService.addFileExt(generateEncryptedPath(dataModel, dataset, user.id), '.zip.gpg')
+    var pathToDataset = UtilService.addFileExt(generateFilePath(dataModelName, dataset, type), '.zip'),
+        pathToEncrypted = UtilService.addFileExt(generateEncryptedPath(dataModelName, dataset, user.id), '.zip.gpg')
         encryptCmd = 'gpg --trust-model always --batch --yes --output ' + pathToEncrypted + ' --encrypt -r ' + user.publicKeyID + ' ' + pathToDataset;
         sails.log.info('Encrypting: ' + encryptCmd);
 

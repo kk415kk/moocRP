@@ -39,7 +39,8 @@
     "fs-extra": "latest",
     "shelljs": "latest",
     "cheerio": "~0.17.0",
-    "pm2": "latest"
+    "pm2": "latest",
+    "rimraf": "latest"
   },
   "bin": {
     "setup": "./bin/setup.sh"

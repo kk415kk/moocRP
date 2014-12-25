@@ -4,6 +4,7 @@ var casOptions = settings.casOptions;
 
 module.exports = {
   loginRoute: function(params) {
+    // Can override with own login system
     var baseURL = casOptions.casURL + casOptions.login + '?service=' + AuthService.serviceURL + '/user/validate';
     if (params) {
       for (var key in params) {

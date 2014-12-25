@@ -7,6 +7,7 @@
 
 var fs = require('fs-extra');
 var path = require('path');
+var rmdir = require('rimraf');
 
 module.exports = {
   add_file: function(req, res) {
@@ -46,6 +47,7 @@ module.exports = {
       fs.ensureDirSync(path.join(sails.config.paths.DATASET_EXTRACT_PATH, dataModel.fileSafeName));
       fs.ensureDirSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'non_pii', dataModel.fileSafeName));
       fs.ensureDirSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'pii', dataModel.fileSafeName));
+      fs.ensureDirSync(path.join(sails.config.paths.DATASET_ENCRYPT_PATH, dataModel.fileSafeName));
       return res.redirect('/admin/manage_data_models');
     });
   },
@@ -54,16 +56,28 @@ module.exports = {
       if (err) sails.log.debug(err);
 
       FlashService.success(req, 'Successfully removed a data model.');
-      fs.rmdirSync(path.join(sails.config.paths.DATASET_EXTRACT_PATH, dataModel[0].fileSafeName));
-      fs.rmdirSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'non_pii', dataModel[0].fileSafeName));
-      fs.rmdirSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'pii', dataModel[0].fileSafeName));
-      return res.redirect('/admin/manage_data_models');
+      rmdir(path.join(sails.config.paths.DATASET_EXTRACT_PATH, dataModel[0].fileSafeName), function(err) {});
+      rmdir(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'non_pii', dataModel[0].fileSafeName), function(err) {});
+      rmdir(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'pii', dataModel[0].fileSafeName), function(err) {});
+      rmdir(path.join(sails.config.paths.DATASET_ENCRYPT_PATH, dataModel[0].fileSafeName), function(err) {});
+
+      // TODO: Deny all pending requests for this data model; also remove available downloads for this data model
+      Request.find({ dataModel: req.param('id') }, function (err, requests) {
+        for (int i = 0; i < requests.length; i++) {
+          if (requests[i].dataModel == req.param('id')) {
+            Request.destroy(request.id, function (err, destroyedRequest) {
+              // TODO: Send message to requesting user saying the data model has been deleted
+            });
+          }
+        }
+        return res.redirect('/admin/manage_data_models');
+      });
     });
   },
-  edit: function(req, res) {
-    // TO-DO: Link file names of data scrub output to a data model
-    return res.redirect('/admin/manage_data_models');
-  },
+  // edit: function(req, res) {
+  //   // TO-DO: Link file names of data scrub output to a data model
+  //   return res.redirect('/admin/manage_data_models');
+  // },
   info: function(req, res) {
     DataModel.find().exec(function findDM(err, dataModels) {
       return res.view({ title: "Develop", dataModels: dataModels });
@@ -92,6 +106,44 @@ module.exports = {
           return res.redirect('/admin/manage_data_models');
         })
       }
+    });
+  },
+
+  save: function(req, res) {
+    var params = req.params.all(),
+        updateParams = {},
+        dataModelId = params['id'];
+
+    DataModel.findOne(dataModelId, function (err, datamodel) {
+      var downloadNonPII = sails.config.paths.DATASET_NON_PII,
+          downloadPII = sails.config.paths.DATASET_PII,
+          extractedPath = sails.config.paths.DATASET_EXTRACT_PATH,
+          encryptPath = sails.config.paths.DATASET_ENCRYPT_PATH
+
+      if (params['displayName'] != '') {
+        updateParams['displayName'] = params['displayName'];
+      }
+
+      if (params['folderName'] != '') {
+        var fs = require('fs-extra');
+        var path = require('path');
+        var currFolderName = datamodel.fileSafeName;
+
+        updateParams['fileSafeName'] = params['folderName'];
+        fs.move(path.resolve(downloadNonPII, currFolderName), path.resolve(downloadNonPII, params['folderName']), function(err) {});
+        fs.move(path.resolve(downloadPII, currFolderName), path.resolve(downloadPII, params['folderName']), function(err) {});
+        fs.move(path.resolve(extractedPath, currFolderName), path.resolve(extractedPath, params['folderName']), function(err) {});
+        fs.move(path.resolve(encryptPath, currFolderName), path.resolve(encryptPath, params['folderName']), function(err) {});
+      }
+
+      DataModel.update(params['id'], updateParams, function(err) {
+        if (err) {
+          FlashService.error(req, 'Unable to rename the data model. Please try again.');
+        } else {
+          FlashService.success(req, 'Successfully updated the data model.');
+        }
+        return res.redirect('/admin/manage_data_models');
+      });
     });
   }
 };
