@@ -30,10 +30,11 @@
     "grunt-contrib-less": "0.11.1",
     "grunt-contrib-coffee": "~0.10.1",
     "lodash": "~2.4.1",
+
+    "sails-mysql": "latest",
     "bcrypt": "latest",
     "request": "latest",
     "process": "latest",
-    "sails-mysql": "latest",
     "shortid": "latest",
     "adm-zip": "latest",
     "fs-extra": "latest",
@@ -48,7 +49,8 @@
   },
   "scripts": {
     "start": "node app.js",
-    "debug": "node debug app.js"
+    "debug": "node debug app.js",
+    "test": "./node_modules/.bin/mocha test/bootstrap.js test/**/*.spec.js"
   },
   "main": "app.js",
   "repository": {
@@ -58,11 +60,16 @@
   "author": "Kevin Kao <kkao@berkeley.edu>",
   "license": "MIT",
   "devDependencies": {
-    "assert": "^1.1.1",
     "grunt-cli": "latest",
     "grunt-contrib-watch": "^0.5.3",
-    "grunt-mocha-test": "^0.11.0",
+    "grunt-mocha-test": "latest",
     "mocha": "^1.21.4",
-    "sinon": "^1.10.3"
+
+    "sinon": "latest",
+    "async": "latest",
+    "barrels": "latest",
+    "assert": "latest",
+    "supertest": "latest",
+    "sails-memory": "latest"
   }
 }
