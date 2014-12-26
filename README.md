@@ -7,8 +7,8 @@ Built on Node.js server with Sails.js framework for an MVC architecture. Python/
 Releases will be numbered as ````< major version >.< minor version >.< patch number >````
 
 ## Current Release
-The current release version is:  ````0.1.3````
-Last update: 12/23/15
+The current release version is:  ````0.1.3````<br>
+<b>Last update:</b> 12/23/15
 
 ## Author
 Kevin Kao
