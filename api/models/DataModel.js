@@ -21,6 +21,10 @@ module.exports = {
     files: {
       type: 'ARRAY',
       defaultsTo: []
+    },
+    request: {
+      collection: 'request',
+      via: 'dataModel'
     }
   },
 

@@ -63,7 +63,7 @@ module.exports = {
 
       // TODO: Deny all pending requests for this data model; also remove available downloads for this data model
       Request.find({ dataModel: req.param('id') }, function (err, requests) {
-        for (int i = 0; i < requests.length; i++) {
+        for (var i = 0; i < requests.length; i++) {
           if (requests[i].dataModel == req.param('id')) {
             Request.destroy(request.id, function (err, destroyedRequest) {
               // TODO: Send message to requesting user saying the data model has been deleted
@@ -74,10 +74,6 @@ module.exports = {
       });
     });
   },
-  // edit: function(req, res) {
-  //   // TO-DO: Link file names of data scrub output to a data model
-  //   return res.redirect('/admin/manage_data_models');
-  // },
   info: function(req, res) {
     DataModel.find().exec(function findDM(err, dataModels) {
       return res.view({ title: "Develop", dataModels: dataModels });

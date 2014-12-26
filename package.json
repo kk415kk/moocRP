@@ -40,7 +40,8 @@
     "shelljs": "latest",
     "cheerio": "~0.17.0",
     "pm2": "latest",
-    "rimraf": "latest"
+    "rimraf": "latest",
+    "deasync": "latest"
   },
   "bin": {
     "setup": "./bin/setup.sh"

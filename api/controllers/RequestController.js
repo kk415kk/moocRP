@@ -40,7 +40,7 @@ module.exports = {
         dataset = params['dataset'].split('__')[1];
 
     // TODO: Deny data requests if a data model is deleted
-    DataModel.findOne({ displayName: dataModel }, function(err, datamodel) {
+    DataModel.findOne({ displayName: dataModelName }, function(err, datamodel) {
       params['dataModel'] = datamodel.id;
       params['dataset'] = dataset;
 
@@ -83,7 +83,7 @@ module.exports = {
     var process = require('process');
     var fs = require('fs');
 
-    Request.findOne(req.param('request_id')).populate('requestingUser').exec(function foundRequest(err, request) {
+    Request.findOne(req.param('request_id')).populate('requestingUser').populate('dataModel').exec(function foundRequest(err, request) {
       if (err) {
         FlashService.error(req, err);
         return res.redirect('/dashboard');
@@ -93,29 +93,28 @@ module.exports = {
         return res.redirect('/dashboard');
       }
 
-      DataModel.findOne(request.dataModel, function(err, dataModel) {
-        if (err || !dataModel) {
-          FlashService.error(req, "Download unavailable due to update - please make a new request.");
+      if (!request.dataModel) {
+        FlashService.error(req, "Download unavailable due to update - please make a new request.");
+        return res.redirect('/dashboard');
+      }
+      var data = request.dataset + '_' + request.requestingUser.id + '.zip.gpg',
+          link = path.resolve(ENCRYPT_PATH, request.dataModel.fileSafeName, data);
+
+      sails.log(link);
+
+      request.downloaded = true
+      request.save(function (err) {
+        if (err) {
+          sails.log.error(err);
+          FlashService.error(req, err);
           return res.redirect('/dashboard');
+        } else {
+          sails.log.debug("Request " + request.id + " is being fulfilled and downloaded");
+          sails.log.debug("Downloading: " + link);
+          return res.download(link);
         }
-        var data = request.dataset + '_' + request.requestingUser.id + '.zip.gpg',
-            link = path.resolve(ENCRYPT_PATH, dataModel.fileSafeName, data);
-
-        sails.log(link);
-
-        request.downloaded = true
-        request.save(function (err) {
-          if (err) {
-            sails.log.error(err);
-            FlashService.error(req, err);
-            return res.redirect('/dashboard');
-          } else {
-            sails.log.debug("Request " + request.id + " is being fulfilled and downloaded");
-            sails.log.debug("Downloading: " + link);
-            return res.download(link);
-          }
-        });
       });
+
     });   
   },
 
@@ -134,12 +133,11 @@ module.exports = {
 
   // Grant the data request
   grant: function(req, res) {
-    Request.findOne(req.param('id')).populate('requestingUser').exec(function foundRequest(err, request) {
+    Request.findOne(req.param('id')).populate('requestingUser').populate('dataModel').exec(function foundRequest(err, request) {
       if (err || !request) {
         FlashService.error(req, err ? err : 'Request does not exist');
         return res.redirect('/admin/manage_requests');
       }
-
       EncryptionService.encrypt(request.requestingUser, request.dataModel, request.dataset, request.requestType, function(error, stdout, stderr, cmd) {
         if (error || stderr) {
           sails.log.error('Command: ' + cmd + '\t [Error: ' + error + ']');

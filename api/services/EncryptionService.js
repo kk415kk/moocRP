@@ -21,27 +21,21 @@ function generateEncryptedPath(dataModel, dataset, userID) {
   return path.resolve(ENCRYPT_PATH, dataModel, dataset + '_' + userID);
 }
 
-function encryptCommand(user, datamodel_id, dataset, type, cb) {
-  if (user == null) return '';
+function encryptCommand(user, dataModel, dataset, type, cb) {
+  if (!user || !dataModel) {
+    sails.log('Strange encryption error in encryptCommand');
+    return ""
+  }
 
-  var dataArr = dataset.split("__");
-  var dataModel = dataArr[0];
-  DataModel.findOne(datamodel_id, function(err, dataModel) {
-    if (err || !dataModel) {
-      return ""
-    }
+  dataModelName = dataModel.fileSafeName;
+  var pathToDataset = UtilService.addFileExt(generateFilePath(dataModelName, dataset, type), '.zip'),
+      pathToEncrypted = UtilService.addFileExt(generateEncryptedPath(dataModelName, dataset, user.id), '.zip.gpg')
+      encryptCmd = 'gpg --trust-model always --batch --yes --output ' + pathToEncrypted + ' --encrypt -r ' + user.publicKeyID + ' ' + pathToDataset;
+      sails.log.info('Encrypting: ' + encryptCmd);
 
-    dataModelName = dataModel.fileSafeName;
-    var dataset = dataArr[1];
-    var pathToDataset = UtilService.addFileExt(generateFilePath(dataModelName, dataset, type), '.zip'),
-        pathToEncrypted = UtilService.addFileExt(generateEncryptedPath(dataModelName, dataset, user.id), '.zip.gpg')
-        encryptCmd = 'gpg --trust-model always --batch --yes --output ' + pathToEncrypted + ' --encrypt -r ' + user.publicKeyID + ' ' + pathToDataset;
-        sails.log.info('Encrypting: ' + encryptCmd);
-
-    var exec = require('child_process').exec
-    exec(encryptCmd, function(error, stdout, stderr) {
-      return cb(error, stdout, stderr, encryptCmd);
-    });
+  var exec = require('child_process').exec
+  exec(encryptCmd, function(error, stdout, stderr) {
+    return cb(error, stdout, stderr, encryptCmd);
   });
 }
 
@@ -90,7 +84,7 @@ module.exports = {
     });
   },
 
-  encrypt: function(user, dataset, type, cb) {
-    encryptCommand(user, dataset, mapTypes(type), cb);
+  encrypt: function(user, dataModel, dataset, type, cb) {
+    encryptCommand(user, dataModel, dataset, mapTypes(type), cb);
   }
 }

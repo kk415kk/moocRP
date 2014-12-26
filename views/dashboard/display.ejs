@@ -110,7 +110,7 @@
 							<h5>Pending Requests</h5>
 							<% _.each(requests, function(request) { %>
 								<% if (!request.granted && !request.denied) { %>
-								<%= request.dataset %>: <font color="orange" class="pull-right">PENDING</font><br>
+								<b><%= request.dataModel.displayName %>:</b> <%= request.dataset %> <font color="orange" class="pull-right">PENDING</font><br>
 								<% } %>
 							<% }) %>
 							<hr>
@@ -118,7 +118,7 @@
 							<h5>Granted Requests</h5>
 							<% _.each(requests, function(request) { %>
 								<% if (request.granted) { %>
-								<%= request.dataset %>: <font color="green" class="pull-right">GRANTED</font><br>
+								<b><%= request.dataModel.displayName %>:</b> <%= request.dataset %>: <font color="green" class="pull-right">GRANTED</font><br>
 								<% } %>
 							<% }) %>
 							<hr>
@@ -127,7 +127,7 @@
 							<% count = 0 %>
 							<% _.each(requests, function(request) { %>
 								<% if (request.denied && count < maxCount) { %>
-								<%= request.dataset %>: <font color="red" class="pull-right">DENIED</font><br>
+								<b><%= request.dataModel.displayName %>:</b> <%= request.dataset %>: <font color="red" class="pull-right">DENIED</font><br>
 								<% count += 1%>
 								<% } %>
 							<% }) %>
@@ -138,7 +138,7 @@
 								<select class="form-control limit-width" name="request_id">
 									<% _.each(requests, function(request) { %>
 										<% if (request.granted && !request.downloaded) { %>
-										<option value="<%= request.id %>"><%= request.dataset %></option>
+										<option value="<%= request.id %>"><b><%= request.dataModel.displayName %>:</b> <%= request.dataset %></option>
 										<% } %>
 									<% }) %>
 								</select>

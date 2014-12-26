@@ -63,7 +63,7 @@
 						<td><%= request.requestingUser.id %></td>
 						<td><%= request.firstName %> <%= request.lastName %></td>
 						<td><%= request.email %></td>
-						<td><%= request.dataset %></td>
+						<td><%= request.dataModel.displayName %>: <%= request.dataset %></td>
 						<td><%= request.requestType %></td>
 						<td><%= request.createdAt %></td>
 						<td><a href="/request/grant/<%= request.id %>" class="btn btn-sm btn-success">Grant</a></td>

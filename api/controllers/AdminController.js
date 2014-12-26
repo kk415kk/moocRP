@@ -37,7 +37,7 @@ module.exports = {
 
   // View to manage requests by researchers
   manage_requests: function (req, res) {
-    Request.find().populate('requestingUser').exec(function foundRequests(err, requests) {
+    Request.find().populate('requestingUser').populate('dataModel').exec(function foundRequests(err, requests) {
       return res.view({ title: 'Manage Requests', requests: requests });
     }); 
   },

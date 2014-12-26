@@ -31,7 +31,7 @@ module.exports = {
       required: true
     },
     dataModel: {
-      type: 'INTEGER',
+      model: 'datamodel',
       required: true
     },
     dataset: {

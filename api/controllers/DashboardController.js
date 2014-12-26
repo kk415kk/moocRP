@@ -30,9 +30,21 @@ module.exports = {
    */
   _config: {},
 
+
+  // NOTE: Potentially useful: http://stackoverflow.com/questions/23446484/sails-js-populate-nested-associations
   display: function(req, res) {
     User.findOne(req.session.user.id).populateAll().exec(function foundRequests(err, user) {
       DataModel.find().exec(function foundDataModels(err, dataModels) {
+
+        for (var i = 0; i < user.requests.length; i++) {
+          var updatedRequest;
+          Request.findOne(user.requests[i].id).populate('dataModel').exec(function (err, request) {
+            updatedRequest = request;
+          }); 
+          // Bypass the async nature of populating
+          while (!updatedRequest) { require('deasync').runLoopOnce(); }
+          user.requests[i] = updatedRequest;
+        }
 
 
         var pii_datasets = {}

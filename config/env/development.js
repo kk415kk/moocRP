@@ -19,7 +19,7 @@ module.exports = {
 
   models: {
     connection: 'mysql',
-    migrate: 'safe'
+    migrate: 'alter'  /** SET TO 'safe' DURING PRODUCTION **/
   }
 
 };
