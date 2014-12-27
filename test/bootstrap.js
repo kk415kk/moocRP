@@ -7,8 +7,6 @@
  */
 var Sails = require('sails');
 var _ = require('lodash');
-var fs = require('fs-extra');
-var path = require('path');
 
 global.DOMAIN = 'http://localhost';
 global.PORT = 1337;
@@ -44,7 +42,8 @@ before(function(callback) {
     }
   };
 
-  Sails.load(configs, function(err, sails) {
+  // Sails.load() might be better
+  Sails.lift(configs, function(err, sails) {
     if (err) {
       console.error(err);
       return callback(err);

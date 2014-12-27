@@ -41,7 +41,9 @@ module.exports = {
   },
   create: function(req, res) {
     DataModel.create(req.params.all(), function dataModelCreated(err, dataModel) {
-      if (err) sails.log.debug(err);
+      if (err) {
+        sails.log.debug(err);
+      }
 
       FlashService.success(req, 'Successfully imported a new data model.');
       fs.ensureDirSync(path.join(sails.config.paths.DATASET_EXTRACT_PATH, dataModel.fileSafeName));
@@ -65,7 +67,7 @@ module.exports = {
       Request.find({ dataModel: req.param('id') }, function (err, requests) {
         for (var i = 0; i < requests.length; i++) {
           if (requests[i].dataModel == req.param('id')) {
-            Request.destroy(request.id, function (err, destroyedRequest) {
+            Request.destroy(requests[i].id, function (err, destroyedRequest) {
               // TODO: Send message to requesting user saying the data model has been deleted
             });
           }

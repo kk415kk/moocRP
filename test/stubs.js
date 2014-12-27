@@ -37,10 +37,10 @@ var testGPGKey = "-----BEGIN PGP PUBLIC KEY BLOCK-----" +
 "=r0uC" + 
 "-----END PGP PUBLIC KEY BLOCK-----";
 
-stubs.postStub = function postStub() {
+stubs.dataModelStub = function postStub() {
   return {
-    title:  crypto.randomBytes(10).toString('hex'),
-    body:   crypto.randomBytes(90).toString('hex')
+    displayName: 'Test Data Model',
+    fileSafeName: 'test_data_model'
   }
 }
 
