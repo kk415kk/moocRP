@@ -10,7 +10,7 @@ var fs = require('fs-extra');
 describe('DataModel', function() {
   var agent;
   var testUser;
-  var testDataModel;
+  var testDataModelId;
 
   var userParams = stubs.userStub();
   var dataModelParams = stubs.dataModelStub();
@@ -44,18 +44,20 @@ describe('DataModel', function() {
               if (err || !dataModel) {
                 throw new Error(err);
               }
-              testDataModel = dataModel;
+              testDataModelId = dataModel.id;
               done();
             });
           });
       });
 
       it('should have created four new folders for the data model.', function (done) {
-        assert.equal(true, fs.existsSync(path.join(sails.config.paths.DATASET_EXTRACT_PATH, dataModelParams.fileSafeName)));
-        assert.equal(true, fs.existsSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'non_pii', dataModelParams.fileSafeName)));
-        assert.equal(true, fs.existsSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'pii', dataModelParams.fileSafeName)));
-        assert.equal(true, fs.existsSync(path.join(sails.config.paths.DATASET_ENCRYPT_PATH, dataModelParams.fileSafeName)));
-        done();
+        DataModel.findOne(testDataModelId, function (err, dataModel) {
+          assert.equal(fs.existsSync(path.join(sails.config.paths.DATASET_EXTRACT_PATH, dataModel.fileSafeName)), true);
+          assert.equal(fs.existsSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'non_pii', dataModel.fileSafeName)), true);
+          assert.equal(fs.existsSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'pii', dataModel.fileSafeName)), true);
+          assert.equal(fs.existsSync(path.join(sails.config.paths.DATASET_ENCRYPT_PATH, dataModel.fileSafeName)), true);
+          done();
+        });
       });
     });
   });
@@ -63,17 +65,17 @@ describe('DataModel', function() {
   // Modifies the data model created in the 'create' test
   describe('#edit()', function() {
     describe('data model attribute "displayName" change', function () {
-      it('should change the display name', function(done) {
-
-          var params = { id: testDataModel.id, 
+      it('should change the display name of the data model.', function (done) {
+        DataModel.findOne(testDataModelId, function (err, dataModel) {
+          var params = { id: dataModel.id, 
                          displayName: dataModelParams2.displayName,
-                         folderName: dataModelParams.fileSafeName };
+                         folderName: dataModel.fileSafeName };
           agent
             .post('/datamodel/save')
             .send(params)
             .expect(302)
             .end(function (err, res) {
-              DataModel.findOne(testDataModel.id, function (err2, editedDataModel) {
+              DataModel.findOne(dataModel.id, function (err2, editedDataModel) {
                 if (err2 || !editedDataModel) {
                   throw new Error(err2);
                 }
@@ -81,15 +83,50 @@ describe('DataModel', function() {
                 done();
               });
             });
-
+        });
       });
 
-      it('should not change the folder names after changing the display name.', function(done) {
-        assert.equal(true, fs.existsSync(path.join(sails.config.paths.DATASET_EXTRACT_PATH, dataModelParams.fileSafeName)));
-        assert.equal(true, fs.existsSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'non_pii', dataModelParams.fileSafeName)));
-        assert.equal(true, fs.existsSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'pii', dataModelParams.fileSafeName)));
-        assert.equal(true, fs.existsSync(path.join(sails.config.paths.DATASET_ENCRYPT_PATH, dataModelParams.fileSafeName)));
-        done();
+      it('should not change the folder names after changing the display name.', function (done) {
+        DataModel.findOne(testDataModelId, function (err, dataModel) {
+          assert.equal(fs.existsSync(path.join(sails.config.paths.DATASET_EXTRACT_PATH, dataModel.fileSafeName)), true);
+          assert.equal(fs.existsSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'non_pii', dataModel.fileSafeName)), true);
+          assert.equal(fs.existsSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'pii', dataModel.fileSafeName)), true);
+          assert.equal(fs.existsSync(path.join(sails.config.paths.DATASET_ENCRYPT_PATH, dataModel.fileSafeName)), true);
+          done();
+        });
+      });
+    });
+
+    describe('data model attribute "fileSafeName" change', function () {
+      it('should change the safe name of the data model.', function (done) {
+        DataModel.findOne(testDataModelId, function (err, dataModel) {
+          var params = { id: dataModel.id,
+                         displayName: dataModel.displayName,
+                         folderName: dataModelParams2.fileSafeName }
+          agent
+            .post('/datamodel/save')
+            .send(params)
+            .expect(302)
+            .end(function (err, res) {
+              DataModel.findOne(testDataModelId, function (err2, editedDataModel) {
+                if (err2 || !editedDataModel) {
+                  throw new Error(err2);
+                }
+                assert.equal(editedDataModel.fileSafeName, dataModelParams2.fileSafeName);
+                done();
+              })
+            });
+        });
+      });
+
+      it('should change the associated folder names.', function (done) {
+        DataModel.findOne(testDataModelId, function (err, dataModel) {
+          assert.equal(fs.existsSync(path.join(sails.config.paths.DATASET_EXTRACT_PATH, dataModel.fileSafeName)), true);
+          assert.equal(fs.existsSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'non_pii', dataModel.fileSafeName)), true);
+          assert.equal(fs.existsSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'pii', dataModel.fileSafeName)), true);
+          assert.equal(fs.existsSync(path.join(sails.config.paths.DATASET_ENCRYPT_PATH, dataModel.fileSafeName)), true);
+          done();   
+        });     
       });
     });
   });
@@ -97,10 +134,20 @@ describe('DataModel', function() {
   // Uses the data model created in the 'create' test
   describe('#destroy()', function() {
     describe('data model removal', function() {
+      var testDataModel;
+
+      // Save the attributes before destroying
+      before(function (done) {
+        DataModel.findOne(testDataModelId, function (err, dataModel) { 
+          testDataModel = dataModel;
+          done();
+        });
+      })
+
       it('should delete the data model from the database.', function (done) {
         agent
           .post('/datamodel/destroy')
-          .send({ id: testDataModel.id })
+          .send({ id: testDataModelId })
           .expect(302)
           .end(function (err2, res) {
             if (err2) {
@@ -111,17 +158,17 @@ describe('DataModel', function() {
       });
 
       it('should remove the associated folders that were created for the data model.', function (done) {
-        assert.equal(false, fs.existsSync(path.join(sails.config.paths.DATASET_EXTRACT_PATH, dataModelParams.fileSafeName)));
-        assert.equal(false, fs.existsSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'non_pii', dataModelParams.fileSafeName)));
-        assert.equal(false, fs.existsSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'pii', dataModelParams.fileSafeName)));
-        assert.equal(false, fs.existsSync(path.join(sails.config.paths.DATASET_ENCRYPT_PATH, dataModelParams.fileSafeName)));
+        assert.equal(fs.existsSync(path.join(sails.config.paths.DATASET_EXTRACT_PATH, testDataModel.fileSafeName)), false);
+        assert.equal(fs.existsSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'non_pii', testDataModel.fileSafeName)), false);
+        assert.equal(fs.existsSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'pii', testDataModel.fileSafeName)), false);
+        assert.equal(fs.existsSync(path.join(sails.config.paths.DATASET_ENCRYPT_PATH, testDataModel.fileSafeName)), false);
         done();
       });
     })
   })
 
   after(function (done) {
-    // Clear the data model folders
+    // Clear the data model folders - the last test takes care of this
     // Clear the user after use
     User.destroy(userParams.id, function (err) {});
     done();

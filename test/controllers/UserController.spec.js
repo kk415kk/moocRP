@@ -22,17 +22,17 @@ describe('User', function() {
 
     describe('user attributes', function() {
       it('should have the correct user ID.', function (done) {
-        assert.equal(userParams.id, testUser.id);
+        assert.equal(testUser.id, userParams.id);
         done();
       });
 
       it('should have the correct public key ID.', function (done) {
-        assert.equal(userParams.publicKeyID, testUser.publicKeyID);
+        assert.equal(testUser.publicKeyID, userParams.publicKeyID);
         done();
       });
 
       it('should default to an administrator role for the first user.', function (done) {
-        assert.equal(true, testUser.admin);
+        assert.equal(testUser.admin, true);
         done();
       });
 
@@ -42,19 +42,19 @@ describe('User', function() {
           if (err || !user) {
             throw new Error(err);
           }
-          assert.equal(false, user.admin);
+          assert.equal(user.admin, false);
           done();
         });
       });
 
       it('should have the correct first and last name.', function (done) {
-        assert.equal(userParams.firstName, testUser.firstName);
-        assert.equal(userParams.lastName, testUser.lastName);
+        assert.equal(testUser.firstName, userParams.firstName);
+        assert.equal(testUser.lastName, userParams.lastName);
         done();
       });
 
       it('should have the correct email address.', function (done) {
-        assert.equal(userParams.email, testUser.email);
+        assert.equal(testUser.email, userParams.email);
         done();
       });
     });
