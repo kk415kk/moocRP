@@ -7,8 +7,8 @@ Built on Node.js server with Sails.js framework for an MVC architecture. Python/
 Releases will be numbered as ````< major version >.< minor version >.< patch number >````
 
 ## Current Release
-The current release version is:  ````0.1.3````<br>
-<b>Last update:</b> 12/27/15
+The current release version is:  ````0.1.4````<br>
+<b>Last update:</b> 12/28/15
 
 ## Author
 Kevin Kao
@@ -17,6 +17,7 @@ Kevin Kao
 * [Installation](documentation/installation.md)
 * [Configuration](documentation/configuration.md)
 * [Deployment](#deploying-to-production)
+* [Tests](#tests)
 * [Visualization Instructions](documentation/visualizations.md)
 * [Data Models](documentation/data_models.md)
 * [edX Data Scrubbing](documentation/edX-datascrub.md)
@@ -41,7 +42,15 @@ To stop the server, run:
 ./bin/stop_moocRP.sh
 ```
 
+## Tests
+To test the moocRP application, please make sure all configurations above are in place. Then, run:
+```
+npm test
+```
+
 ## Changelog
+````0.1.4```` - 12/28/2014: Patch to add functionality to contact/report form, better linkage of data models and requests, as well as folders on disk. Initial test suite implemented in. Data model modifications and security checks added.
+
 ````0.1.3```` - 10/18/2014: Patch to update start up and setup scripts. Fixed bug that deleted the wrong entries in requests/analytics tables. Added search/description features to analytics. Changed data type support to data model support. Fixed minor bugs with registration; removed launch from production minification to prevent bugs in UI.
 
 ````0.1.2```` - 09/08/2014: Patch for update on completion of moocRP analytics module specifications and import abilities. Dependency of Sails supported up to 0.10.5.
