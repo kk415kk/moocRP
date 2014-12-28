@@ -8,7 +8,7 @@ Releases will be numbered as ````< major version >.< minor version >.< patch num
 
 ## Current Release
 The current release version is:  ````0.1.3````<br>
-<b>Last update:</b> 12/23/15
+<b>Last update:</b> 12/27/15
 
 ## Author
 Kevin Kao
