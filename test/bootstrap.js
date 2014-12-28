@@ -42,8 +42,8 @@ before(function(callback) {
     }
   };
 
-  // Sails.load() might be better
-  Sails.lift(configs, function(err, sails) {
+  // Sails.lift() might be better
+  Sails.load(configs, function(err, sails) {
     if (err) {
       console.error(err);
       return callback(err);

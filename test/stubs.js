@@ -2,8 +2,49 @@
  * Stubs for use in tests
  * A GPG key must be generated for 
  */
-var crypto = require('crypto');
 var stubs = {};
+
+/*************************
+ **   DATA MODEL STUBS  **
+ *************************/
+stubs.dataModelStub = function postStub() {
+  return {
+    displayName: 'Test Data Model',
+    fileSafeName: 'test_data_model'
+  }
+}
+
+stubs.dataModelStub2 = function postStub() {
+  return {
+    displayName: 'Test Data Model 2',
+    fileSafeName: 'test_data_model_2'
+  }
+}
+
+/**************************
+ **      USER STUBS      **
+ **************************/
+stubs.userStub = function createUser() {
+  return {
+    id: '111111',
+    firstName: 'John',
+    lastName: 'Johnson',
+    email: 'john.johnson@berkeley.edu',
+    publicKey: testGPGKey,
+    publicKeyID: '13779E47'
+  }
+}
+
+stubs.userStub2 = function createUser() {
+  return {
+    id: '222222',
+    firstName: 'Kevin',
+    lastName: 'Chan',
+    email: 'kevin.chan@berkeley.edu',
+    publicKey: testGPGKey,
+    publicKeyID: '13779E47'
+  }
+}
 
 var testGPGKey = "-----BEGIN PGP PUBLIC KEY BLOCK-----" +
 "Version: GnuPG v1" +
@@ -36,34 +77,5 @@ var testGPGKey = "-----BEGIN PGP PUBLIC KEY BLOCK-----" +
 "Ai/xmb5/2vO0" + 
 "=r0uC" + 
 "-----END PGP PUBLIC KEY BLOCK-----";
-
-stubs.dataModelStub = function postStub() {
-  return {
-    displayName: 'Test Data Model',
-    fileSafeName: 'test_data_model'
-  }
-}
-
-stubs.userStub = function createUser() {
-  return {
-    id: '111111',
-    firstName: 'John',
-    lastName: 'Johnson',
-    email: 'john.johnson@berkeley.edu',
-    publicKey: testGPGKey,
-    publicKeyID: '13779E47'
-  }
-}
-
-stubs.userStub2 = function createUser() {
-  return {
-    id: '222222',
-    firstName: 'Kevin',
-    lastName: 'Chan',
-    email: 'kevin.chan@berkeley.edu',
-    publicKey: testGPGKey,
-    publicKeyID: '13779E47'
-  }
-}
 
 module.exports = stubs;

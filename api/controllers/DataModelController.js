@@ -118,11 +118,11 @@ module.exports = {
           extractedPath = sails.config.paths.DATASET_EXTRACT_PATH,
           encryptPath = sails.config.paths.DATASET_ENCRYPT_PATH
 
-      if (params['displayName'] != '') {
+      if (params['displayName'] != '' && params['displayName'] != datamodel.displayName) {
         updateParams['displayName'] = params['displayName'];
       }
 
-      if (params['folderName'] != '') {
+      if (params['folderName'] != '' && params['folderName'] != datamodel.fileSafeName) {
         var fs = require('fs-extra');
         var path = require('path');
         var currFolderName = datamodel.fileSafeName;
