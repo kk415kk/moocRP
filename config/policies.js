@@ -96,7 +96,8 @@ module.exports.policies = {
   },
 
   ReportController: {
-    '*': ['flash', 'isAdmin']
+    '*': ['flash', 'isAdmin'],
+    'send': ['flash']
   },
 
   NoticeController: {
