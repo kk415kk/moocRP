@@ -42,8 +42,9 @@ before(function(callback) {
     }
   };
 
-  // Sails.lift() might be better
-  Sails.load(configs, function(err, sails) {
+  // Sails.load() might be better, but lift() loads bootstrap.js in config, for 
+  // removing logging within the app
+  Sails.lift(configs, function(err, sails) {
     if (err) {
       console.error(err);
       return callback(err);

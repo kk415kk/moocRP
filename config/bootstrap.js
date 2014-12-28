@@ -11,6 +11,11 @@
 
 module.exports.bootstrap = function(cb) {
 
+  // Prevents logging in the 'test' env
+  sails.log.debug = LoggerService.debug;
+  sails.log.info = LoggerService.info;
+  sails.log.error = LoggerService.error;
+
   // It's very important to trigger this callback method when you are finished
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
   cb();
