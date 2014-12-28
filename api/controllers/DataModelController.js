@@ -42,7 +42,9 @@ module.exports = {
   create: function(req, res) {
     DataModel.create(req.params.all(), function dataModelCreated(err, dataModel) {
       if (err) {
-        sails.log.debug(err);
+        //sails.log.debug(err);
+        FlashService.error(req, "Unable to import data model. Please check that the display name and folder name are unique and unused.")
+        return res.redirect('/admin/manage_data_models')
       }
 
       FlashService.success(req, 'Successfully imported a new data model.');
@@ -136,7 +138,7 @@ module.exports = {
 
       DataModel.update(params['id'], updateParams, function(err) {
         if (err) {
-          FlashService.error(req, 'Unable to rename the data model. Please try again.');
+          FlashService.error(req, 'Unable to update the data model. Please check that the display name and folder name are unique and unused.');
         } else {
           FlashService.success(req, 'Successfully updated the data model.');
         }
