@@ -80,7 +80,8 @@
   						<th>Visualization</th>
   						<th>Author</th>
   						<th>Datasets</th>
-  						<th></th>
+  						<th>Display</th>
+              <th>Download</th>
   					</tr>
           </thead>
           <tbody>
@@ -116,6 +117,7 @@
   										<% } %>
   									</select>
   								</td>
+                  <td><a class="btn btn-sm btn-primary" href="#/analytics/download/<%= visualization.id %>">Download</a></td>
   								<td><a id="a-<%= visualization.id %>" class="btn btn-sm btn-primary" href="/analytics/share/<%= visualization.type %>/<%= visualization.owner.id %>/<%= visualization.id %>/select">Select</a></td>
 
                   <!-- TODO: Use sockets for optimized performance -->

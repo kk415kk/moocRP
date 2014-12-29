@@ -272,11 +272,12 @@ module.exports = {
 
       var fileName = visualization.fileName,
           noExtFileName = UtilService.fileMinusExt(fileName),
+          seededFileName = visualization.seededFileName,
           type = visualization.type,
           userID = visualization.owner.id;
 
 
-      var pathToUploadedFile = path.join(UPLOAD_PATH, type, userID);
+      var pathToUploadedFile = path.join(UPLOAD_PATH, type, userID, seededFileName);
       if (!extractArchive(pathToUploadedFile, type, fileName, userID)) {
         FlashService.error(req, 'Error while extracting analytics');
         return res.redirect('/admin/manage_analytics');
@@ -373,13 +374,14 @@ module.exports = {
       var type = visualization.type,
           userID = visualization.owner.id,
           fileName = visualization.fileName,
+          seededFileName = visualization.seededFileName,
           visualID = visualization.id.toString();
 
       try {
-        sails.log.debug('Deleting ' + path.join(UPLOAD_PATH, type, userID, fileName));
-        fs.removeSync(path.join(UPLOAD_PATH, type, userID, fileName));
-        sails.log.debug('Deleting ' + path.join(EXTRACT_PATH, type, userID, UtilService.fileMinusExt(fileName)));
-        fs.removeSync(path.join(EXTRACT_PATH, type, userID, UtilService.fileMinusExt(fileName)));
+        sails.log.debug('Deleting ' + path.join(UPLOAD_PATH, type, userID, seededFileName, fileName));
+        fs.removeSync(path.join(UPLOAD_PATH, type, userID, seededFileName, fileName));
+        sails.log.debug('Deleting ' + path.join(EXTRACT_PATH, type, userID, seededFileName, UtilService.fileMinusExt(fileName)));
+        fs.removeSync(path.join(EXTRACT_PATH, type, userID, seededFileName, UtilService.fileMinusExt(fileName)));
         sails.log.debug('Deleting ' + path.join(PUBLIC_SHARE_PATH, type, userID, visualID));
         fs.removeSync(path.join(PUBLIC_SHARE_PATH, type, userID, visualID));
         sails.log.debug('Deleting ' + path.join(ANALYTICS_ASSETS_PATH, type, userID, visualID));
@@ -432,7 +434,6 @@ module.exports = {
 
   // Handles upload of visualization archive to server.
   upload: function(req, res) {
-    sails.log(req.params.all());
     if (req.param('type') == null || req.param('dataModels') == null) {
       FlashService.error(req, 'Please fill in all fields.');
       return res.redirect('/dashboard');
@@ -440,7 +441,8 @@ module.exports = {
 
     var params = req.params.all(),
         type = req.param('type').toLowerCase(),
-        dirPath = path.join(UPLOAD_PATH, type, req.session.user.id);
+        seededFileName = UtilService.generateSID(),
+        dirPath = path.join(UPLOAD_PATH, type, req.session.user.id, seededFileName);
 
     req.file('userArchiveFile').upload({ dirname: dirPath }, function (err, files) {
       if (err) {
@@ -459,6 +461,7 @@ module.exports = {
 
       params['type'] = type;
       params['fileName'] = fileName;
+      params['seededFileName'] = seededFileName;
 
 
       if (!verifyArchive(UtilService.fileExtension(fileName))) {

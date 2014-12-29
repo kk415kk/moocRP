@@ -23,9 +23,9 @@ module.exports = {
   },
 
   /**
-   * @return a random number
+   * @return a random alphanumeric string
    */
-  generateNumber: function() {
+  generateSID: function() {
     return sid.generate();
   },
 

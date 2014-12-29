@@ -25,6 +25,10 @@ module.exports = {
       type: 'STRING',
       required: true
     },
+    seededFileName: {
+      type: 'STRING',
+      required: true
+    },
     description: {
       type: 'TEXT',
       required: true
