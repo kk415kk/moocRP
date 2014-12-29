@@ -119,7 +119,7 @@ nbproject
 .node_history
 
 # moocRP Uploads
-views/analytics/shared/*
+views/analytics/share/*
 assets/analytics/*
 
 # SSL Keys
