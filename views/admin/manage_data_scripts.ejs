@@ -1,0 +1,84 @@
+<div class="mini-banner auto">
+  <div class="container">
+    <h2>Data Scripts</h2>
+    <% if (messages && messages['error'].length > 0) { %>
+      <div class="alert alert-danger">
+      <% messages['error'].forEach(function(message) { %>
+        <%= message %>
+        <br>
+      <% }); %>
+      </div>
+      <br>
+    <% } %>
+    <% if (messages && messages['warning'].length > 0) { %>
+      <div class="alert alert-warning">
+      <% messages['warning'].forEach(function(message) { %>
+        <%= message %>
+        <br>
+      <% }); %>
+      </div>
+      <br>
+    <% } %>
+    <% if (messages && messages['success'].length > 0) { %>
+      <div class="alert alert-success">
+      <% messages['success'].forEach(function(message) { %>
+        <%= message %>
+        <br>
+      <% }); %>
+      </div>
+      <br>
+    <% } %> 
+  </div>
+</div>
+
+<div class="sub-banner">
+  <div class="container">
+    <h2>Manage your data with various management and transformation scripts here.</h2>
+  </div>
+</div>
+
+<div class="container wrapper">
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Data Transformation Scripts</h3>
+      <p>The scripts below allow you to transform the data from one format into another. <a href="#">(?)</a></p>
+      <table class='table table-striped'>
+        <thead>
+          <tr>
+            <td>Script Name</td>
+            <td>Description</td>
+            <td>Launch</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-md-6">
+      <h3>Distribution Scripts</h3>
+      <p>The scripts below allow you to archive the data files for each dataset in the form moocRP needs it to be in. <a href="#">(?)</a></p>
+      <table class='table table-striped'>
+        <thead>
+          <tr>
+            <td>Script Name</td>
+            <td>Description</td>
+            <td>Launch</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
