@@ -422,19 +422,19 @@ module.exports = {
   // TODO: Implement "starring" analytics feature
   star: function(req, res) {
     if (req.isSocket) {
-      User.findOne(req.session.user.id).populate('starredVisuals').exec(function (err, user) {
+      User.findOne(req.session.user.id).populate('starredAnalytics').exec(function (err, user) {
 
         if (err || !user) sails.log.debug('Error: ' + err + ' [Users: ' + user + ']');
 
         var alreadyStarred = false;
-        for (i = 0; i < user.starredVisuals.length; i++) {
-          if (user.starredVisuals[i].id == req.param('id')) alreadyStarred = true;
+        for (i = 0; i < user.starredAnalytics.length; i++) {
+          if (user.starredAnalytic[i].id == req.param('id')) alreadyStarred = true;
         }
 
         if (alreadyStarred) {
-          user.starredVisuals.remove(req.param('id'));
+          user.starredAnalytics.remove(req.param('id'));
         } else {
-          user.starredVisuals.add(req.param('id'));
+          user.starredAnalytics.add(req.param('id'));
         }
         user.save(function (err) {
           if (!err) return { result: sails.config.constants.SUCCESS };
