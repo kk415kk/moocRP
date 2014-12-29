@@ -163,7 +163,6 @@ function starVisual(analyticID) {
   window.socket.post('/analytic/star', { id: analyticID, _csrf: "<%= _csrf %>" }, function (resData, jwres) {
     for (var key in resData) {
       if (resData.hasOwnProperty(key)) {
-        alert(resData[key]);
       }
     }
   });
