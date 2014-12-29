@@ -428,7 +428,7 @@ module.exports = {
 
         var alreadyStarred = false;
         for (i = 0; i < user.starredAnalytics.length; i++) {
-          if (user.starredAnalytic[i].id == req.param('id')) alreadyStarred = true;
+          if (user.starredAnalytics[i].id == req.param('id')) alreadyStarred = true;
         }
 
         if (alreadyStarred) {
