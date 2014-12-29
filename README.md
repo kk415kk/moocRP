@@ -1,5 +1,5 @@
 <img src="https://travis-ci.org/kk415kk/moocRP.svg?branch=master"/>
-# moocRP: Reproducible Research Platform
+# moocRP: Learning Analytics Platform
 Research platform for University of California, Berkeley researchers built by Kevin Kao in collaboration with Professor Zachary Pardos. To contribute to this project, please fork the project and make pull requests, or create Github issues.
 
 Built on Node.js server with Sails.js framework for an MVC architecture. Python/Bash scripts and D3 visualizations mixed in.
@@ -8,7 +8,7 @@ Releases will be numbered as ````< major version >.< minor version >.< patch num
 
 ## Current Release
 The current release version is:  ````0.1.4````<br>
-<b>Last update:</b> 12/28/15
+<b>Last update:</b> 12/29/15
 
 ## Author
 Kevin Kao
@@ -18,7 +18,7 @@ Kevin Kao
 * [Configuration](documentation/configuration.md)
 * [Deployment](#deploying-to-production)
 * [Tests](#tests)
-* [Visualization Instructions](documentation/visualizations.md)
+* [Analytic Modules Instructions](documentation/analytic_modules.md)
 * [Data Models](documentation/data_models.md)
 * [Data Distribution](documentation/data_distribution.md)
 * [edX Data Scrubbing](documentation/edX-datascrub.md)
@@ -50,6 +50,8 @@ npm test
 ```
 
 ## Changelog
+````0.1.5```` - 12/29/2014: Download functionality added in additional updates, refactoring of analytic schemas (past 0.1.4 release).
+
 ````0.1.4```` - 12/28/2014: Patch to add functionality to contact/report form, better linkage of data models and requests, as well as folders on disk. Initial test suite implemented in. Data model modifications and security checks added.
 
 ````0.1.3```` - 10/18/2014: Patch to update start up and setup scripts. Fixed bug that deleted the wrong entries in requests/analytics tables. Added search/description features to analytics. Changed data type support to data model support. Fixed minor bugs with registration; removed launch from production minification to prevent bugs in UI.

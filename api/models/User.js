@@ -55,13 +55,13 @@ module.exports = {
       collection: 'request',
       via: 'requestingUser'
     },
-    visualizations: {
-      collection: 'visualization',
+    analytics: {
+      collection: 'analytic',
       via: 'owner'
     },
-    starredVisuals: {
+    starredAnalytics: {
       dominant: true,
-      collection: 'visualization',
+      collection: 'analytic',
       via: 'usersWhoStarred'
     },
 

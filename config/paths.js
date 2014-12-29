@@ -2,10 +2,10 @@ var path = require('path');
 
 module.exports.paths = {
     
-    // Visualization Paths
-    UPLOAD_PATH: path.resolve('..', 'visualizations', 'archives'),
-    EXTRACT_PATH: path.resolve('..', 'visualizations', 'tmp'),
-    PUBLIC_SHARE_PATH: path.resolve('views', 'analytics', 'share'),
+    // Analytic Paths
+    UPLOAD_PATH: path.resolve('..', 'analytics', 'archives'),
+    EXTRACT_PATH: path.resolve('..', 'analytics', 'tmp'),
+    PUBLIC_SHARE_PATH: path.resolve('views', 'analyticdisplay', 'share'),
 
     // Stored Scaffolds Folder
     STORED_SCAFFOLDS_PATH: path.resolve('assets', 'scaffolds'),

@@ -78,12 +78,12 @@ module.exports.routes = {
   },
 
   '/analytics': {
-    controller: 'analytics',
+    controller: 'analyticdisplay',
     action: 'analytics'
   },
 
-  '/analytics/share/:visualType/:userID/:visualID/:datasetName': {
-    controller: 'analytics',
+  '/analyticdisplay/share/:analyticType/:userID/:analyticID/:datasetName': {
+    controller: 'analyticdisplay',
     action: 'view'
   }
 

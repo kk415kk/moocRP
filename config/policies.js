@@ -53,7 +53,7 @@ module.exports.policies = {
     '*': ['flash', 'isAdmin']
   },
   
-  AnalyticsController: {
+  AnalyticDisplayController: {
     '*': ['flash', 'isAuthenticated'],
   },
 
@@ -81,7 +81,7 @@ module.exports.policies = {
     'save': ['isAuthenticated', 'flash', 'hasID']
   },
 
-  VisualizationController: {
+  AnalyticController: {
     '*': ['flash', 'isAuthenticated'],
     'approve': ['flash', 'isAdmin', 'hasID'],
     'destroy': ['flash', 'isAdmin', 'hasID'],

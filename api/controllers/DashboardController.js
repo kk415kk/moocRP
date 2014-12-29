@@ -80,8 +80,8 @@ module.exports = {
           non_pii_datasets: non_pii_datasets,
           pii_datasets: pii_datasets,
           dataModels: dataModels,
-          starredVisuals: user.starredVisuals,
-          visualizations: user.visualizations,
+          starredAnalytics: user.starredAnalytics,
+          analytics: user.analytics,
           maxCount: 5
         });
       });

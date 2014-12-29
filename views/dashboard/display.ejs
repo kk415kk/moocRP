@@ -44,7 +44,7 @@
 				<h5>Contributions: </h5> 
 				<p>
 				<ul>
-					<li class="no-indent"><b>Shared Analytics: </b><%= visualizations.length %></li>
+					<li class="no-indent"><b>Shared Analytics: </b><%= analytics.length %></li>
 				</ul>
 				</p>
 			</div>
@@ -160,31 +160,31 @@
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h1 class="panel-title">Shared Visualizations</h1>
-						<a data-toggle="collapse" data-parent="#rightDashboard" data-target="#visualRequests" class="pull-right">+</a>
+						<h1 class="panel-title">Shared Analytic Modules</h1>
+						<a data-toggle="collapse" data-parent="#rightDashboard" data-target="#analyticRequests" class="pull-right">+</a>
 					</div>
-					<div id="visualRequests" class="panel-collapse collapse">
+					<div id="analyticRequests" class="panel-collapse collapse">
 						<div class="panel-body">
-						<h5>Approved Visualizations</h5>
-						<% _.each(visualizations, function(visualization) { %>
-							<% if (visualization.approved) { %>
-								<%= visualization.name %>
+						<h5>Approved Modules</h5>
+						<% _.each(analytics, function(analytic) { %>
+							<% if (analytic.approved) { %>
+								<%= analytic.name %>
 								<br>
 							<% } %>
 						<% }); %>
 						<hr>
-						<h5>Pending Visualizations</h5>
-						<% _.each(visualizations, function(visualization) { %>
-							<% if (!visualization.approved && !visualization.rejected) { %>
-								<%= visualization.name %>
+						<h5>Pending Modules</h5>
+						<% _.each(analytics, function(analytic) { %>
+							<% if (!analytic.approved && !analytic.rejected) { %>
+								<%= analytic.name %>
 								<br>
 							<% } %>
 						<% }); %>
 						<hr>
-						<h5>Rejected Visualizations</h5>
-						<% _.each(visualizations, function(visualization) { %>
-							<% if (visualization.rejected) { %>
-								<%= visualization.name %>
+						<h5>Rejected Modules</h5>
+						<% _.each(analytics, function(analytic) { %>
+							<% if (analytic.rejected) { %>
+								<%= analytic.name %>
 								<br>
 							<% } %>
 						<% }); %>
@@ -194,14 +194,14 @@
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h1 class="panel-title">Starred Visualizations</h1>
-						<a data-toggle="collapse" data-parent="#rightDashboard" data-target="#starredVisuals" class="pull-right">+</a>
+						<h1 class="panel-title">Starred Analytic Modules</h1>
+						<a data-toggle="collapse" data-parent="#rightDashboard" data-target="#starredAnalytics" class="pull-right">+</a>
 					</div>
-					<div id="starredVisuals" class="panel-collapse collapse">
+					<div id="starredAnalytics" class="panel-collapse collapse">
 						<div class="panel-body">
-							<p>This is where your starred visualizations will appear.</p>
-							<% starredVisuals.forEach(function (starred) { %>
-								<p><a href="/analytics/#"><%= starred.name %></a></p>
+							<p>This is where your starred analytic modules will appear.</p>
+							<% starredAnalytics.forEach(function (starred) { %>
+								<p><a href="/analyticdisplay/#"><%= starred.name %></a></p> <!-- TODO -->
 							<% }); %>
 						</div>
 					</div>
@@ -221,8 +221,8 @@
 			<div class="col-md-6">
 				<h3 class="section">Share Analytics</h3>
 				<p>Please place your main visualization code inside a "main.html" file inside your archive. Our system detects the code through that file only. Read our <a href="/privacy" target="_blank">privacy policy</a> for more information on how we use your analytics.</p>
-				<form action="/visualization/upload" enctype="multipart/form-data" method="POST">
-	    		<label>Visualization: </label><input type="text" class="form-control" placeholder="visualization name" name="name">
+				<form action="/analytic/upload" enctype="multipart/form-data" method="POST">
+	    		<label>Analytic: </label><input type="text" class="form-control" placeholder="module name" name="name">
 	    		<br>
 					<label>Description: </label><textarea rows="7" type="text" class="form-control" name="description"></textarea>
 					<br>
@@ -233,7 +233,7 @@
 						<% }) %>
 					</select>
 					<br>
-					<label>Visualization Type:</label><br>
+					<label>Module Type:</label><br>
 					<label class="undecorated"><input type="radio" name="type" value="D3"> D3.js</label><br>
 					<label class="undecorated"><input type="radio" name="type" value="Other" disabled> Other</label><br><br>
 					<input type="hidden" name="_csrf" value="<%= _csrf %>" />

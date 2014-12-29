@@ -44,8 +44,8 @@ module.exports = {
 
   // View to manage uploads by researchers
   manage_analytics: function(req, res) {
-    Visualization.find().populate('owner').exec(function foundVisualizations(err, visualizations) {
-      return res.view({ title: 'Manage Analytics', visualizations: visualizations });
+    Analytic.find().populate('owner').exec(function foundAnalytics(err, analytics) {
+      return res.view({ title: 'Manage Analytics', analytics: analytics });
     });
   },
 
