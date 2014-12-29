@@ -20,6 +20,7 @@ Kevin Kao
 * [Tests](#tests)
 * [Visualization Instructions](documentation/visualizations.md)
 * [Data Models](documentation/data_models.md)
+* [Data Distribution](documentation/data_distribution.md)
 * [edX Data Scrubbing](documentation/edX-datascrub.md)
 * [Changelog](#changelog)
 * [Features](#features)

@@ -49,7 +49,7 @@ module.exports = {
 
   analytics: function(req, res) {
     Visualization.find().populate('owner').exec(function (err, visualizations) {
-      User.findOne(req.session.user.id).populate('starredVisuals').exec(function (err, thisUser) {
+      User.findOne(req.session.user.id).populate('starredVisuals').populate('requests').exec(function (err, thisUser) {
         DataModel.find().exec(function (err, dataModels) {
 
           var fs = require('fs-extra');

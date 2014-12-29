@@ -186,7 +186,9 @@ function loadVisual(visualID, visualType, userID) {
 }
 
 function description(name, owner, d) {
-  $("#analytics-description").html("<h4><u>" + name + " by " + owner + "</u></h4>" + "<p>" + d + "</p>");
+  if (name !== undefined) {
+    $("#analytics-description").html("<h4><u>" + name + " by " + owner + "</u></h4>" + "<p>" + d + "</p>");
+  }
 }
 </script>
 
