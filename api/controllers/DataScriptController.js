@@ -17,8 +17,9 @@ module.exports = {
   },
 
   // BUILT-IN DATA MANAGEMENT TOOLS
+  // http://blog.thesparktree.com/post/92465942639/ducktyping-sailsjs-core-for-background-tasks-via
 	script_archive: function(req, res) {
-    return res.redirect('/admin/manage_data_scripts');
+    return res.json({});
   },
   script_move: function(req, res) {
     return res.redirect('/admin/manage_data_scripts');
