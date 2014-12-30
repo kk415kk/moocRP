@@ -95,6 +95,10 @@ module.exports.policies = {
     'info': ['flash', 'isAuthenticated']
   },
 
+  DataScriptController: {
+    '*': ['flash', 'isAdmin']
+  },
+
   ReportController: {
     '*': ['flash', 'isAdmin'],
     'send': ['flash']

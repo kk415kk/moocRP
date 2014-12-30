@@ -7,6 +7,7 @@
 
 var PATH_CONFIG = sails.config.paths;
 var DATA_DROP_PATH = PATH_CONFIG.DATASET_DROP_PATH;
+var kue = require('kue');
 
 module.exports = {
   create: function(req, res) {
@@ -19,7 +20,24 @@ module.exports = {
   // BUILT-IN DATA MANAGEMENT TOOLS
   // http://blog.thesparktree.com/post/92465942639/ducktyping-sailsjs-core-for-background-tasks-via
 	script_archive: function(req, res) {
-    return res.json({});
+    var jobs = QueueService.getQueue();
+    var job = QueueService.createJob('test job', { user: 1, test: 'testparam' });
+
+    jobs.process('test job', 1, function (job, done) {
+      var frames = job.data.frames;
+
+      function next(i) {
+        if (i > 10) {
+          done();
+        } else {
+          sails.log(i);
+          next(i+1);
+        }
+      }
+      next(0);
+    });
+    sails.log.info('leaving controller action');
+    return res.redirect('/admin/manage_data_scripts');
   },
   script_move: function(req, res) {
     return res.redirect('/admin/manage_data_scripts');

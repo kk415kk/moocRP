@@ -18,6 +18,10 @@ module.exports.bootstrap = function(cb) {
     sails.log.error = LoggerService.error;
   }
 
+  // Launch message
+  sails.log.info('moocRP: Learning Analytics Platform');
+
+
   // Launch jobs queue
   QueueService.launchQueue();
 

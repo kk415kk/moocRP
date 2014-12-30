@@ -32,6 +32,7 @@
     "lodash": "~2.4.1",
 
     "sails-mysql": "latest",
+    
     "nodemailer": "latest",
     "bcrypt": "latest",
     "request": "latest",
