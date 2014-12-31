@@ -26,7 +26,7 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  '*': [true, 'flash'],
+  '*': [true, 'flash', 'getOnly'],
 
   /***************************************************************************
   *                                                                          *
@@ -50,7 +50,7 @@ module.exports.policies = {
 	// }
 
   AdminController: {
-    '*': ['flash', 'isAdmin']
+    '*': ['flash', 'isAdmin', 'getOnly']
   },
   
   AnalyticDisplayController: {
@@ -58,7 +58,7 @@ module.exports.policies = {
   },
 
   DashboardController: {
-    '*': ['flash', 'isAuthenticated']
+    '*': ['flash', 'isAuthenticated', 'getOnly']
   },
 
   HomeController: {
@@ -87,12 +87,16 @@ module.exports.policies = {
     'destroy': ['flash', 'isAdmin', 'hasID'],
     'demo': ['flash', 'isAdmin', 'hasID'],
     'reject': ['flash', 'isAdmin', 'hasID'],
-    'deleteAll': ['flash', 'isAdmin'],
+    'deleteAll': ['flash', 'isAdmin']
   },
 
   DataModelController: {
     '*': ['flash', 'isAdmin'],
     'info': ['flash', 'isAuthenticated']
+  },
+
+  DataScriptController: {
+    '*': ['flash', 'isAdmin']
   },
 
   ReportController: {

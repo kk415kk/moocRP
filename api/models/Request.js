@@ -26,6 +26,10 @@ module.exports = {
       email: true,
       required: true
     },
+    reason: {
+      type: 'TEXT',
+      defaultsTo: 'No reason specified'
+    },
     requestingUser: {
       model: 'user',
       required: true

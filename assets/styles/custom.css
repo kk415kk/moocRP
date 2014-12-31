@@ -212,6 +212,14 @@ input[readonly] {
 
 }
 
+.navbar-brand img {
+  /*max-width:30px; margin:-10px; margin-right:-10px;*/
+  max-width: 30px;
+  display: inline-block;
+  position: relative;
+  margin-top: -5px;
+}
+
 .navbar-inverse .navbar-text {
   color: #ffffff;
 }

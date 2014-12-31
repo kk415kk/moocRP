@@ -61,24 +61,50 @@
     </div>
 
     <div class="col-md-6">
-      <h3>Distribution Scripts</h3>
+      <h3>Data Distribution Scripts</h3>
       <p>The scripts below allow you to archive the data files for each dataset in the form moocRP needs it to be in. <a href="#">(?)</a></p>
       <table class='table table-striped'>
         <thead>
           <tr>
             <td>Script Name</td>
             <td>Description</td>
+            <td>Status</td>
             <td>Launch</td>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>Test Script</td>
+            <td><a href='#'>Description</a></td>
+            <td><font color='red' id='archiveScript-status'>Not Running</font></td>
+            <td><a id='archiveScript' class='btn btn-primary btn-sm'>Launch</a></td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 </div>
+
+<!-- Archive datasets-->
+<script>
+window.socket = io.socket;
+$('#archiveScript').click( function() { archiveScript(); return false; } );
+function archiveScript() {
+  window.socket.post('/datascript/script_archive', { _csrf: "<%= _csrf %>" }, function (resData, jwres) {
+    updateStatus('archiveScript-status', resData.body.progress)
+  });
+}
+
+function updateStatus(id, status) {
+  if (status == 'Running') {
+    status = "<font color='gold'>" + status + "</font>";
+  } else if (status == 'Completed') {
+    status = "<font color='green'>" + status + "</font>";
+  } else {
+    status = "<font color='red'>" + status + "</font>";
+  }
+  $('#' + id).html(status);
+}
+</script>
+
+<!-- Other -->

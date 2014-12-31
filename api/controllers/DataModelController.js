@@ -51,6 +51,7 @@ module.exports = {
       fs.ensureDirSync(path.join(sails.config.paths.DATASET_EXTRACT_PATH, dataModel.fileSafeName));
       fs.ensureDirSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'non_pii', dataModel.fileSafeName));
       fs.ensureDirSync(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'pii', dataModel.fileSafeName));
+      fs.ensureDirSync(path.join(sails.config.paths.DATASET_DROP, dataModel.fileSafeName));
       fs.ensureDirSync(path.join(sails.config.paths.DATASET_ENCRYPT_PATH, dataModel.fileSafeName));
       return res.redirect('/admin/manage_data_models');
     });
@@ -64,6 +65,7 @@ module.exports = {
       rmdir(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'non_pii', dataModel[0].fileSafeName), function(err) {});
       rmdir(path.join(sails.config.paths.DATASET_DOWNLOAD_ROOT, 'pii', dataModel[0].fileSafeName), function(err) {});
       rmdir(path.join(sails.config.paths.DATASET_ENCRYPT_PATH, dataModel[0].fileSafeName), function(err) {});
+      rmdir(path.join(sails.config.paths.DATASET_DROP, dataModel[0].fileSafeName), function(err) {});
 
       // TODO: Deny all pending requests for this data model; also remove available downloads for this data model
       Request.find({ dataModel: req.param('id') }, function (err, requests) {
@@ -118,8 +120,9 @@ module.exports = {
       var downloadNonPII = sails.config.paths.DATASET_NON_PII,
           downloadPII = sails.config.paths.DATASET_PII,
           extractedPath = sails.config.paths.DATASET_EXTRACT_PATH,
-          encryptPath = sails.config.paths.DATASET_ENCRYPT_PATH
-
+          encryptPath = sails.config.paths.DATASET_ENCRYPT_PATH,
+          dataDropPath = sails.config.paths.DATASET_DROP;
+          
       if (params['displayName'] != '' && params['displayName'] != datamodel.displayName) {
         updateParams['displayName'] = params['displayName'];
       }
@@ -134,6 +137,7 @@ module.exports = {
         fs.move(path.resolve(downloadPII, currFolderName), path.resolve(downloadPII, params['folderName']), function(err) {});
         fs.move(path.resolve(extractedPath, currFolderName), path.resolve(extractedPath, params['folderName']), function(err) {});
         fs.move(path.resolve(encryptPath, currFolderName), path.resolve(encryptPath, params['folderName']), function(err) {});
+        fs.move(path.resolve(dataDropPath, currFolderName), path.resolve(dataDropPath, params['folderName']), function(err) {});
       }
 
       DataModel.update(params['id'], updateParams, function(err) {

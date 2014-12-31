@@ -26,9 +26,22 @@ Installation
     ````
 
 * Install MySQL server: ````sudo apt-get install mysql-server-5.6````
+* Install Redis (latest installation instructions [here](http://redis.io/topics/quickstart)): 
+
+    ```
+    wget http://download.redis.io/redis-stable.tar.gz
+    tar xvzf redis-stable.tar.gz
+    cd redis-stable
+    make
+    make test
+    sudo make install
+    ```
+
 * Install Sails.js ~0.10.5, minimum 0.10.x: ````sudo npm install -g sails````
 
 ## Setup Instructions
+<b>Make sure MySQL and Redis are running before launching moocRP.</b>
+
 First, create a new folder called moocRP_base to clone this repository to:
 ````
 mkdir moocRP_base
