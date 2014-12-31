@@ -36,53 +36,55 @@ module.exports = {
     User.findOne(req.session.user.id).populateAll().exec(function foundRequests(err, user) {
       DataModel.find().exec(function foundDataModels(err, dataModels) {
 
-        for (var i = 0; i < user.requests.length; i++) {
-          var updatedRequest;
-          Request.findOne(user.requests[i].id).populate('dataModel').exec(function (err, request) {
-            updatedRequest = request;
-          }); 
-          // Bypass the async nature of populating
-          while (!updatedRequest) { require('deasync').runLoopOnce(); }
-          user.requests[i] = updatedRequest;
+        var fillDataModels = function (i, n, cb) {
+          if (i >= n) {
+            cb();
+          } else {
+            Request.findOne(user.requests[i]['id']).populate('dataModel').exec(function (err, request) {
+              user.requests[i] = request;
+              fillDataModels(i+1, n, cb);
+            });
+          }
         }
 
+        fillDataModels(0, user.requests.length, function() {
+          var pii_datasets = {}
+          var non_pii_datasets = {};
+          for (i = 0; i < dataModels.length; i++) { 
+            var dataModelFolder = dataModels[i].fileSafeName;
+            fs.ensureDirSync(path.join(sails.config.paths.DATASET_NON_PII, dataModelFolder));
+            fs.ensureDirSync(path.join(sails.config.paths.DATASET_PII, dataModelFolder));
 
-        var pii_datasets = {}
-        var non_pii_datasets = {};
-        for (i = 0; i < dataModels.length; i++) { 
-          var dataModelFolder = dataModels[i].fileSafeName;
-          fs.ensureDirSync(path.join(sails.config.paths.DATASET_NON_PII, dataModelFolder));
-          fs.ensureDirSync(path.join(sails.config.paths.DATASET_PII, dataModelFolder));
+            var datasets = fs.readdirSync(path.join(sails.config.paths.DATASET_NON_PII, dataModelFolder));
+            for (j = 0; j < datasets.length; j++) {
+              datasets[j] = UtilService.fileMinusExt(datasets[j]);
+            }
+            non_pii_datasets[dataModels[i].displayName] = datasets;
 
-          var datasets = fs.readdirSync(path.join(sails.config.paths.DATASET_NON_PII, dataModelFolder));
-          for (j = 0; j < datasets.length; j++) {
-            datasets[j] = UtilService.fileMinusExt(datasets[j]);
+            datasets = fs.readdirSync(path.join(sails.config.paths.DATASET_PII, dataModelFolder));
+            for (j = 0; j < datasets.length; j++) {
+              datasets[j] = UtilService.fileMinusExt(datasets[j]);
+            }
+            pii_datasets[dataModels[i].displayName] = datasets;
+            dataModels[i] = dataModels[i].displayName;
           }
-          non_pii_datasets[dataModels[i].displayName] = datasets;
 
-          datasets = fs.readdirSync(path.join(sails.config.paths.DATASET_PII, dataModelFolder));
-          for (j = 0; j < datasets.length; j++) {
-            datasets[j] = UtilService.fileMinusExt(datasets[j]);
-          }
-          pii_datasets[dataModels[i].displayName] = datasets;
-          dataModels[i] = dataModels[i].displayName;
-        }
-
-        // var non_pii_datasets = fs.readdirSync(sails.config.paths.DATASET_NON_PII);
-        // for (i = 0; i < non_pii_datasets.length; i++) {
-        //   non_pii_datasets[i] = UtilService.fileMinusExt(non_pii_datasets[i]); // filter file extensions
-        // }
-        
-        res.view({
-          user: user,
-          requests: user.requests,
-          title: 'Dashboard',
-          non_pii_datasets: non_pii_datasets,
-          pii_datasets: pii_datasets,
-          dataModels: dataModels,
-          starredAnalytics: user.starredAnalytics,
-          analytics: user.analytics,
-          maxCount: 5
+          // var non_pii_datasets = fs.readdirSync(sails.config.paths.DATASET_NON_PII);
+          // for (i = 0; i < non_pii_datasets.length; i++) {
+          //   non_pii_datasets[i] = UtilService.fileMinusExt(non_pii_datasets[i]); // filter file extensions
+          // }
+          
+          res.view({
+            user: user,
+            requests: user.requests,
+            title: 'Dashboard',
+            non_pii_datasets: non_pii_datasets,
+            pii_datasets: pii_datasets,
+            dataModels: dataModels,
+            starredAnalytics: user.starredAnalytics,
+            analytics: user.analytics,
+            maxCount: 5
+          });
         });
       });
     });

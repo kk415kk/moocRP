@@ -23,7 +23,7 @@ module.exports = {
     var jobs = QueueService.getQueue();
     var job = QueueService.createJob('test job', { user: 1, test: 'testparam' });
 
-    jobs.process('test job', 1, function (job, done) {
+    jobs.process('archive job', 1, function (job, done) {
       var frames = job.data.frames;
 
       function next(i) {
@@ -36,8 +36,7 @@ module.exports = {
       }
       next(0);
     });
-    sails.log.info('leaving controller action');
-    return res.redirect('/admin/manage_data_scripts');
+    return res.json({ 'progress': 'Running' });
   },
   script_move: function(req, res) {
     return res.redirect('/admin/manage_data_scripts');
