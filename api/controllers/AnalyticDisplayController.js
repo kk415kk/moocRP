@@ -56,6 +56,9 @@ module.exports = {
           fs.ensureDirSync(DATASET_EXTRACT_PATH);
           var extractedDatasets = {};
 
+          // The names of the courses the user has access to
+          var allowedDatasets = _.pluck(_.where(thisUser.requests, { granted: true }), 'dataset');
+
           for (i = 0; i < dataModels.length; i++) {
             var folderPath = path.resolve(DATASET_EXTRACT_PATH, dataModels[i].fileSafeName);
             fs.ensureDirSync(folderPath);
@@ -67,17 +70,12 @@ module.exports = {
 
             for (j = 0; j < datasetFolders.length; j++) {
               var infoKey = currDataModel.fileSafeName
+
+              // infoObj is a pair (as an array): [ dataModelName, datasetName (i.e. course name)]
               var infoObj = [currDataModel.displayName, datasetFolders[j]];
-              extractedDatasets[infoKey].push(infoObj);
-
-              // var nextFolderPath = path.resolve(folderPath, datasetFolders[j]);
-              // var datasets = fs.readdirSync(nextFolderPath);
-
-              // for (k = 0; k < datasets.length; k++) {
-              //   var infoKey = currDataModel.fileSafeName
-              //   var infoObj = [currDataModel.displayName, UtilService.fileMinusExt(datasets[k])];
-              //   extractedDatasets[infoKey].push(infoObj);
-              // }
+              if (allowedDatasets.indexOf(infoObj[1]) > -1) {
+                extractedDatasets[infoKey].push(infoObj);
+              }
             }
           }
 
