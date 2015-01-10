@@ -72,7 +72,7 @@
 			<div class="col-md-12">
 				<p>
 					<a href="/datamodel/info" class="btn btn-sm btn-success">Developer's Guide</a>
-					<a href="#" class="btn btn-sm btn-success">Documentation</a>
+					<a href="https://github.com/kk415kk/moocRP/blob/master/README.md" class="btn btn-sm btn-success" target="_blank">Documentation</a>
 					<a href="#" class="btn btn-sm btn-success">Analytics Stats</a>
 					<a href="#" class="btn btn-sm btn-success">FAQs</a>
 				</p>
@@ -270,7 +270,7 @@
 						<option disabled>Non-PII: </option>
 						<% for (var dataModel in non_pii_datasets) { %>
 							<% _.each(non_pii_datasets[dataModel], function(non_pii_dataset) { %>
-								<option value="<%= dataModel %>__<%= non_pii_dataset %>"><%= dataModel %>: <%= non_pii_dataset %></option>
+								<option value="<%= dataModel %>__<%= non_pii_dataset %>"><b>[<%= dataModel %>]</b> <%= non_pii_dataset %></option>
 							<% }) %>
 						<% } %>
 						
@@ -278,7 +278,7 @@
 						<option disabled>PII: </option>
 						<% for (var dataModel in pii_datasets) { %>
 							<% _.each(pii_datasets[dataModel], function(pii_dataset) { %>
-								<option value="<%= dataModel %>__<%= pii_dataset %>"><%= dataModel %>: <%= pii_dataset %></option>
+								<option value="<%= dataModel %>__<%= pii_dataset %>">[<%= dataModel %>] <%= pii_dataset %></option>
 							<% }) %>
 						<% } %>
 					</select>
