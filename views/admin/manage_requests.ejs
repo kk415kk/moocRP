@@ -46,13 +46,12 @@
 				<tr>
 					<th>Researcher ID</th>
 					<th>Full Name</th>
-					<th>Email</th>
 					<th>Dataset</th>
 					<th>Request Type</th>
 					<th>Date Requested</th>
+          <th>Reason</th>
 					<th>Grant</th>
 					<th>Deny</th>
-					<th></th>
 				</tr>
 			</thead>
 
@@ -60,22 +59,40 @@
 			<% _.each(requests, function(request) { %>
 				<% if (!request.granted && !request.denied) { %>
 					<tr data-id="<%= request.id %>" data-model="request">
-						<td><%= request.requestingUser.id %></td>
+						<td><a href="/user/show/<%= request.requestingUser.id %>" target="_blank"><%= request.requestingUser.id %></a></td>
 						<td><%= request.firstName %> <%= request.lastName %></td>
-						<td><%= request.email %></td>
 						<td><%= request.dataModel.displayName %>: <%= request.dataset %></td>
 						<td><%= request.requestType %></td>
 						<td><%= request.createdAt %></td>
+            <td><a class="btn btn-sm btn-primary" data-toggle="modal" href="#pendingModal-<%= request.id %>">Reason</a></td>
 						<td><a href="/request/grant/<%= request.id %>" class="btn btn-sm btn-success">Grant</a></td>
-
 						<td>
 							<form action="/request/deny/<%= request.id %>" method="POST">
 							<input type="hidden" name="_method" value="deny"/>
 							<input type="submit" class="btn btn-sm btn-danger" value="Deny"/>
 							<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 							</form>
-							</td>
-						<td></td>
+						</td>
+            <!-- Modal for Pending Requests-->
+            <div class="modal fade" id="pendingModal-<%= request.id %>" tabindex="-1" role="dialog" aria-labelledby="pendingLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h3 class="modal-title" id="pendingLabel"><b>Request Reason</b></h3>
+                  </div>
+
+                  <div class="modal-body">
+                    <p><%= request.reason %></p>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End Modal -->
 					</tr> 
 				<% } %>
 			<% }) %>
@@ -91,11 +108,11 @@
 				<tr>
 					<th>Researcher ID</th>
 					<th>Full Name</th>
-					<th>Email</th>
 					<th>Dataset</th>
 					<th>Request Type</th>
 					<th>Date Requested</th>
 					<th>Date Granted</th>
+          <th>Reason</th>
 				</tr>
 			</thead>
 
@@ -103,14 +120,34 @@
 			<% _.each(requests, function(request) { %>
 				<% if (request.granted) { %>
 					<tr data-id="<%= request.id %>" data-model="request">
-						<td><%= request.requestingUser.id %></td>
+						<td><a href="/user/show/<%= request.requestingUser.id %>" target="_blank"><%= request.requestingUser.id %></a></td>
 						<td><%= request.firstName %> <%= request.lastName %></td>
-						<td><%= request.email %></td>
 						<td><%= request.dataset %></td>
 						<td><%= request.requestType %></td>
 						<td><%= request.createdAt %></td>
 						<td><%= request.updatedAt %></td>
-					</tr> 
+            <td><a class="btn btn-sm btn-primary" data-toggle="modal" href="#grantedModal-<%= request.id %>">Reason</a></td>
+					</tr>
+          <!-- Modal for Granted Requests-->
+          <div class="modal fade" id="grantedModal-<%= request.id %>" tabindex="-1" role="dialog" aria-labelledby="grantedLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                  <h3 class="modal-title" id="grantedLabel"><b>Request Reason</b></h3>
+                </div>
+
+                <div class="modal-body">
+                  <p><%= request.reason %></p>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Modal --> 
 				<% } %>
 			<% }) %>
 			</tbody>
@@ -125,11 +162,11 @@
 				<tr>
 					<th>Researcher ID</th>
 					<th>Full Name</th>
-					<th>Email</th>
 					<th>Dataset</th>
 					<th>Request Type</th>
 					<th>Date Requested</th>
 					<th>Date Denied</th>
+          <th>Reason</th>
 				</tr>
 			</thead>
 
@@ -137,14 +174,35 @@
 			<% _.each(requests, function(request) { %>
 				<% if (request.denied) { %>
 					<tr data-id="<%= request.id %>" data-model="request">
-						<td><%= request.requestingUser.id %></td>
+						<td><a href="/user/show/<%= request.requestingUser.id %>" target="_blank"><%= request.requestingUser.id %></a></td>
 						<td><%= request.firstName %> <%= request.lastName %></td>
-						<td><%= request.email %></td>
 						<td><%= request.dataset %></td>
 						<td><%= request.requestType %></td>
 						<td><%= request.createdAt %></td>
 						<td><%= request.updatedAt %></td>
-					</tr> 
+            <td><a class="btn btn-sm btn-primary" data-toggle="modal" href="#deleteModal-<%= request.id %>">Reason</a></td>
+					</tr>
+
+          <!-- Modal for Deleted Requests-->
+          <div class="modal fade" id="deleteModal-<%= request.id %>" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                  <h3 class="modal-title" id="deleteLabel"><b>Request Reason</b></h3>
+                </div>
+
+                <div class="modal-body">
+                  <p><%= request.reason %></p>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Modal --> 
 				<% } %>
 			<% }) %>
 			</tbody>
@@ -156,7 +214,7 @@
 	</p>
 </div>
 
-<!-- Modal for Deleting All Visualizations -->
+<!-- Modal for Deleting All Requests -->
 <div class="modal fade" id="deleteAllModal" tabindex="-1" role="dialog" aria-labelledby="deleteAllLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">

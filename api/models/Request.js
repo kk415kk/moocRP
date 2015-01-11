@@ -28,7 +28,6 @@ module.exports = {
     },
     reason: {
       type: 'TEXT',
-      defaultsTo: 'No reason specified'
     },
     requestingUser: {
       model: 'user',
@@ -58,6 +57,13 @@ module.exports = {
       type: 'BOOLEAN',
       defaultsTo: false
     }
+  },
+  beforeCreate: function (values, next) {
+    // Default reason value
+    if (values.reason == '') {
+      values.reason = 'No reason specified';
+    }
+    return next();
   }
 
 };
