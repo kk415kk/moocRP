@@ -82,7 +82,6 @@ function extractArchive(pathToFile, type, fileName, userID) {
         overwrite = true;
 
     fs.ensureDirSync(unzipTo);
-
     sails.log.debug('Unzipping archive to ' + unzipTo);
   } catch (err) {
     sails.log.debug("Error during extraction: " + err + " [filename: " + pathToFile + "/" + fileName + "]");
@@ -150,7 +149,6 @@ function linkAssets(html, type, userID, analyticID) {
       }
     }
   }
-
   return $.html();
 }
 

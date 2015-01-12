@@ -1,6 +1,6 @@
 <div class="mini-banner auto">
   <div class="container">
-    <h2>Analytics Management</h2>
+    <h2>Module Management</h2>
     <% if (messages && messages['error'].length > 0) { %>
       <div class="alert alert-danger">
       <% messages['error'].forEach(function(message) { %>
@@ -33,21 +33,21 @@
 
 <div class="sub-banner">
   <div class="container">
-    <h2>Manage your researchers' uploaded analytics and analytics here.</h2>
+    <h2>Manage your researchers' uploaded analytic modules here.</h2>
   </div>
 </div>
 
 <!-- Pending Modules -->
 <div class="container wrapper">
   <h3>Pending Modules</h3>
-  <table class='table table-striped table-hover' id='pending-visuals'>
+  <table class='table table-striped table-hover' id='pendingAnalytics'>
     <thead>
       <tr>
         <th>User ID</th>
         <th>Name</th>
         <th>Type</th>
-        <th>Description</th>
         <th>File</th>
+        <th>Description</th>
         <th>Approve</th>
         <th>Reject</th>
         <th>Download</th>
@@ -58,14 +58,35 @@
     <% _.each(analytics, function(analytic) { %>
       <% if (!analytic.approved && !analytic.rejected) { %>
         <tr data-id="<%= analytic.id %>" data-model="analytic">
-          <td><%= analytic.owner.id %></td>
+          <td><a href="/user/show/<%= analytic.owner.id %>" target="_blank"><%= analytic.owner.id %></a></td>
           <td><%= analytic.name %></td>
           <td><%= analytic.type %></td>
-          <td><%= analytic.description %></td>
           <td><%= analytic.fileName %></td>
+          <td><a class="btn btn-sm btn-primary" data-toggle="modal" href="#pendingDescriptionModal-<%= analytic.id %>">Description</a></td>
           <td><a href="/analytic/approve/<%= analytic.id %>" class="btn btn-sm btn-success">Approve</a></td>
           <td><a href="#rejectModal1-<%= analytic.id %>" data-toggle="modal" class="btn btn-sm btn-warning">Reject</a></td>
           <td><a href="/analytic/download/<%= analytic.id %>" class="btn btn-sm btn-primary">Download</a></td>
+
+          <!-- Modal for Pending Requests Descriptions-->
+          <div class="modal fade" id="pendingDescriptionModal-<%= analytic.id %>" tabindex="-1" role="dialog" aria-labelledby="pendingDescriptionLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                  <h3 class="modal-title" id="pendingDescriptionLabel"><b>Module Description</b></h3>
+                </div>
+
+                <div class="modal-body">
+                  <p><%= analytic.description %></p>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Modal -->
 
           <!-- Modal for Rejecting Module -->
           <div class="modal fade" id="rejectModal1-<%= analytic.id %>" tabindex="-1" role="dialog" aria-labelledby="rejectLabel1" aria-hidden="true">
@@ -95,19 +116,19 @@
   </table>
 </div>
 
-<!-- Granted Modules -->
+<!-- Approved Modules -->
 <div class="container wrapper">
-  <h3>Granted Modules</h3>
-  <table class='table table-striped table-hover' id='granted-visuals'>
+  <h3>Approved Modules</h3>
+  <table class='table table-striped table-hover' id='approvedAnalytics'>
     <thead>
       <tr>
         <th>User ID</th>
         <th>Name</th>
         <th>Type</th>
-        <th>Description</th>
         <th>File</th>
-        <th>Reject</th>
+        <th>Description</th>
         <th>Download</th>
+        <th>Reject</th>
       </tr>
     </thead>
 
@@ -115,13 +136,34 @@
     <% _.each(analytics, function(analytic) { %>
       <% if (analytic.approved) { %>
         <tr data-id="<%= analytic.id %>" data-model="analytic">
-          <td><%= analytic.owner.id %></td>
+          <td><a href="/user/show/<%= analytic.owner.id %>" target="_blank"><%= analytic.owner.id %></a></td>
           <td><%= analytic.name %></td>
           <td><%= analytic.type %></td>
-          <td><%= analytic.description %></td>
           <td><%= analytic.fileName %></td>
-          <td><a href="#rejectModal2-<%= analytic.id %>" data-toggle="modal" class="btn btn-sm btn-warning">Reject</a></td>
-          <td><a href="#/analytic/download/<%= analytic %>" class="btn btn-sm btn-primary">Download</a></td>
+          <td><a class="btn btn-sm btn-primary" data-toggle="modal" href="#approvedDescriptionModal-<%= analytic.id %>">Description</a></td>
+          <td><a href="/analytic/download/<%= analytic.id %>" class="btn btn-sm btn-primary">Download</a></td>
+          <td><a href="#rejectModal2-<%= analytic.id %>" data-toggle="modal" class="btn btn-sm btn-danger">Reject</a></td>
+
+          <!-- Modal for Approved Module Descriptions-->
+          <div class="modal fade" id="approvedDescriptionModal-<%= analytic.id %>" tabindex="-1" role="dialog" aria-labelledby="approvedDescriptionLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                  <h3 class="modal-title" id="approvedDescriptionLabel"><b>Module Description</b></h3>
+                </div>
+
+                <div class="modal-body">
+                  <p><%= analytic.description %></p>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Modal -->
 
           <!-- Modal for Rejecting Module -->
           <div class="modal fade" id="rejectModal2-<%= analytic.id %>" tabindex="-1" role="dialog" aria-labelledby="rejectLabel2" aria-hidden="true">
@@ -153,14 +195,15 @@
 
 <div class="container wrapper">
   <h3>Rejected Modules</h3>
-  <table class='table table-striped table-hover' id='rejected-visuals'>
+  <table class='table table-striped table-hover' id='rejectedAnalytics'>
     <thead>
       <tr>
         <th>User ID</th>
         <th>Name</th>
         <th>Type</th>
-        <th>Description</th>
         <th>File</th>
+        <th>Description</th>
+        <th>Download</th>
         <th>Destroy</th>
       </tr>
     </thead>
@@ -169,20 +212,42 @@
     <% _.each(analytics, function(analytic) { %>
       <% if (analytic.rejected) { %>
         <tr data-id="<%= analytic.id %>" data-model="analytic">
-          <td><%= analytic.owner.id %></td>
+          <td><a href="/user/show/<%= analytic.owner.id %>" target="_blank"><%= analytic.owner.id %></a></td>
           <td><%= analytic.name %></td>
           <td><%= analytic.type %></td>
-          <td><%= analytic.description %></td>
           <td><%= analytic.fileName %></td>
+          <td><a class="btn btn-sm btn-primary" data-toggle="modal" href="#approvedDescriptionModal-<%= analytic.id %>">Description</a></td>
+          <td><a href="/analytic/download/<%= analytic.id %>" class="btn btn-sm btn-primary">Download</a></td>
           <td><a href="#destroyModal-<%= analytic.id %>" data-toggle="modal" class="btn btn-sm btn-danger">Destroy</a></td>
 
-          <!-- Modal for Destroying analytic -->
+          <!-- Modal for Rejected Module Descriptions-->
+          <div class="modal fade" id="rejectedDescriptionModal-<%= analytic.id %>" tabindex="-1" role="dialog" aria-labelledby="rejectedDescriptionLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                  <h3 class="modal-title" id="rejectedDescriptionLabel"><b>Module Description</b></h3>
+                </div>
+
+                <div class="modal-body">
+                  <p><%= analytic.description %></p>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Modal -->
+
+          <!-- Modal for Destroying Analytic Module-->
           <div class="modal fade" id="destroyModal-<%= analytic.id %>" tabindex="-1" role="dialog" aria-labelledby="destroyLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                  <h3 class="modal-title" id="destroyLabel"><b>Destroy analytic</b></h3>
+                  <h3 class="modal-title" id="destroyLabel"><b>Destroy Analytic</b></h3>
                 </div>
 
                 <div class="modal-body">
@@ -238,8 +303,8 @@
 <script>
   // Table pagination
   $(document).ready(function() {
-      $('#pending-visuals').dataTable();
-      $('#granted-visuals').dataTable();
-      $('#rejected-visuals').dataTable();
+      $('#pendingAnalytics').dataTable();
+      $('#approvedAnalytics').dataTable();
+      $('#rejectedAnalytics').dataTable();
   });
 </script>

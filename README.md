@@ -18,7 +18,7 @@ Kevin Kao
 * [Configuration](documentation/configuration.md)
 * [Deployment](#deploying-to-production)
 * [Tests](#tests)
-* [Analytic Modules Instructions](documentation/analytic_modules.md)
+* [Analytic Module Instructions](documentation/analytic_modules.md)
 * [Data Models](documentation/data_models.md)
 * [Data Distribution](documentation/data_distribution.md)
 * [edX Data Scrubbing](documentation/edX-datascrub.md)
@@ -46,6 +46,7 @@ To stop the server, run:
 ## Tests
 To test the moocRP application, please make sure all configurations above are in place. Then, run:
 ```
+redis-server
 npm test
 ```
 

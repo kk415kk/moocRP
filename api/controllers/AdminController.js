@@ -31,39 +31,39 @@ module.exports = {
   // View to show all users on page
   manage_users: function(req, res) {
     User.find(function foundUsers(err, users) {
-      return res.view({ title: 'Manage Users', users: users });
+      return res.view({ title: 'User Management', users: users });
     });
   },
 
   // View to manage requests by researchers
   manage_requests: function (req, res) {
     Request.find().populate('requestingUser').populate('dataModel').exec(function foundRequests(err, requests) {
-      return res.view({ title: 'Manage Requests', requests: requests });
+      return res.view({ title: 'Data Request Management', requests: requests });
     }); 
   },
 
   // View to manage uploads by researchers
   manage_analytics: function(req, res) {
     Analytic.find().populate('owner').exec(function foundAnalytics(err, analytics) {
-      return res.view({ title: 'Manage Analytics', analytics: analytics });
+      return res.view({ title: 'Module Management', analytics: analytics });
     });
   },
 
   manage_data_models: function(req, res) {
     DataModel.find(function foundDataModels(err, dataModels) {
-      return res.view({ title: 'Manage Data Models', dataModels: dataModels });
+      return res.view({ title: 'Data Model Management', dataModels: dataModels });
     });
   },
 
   manage_notices: function(req, res) {
     Notice.find(function foundNotices(err, notices) {
-      return res.view({ title: 'Manage Notices', notices: notices});
+      return res.view({ title: 'Notice Management', notices: notices});
     });
   },
 
   manage_data_scripts: function(req, res) {
     DataModel.find(function foundDataModels(err, dataModels) {
-      return res.view({ title: 'Manage Data Scripts', dataModels: dataModels });
+      return res.view({ title: 'Data Script Management', dataModels: dataModels });
     });
   },
   
