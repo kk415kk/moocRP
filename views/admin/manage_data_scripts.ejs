@@ -40,6 +40,53 @@
 <div class="container wrapper">
   <div class="row">
     <div class="col-md-6">
+      <!-- Script Jobs -->
+      <h3>Script Jobs</h3>
+      <p></p>
+      <table class='table table-striped'>
+        <thead>
+          <tr>
+            <td>Job ID</td>
+            <td>Script Name</td>
+            <td>Status</td>
+            <td>Job Info</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Sample</td>
+            <td>Sample Script</td>
+            <td></td>
+            <td><a href="#" class="btn btn-primary btn-sm">Show</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <br>
+
+      <!-- DATA DISTRIBUTION SCRIPTS -->
+      <h3>Data Distribution Scripts</h3>
+      <p>The scripts below allow you to archive the data files for each dataset in the form moocRP needs it to be in. These scripts are built into moocRP to facilitate the data distribution process. <a href="#">(?)</a></p>
+      <table class='table table-striped'>
+        <thead>
+          <tr>
+            <td>Script Name</td>
+            <td>Description</td>
+            <td>Launch</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Test Script</td>
+            <td><a href='#'>Description</a></td>
+            <td><a id='testScript' class='btn btn-primary btn-sm'>Launch</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <br>
+
+      <!-- DATA TRANSFORMATION SCRIPTS -->
       <h3>Data Transformation Scripts</h3>
       <p>The scripts below allow you to transform the data from one format into another. <a href="#">(?)</a></p>
       <table class='table table-striped'>
@@ -61,38 +108,95 @@
     </div>
 
     <div class="col-md-6">
-      <h3>Data Distribution Scripts</h3>
-      <p>The scripts below allow you to archive the data files for each dataset in the form moocRP needs it to be in. <a href="#">(?)</a></p>
-      <table class='table table-striped'>
-        <thead>
-          <tr>
-            <td>Script Name</td>
-            <td>Description</td>
-            <td>Status</td>
-            <td>Launch</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Test Script</td>
-            <td><a href='#'>Description</a></td>
-            <td id='archiveScript-status'></td>
-            <td><a id='archiveScript' class='btn btn-primary btn-sm'>Launch</a></td>
-          </tr>
-        </tbody>
-      </table>
+      <!-- NEW SCRIPT -->
+      <div class="box">
+        <h3>Import Transformation Script</h3>
+        <p>The data script should take the path of a single course's file path as the argument. The file path will be to the folder that holds the contents of the course's datasets for a particular data model. To see the files associated with a data model, see the <a href="/admin/manage_data_models#associated-files" target="_blank">data models page</a>.</p>
+        <p>
+          <form method="POST">
+            <label for="name">Script Name:</label>
+            <input class="form-control" name="name" type="text" placeholder="Sample Script">
+            <br>
+
+            <label for="type">Script Type:</label>
+            <select class="form-control" name="type">
+              <option value="transformation">Data Transformation</option>
+              <option value="distribution" disabled>Data Distribution (disabled)</option>
+            </select>
+            <br>
+
+            <label for="type">Data Model To Apply On:</label>
+            <select class="form-control" name="type">
+            <% _.each(dataModels, function (dataModel) { %>
+              <option value="<%= dataModel.displayName %>"><%= dataModel.displayName %></option>
+            <%  }); %>
+            </select>
+            <br>            
+
+            <label for="description">Script Description</label>
+            <textarea name="description" rows="6" class="form-control"></textarea>
+
+            <br>
+            <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+
+            <!-- File field is placed last due to parse bug with large files -->
+            <label for="scriptArchiveFile">Script File:</label>
+            <div class="input-group file-upload">
+              <span class="input-group-btn">
+                <span class="btn btn-primary btn-file">
+                  Browse&hellip; <input type="file" class="form-control" name="scriptArchiveFile" multiple>
+                </span>
+              </span>
+              <input type="text" class="form-control" readonly>
+            </div>
+            <p>Note: All uploaded files must be compressed in .ZIP format.</p>
+            <input class="form-control btn btn-primary" type="submit">
+          </form>
+        </p>
+      </div>
+
     </div>
   </div>
 </div>
 
-<!-- Archive datasets-->
+<script>
+// File upload styling
+$(document).on('change', '.btn-file :file', function() {
+  var input = $(this),
+      numFiles = input.get(0).files ? input.get(0).files.length : 1,
+      label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+  input.trigger('fileselect', [numFiles, label]);
+});
+
+$(document).ready( function() {
+  $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+    var input = $(this).parents('.input-group').find(':text'),
+        log = numFiles > 1 ? numFiles + ' files selected' : label;
+    if(input.length) {
+        input.val(log);
+    } else {
+        if(log) alert(log);
+    } 
+  });
+});
+</script>
+
+
+<!-- Scripts-->
 <script>
 window.socket = io.socket;
+$('#testScript').click( function() { testScript(); return false; } );
 $('#archiveScript').click( function() { archiveScript(); return false; } );
+
 function archiveScript() {
   window.socket.post('/datascript/script_archive', { _csrf: "<%= _csrf %>" }, function (resData, jwres) {
     updateStatus('archiveScript-status', resData.body.progress)
   });
+}
+function testScript() {
+  window.socket.post('/datascript/script_test', { _csrf: "<%= _csrf %>" }, function (resData, jwres) {
+    updateStatus('testScript-status', resData.body.progress)
+  }); 
 }
 
 function updateStatus(id, status) {
