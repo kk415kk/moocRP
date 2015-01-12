@@ -57,7 +57,7 @@ module.exports = {
           var extractedDatasets = {};
 
           // The names of the courses the user has access to
-          var allowedDatasets = _.pluck(_.where(thisUser.requests, { granted: true }), 'dataset');
+          var allowedDatasets = _.pluck(_.where(thisUser.requests, { approved: true }), 'dataset');
 
           for (i = 0; i < dataModels.length; i++) {
             var folderPath = path.resolve(DATASET_EXTRACT_PATH, dataModels[i].fileSafeName);
@@ -118,7 +118,7 @@ module.exports = {
       // UNDER CONSTRUCTION -- END
     } else {
       User.findOne(req.session.user.id, function (err, user) {
-        // TODO: Use this user and add "granted" datasets to store somewhere, so user can only access datasets with granted access
+        // TODO: Use this user and add "approved" datasets to store somewhere, so user can only access datasets with approved access
         Analytic.findOne(req.param('analyticID'), function (err, analytic) {
           if (err) {
             sails.log.error("Error occurred while loading analytic module: " + err.code);

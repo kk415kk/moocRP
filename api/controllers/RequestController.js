@@ -39,7 +39,7 @@ module.exports = {
         dataModelName = params['dataset'].split('__')[0],
         dataset = params['dataset'].split('__')[1];
 
-    // TODO: Deny data requests if a data model is deleted
+    // TODO: Reject data requests if a data model is deleted
     DataModel.findOne({ displayName: dataModelName }, function(err, datamodel) {
       params['dataModel'] = datamodel.id;
       params['dataset'] = dataset;
@@ -55,22 +55,22 @@ module.exports = {
     });
   }, 
 
-  // Deny a data request
-  deny: function(req, res) {
+  // Reject a data request
+  reject: function(req, res) {
     Request.findOne(req.param('id'), function foundRequest(err, request) {
       if (err || !request) {
         FlashService.error(req, err ? err : 'Request does not exist');
         return res.redirect('/admin/manage_requests');
       }
 
-      request.granted = false
-      request.denied = true
+      request.approved = false
+      request.rejected = true
       request.save(function (err) {
         if (err) {
           sails.log.error(err);
-          FlashService.error(req, 'An error occurred while denying the request');
+          FlashService.error(req, 'An error occurred while rejecting the request');
         } else {
-          FlashService.success(req, 'Successfully denied request');
+          FlashService.success(req, 'Successfully rejected request');
         }
         return res.redirect('/admin/manage_requests');
       });
@@ -131,8 +131,8 @@ module.exports = {
     });
   },
 
-  // Grant the data request
-  grant: function(req, res) {
+  // Approve the data request
+  approve: function(req, res) {
     Request.findOne(req.param('id')).populate('requestingUser').populate('dataModel').exec(function foundRequest(err, request) {
       if (err || !request) {
         FlashService.error(req, err ? err : 'Request does not exist');
@@ -147,15 +147,15 @@ module.exports = {
           return res.redirect('/admin/manage_requests');
         }
 
-        request.granted = true;
-        request.denied = false;
+        request.approved = true;
+        request.rejected = false;
         request.save(function (err) {
           if (err) {
             sails.log.error(err);
-            FlashService.error(req, 'An error occurred while granting request');
+            FlashService.error(req, 'An error occurred while approving request');
           } else {
-            Request.publishUpdate(request.id, {granted: true, denied: false});
-            FlashService.success(req, 'Successfully granted request');
+            Request.publishUpdate(request.id, {approved: true, rejected: false});
+            FlashService.success(req, 'Successfully approved request');
           }
           return res.redirect('/admin/manage_requests');
         });

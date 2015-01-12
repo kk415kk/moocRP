@@ -45,11 +45,11 @@ module.exports = {
       type: 'STRING',
       required: true
     },
-    granted: {
+    approved: {
       type: 'BOOLEAN',
       defaultsTo: false
     },
-    denied: {
+    rejected: {
       type: 'BOOLEAN',
       defaultsTo: false
     },

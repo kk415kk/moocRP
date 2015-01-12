@@ -22,7 +22,7 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
-// TODO: After deleting a user, all requests and visualizations associated
+// TODO: After deleting a user, all requests and analytic modules associated
 // with the user should be deleted as well.
 
 var settings = sails.config;
@@ -162,7 +162,7 @@ module.exports = {
         title: 'User Information',
         user: user,
         requests: user.requests,
-        visualizations: user.visualizations
+        analytics: user.analytics
       });
     }); 
   },

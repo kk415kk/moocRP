@@ -56,8 +56,8 @@
         <th>Request Type</th>
         <th>Date Requested</th>
         <th>Status</th>
-        <th>Grant</th>
-        <th>Deny</th>
+        <th>Approve</th>
+        <th>Reject</th>
       </tr>
     </thead>
 
@@ -67,20 +67,20 @@
           <td><%= request.dataset %></td>
           <td><%= request.requestType %></td>
           <td><%= request.createdAt %></td>
-          <% if (request.granted) { %>
-            <td><font color="green">Granted</font></td>
+          <% if (request.approved) { %>
+            <td><font color="green">Approved</font></td>
           <% } %>
-          <% if (request.denied) { %>
-            <td><font color="red">Denied</font></td>
+          <% if (request.rejected) { %>
+            <td><font color="red">Rejected</font></td>
           <% } %>
-          <% if (!request.granted && !request.denied) { %>
+          <% if (!request.approved && !request.rejected) { %>
             <td><font color="orange">Pending</font></td>
           <% } %>
-          <td><a href="/request/grant/<%= request.id %>" class="btn btn-sm btn-success">Grant</a></td>
+          <td><a href="/request/approve/<%= request.id %>" class="btn btn-sm btn-success">Approve</a></td>
           <td>
-            <form action="/request/deny/<%= request.id %>" method="POST">
-            <input type="hidden" name="_method" value="deny"/>
-            <input type="submit" class="btn btn-sm btn-danger" value="Deny"/>
+            <form action="/request/reject/<%= request.id %>" method="POST">
+            <input type="hidden" name="_method" value="reject"/>
+            <input type="submit" class="btn btn-sm btn-danger" value="Reject"/>
             <input type="hidden" name="_csrf" value="<%= _csrf %>" />
             </form>
             </td>
@@ -91,9 +91,9 @@
 
   <br>
 
-  <!-- Visualization Information -->
-  <h2>Visualizations</h2>
-  <table class='table table-striped table-hover' id="visualizations-table">
+  <!-- Analytic Modules Information -->
+  <h2>Analytic Modules</h2>
+  <table class='table table-striped table-hover' id="analytics-table">
     <thead>
       <tr>
         <th>Name</th>
@@ -106,24 +106,24 @@
     </thead>
 
     <tbody>
-      <% _.each(visualizations, function(visualization) { %>
-        <tr data-id="<%= visualization.id %>" data-model="visualization">
-          <td><%= visualization.name %></td>
-          <td><%= visualization.type %></td>
-          <td><%= visualization.createdAt %></td>
-          <% if (visualization.approved) { %>
+      <% _.each(analytics, function(analytic) { %>
+        <tr data-id="<%= analytic.id %>" data-model="analytic">
+          <td><%= analytic.name %></td>
+          <td><%= analytic.type %></td>
+          <td><%= analytic.createdAt %></td>
+          <% if (analytic.approved) { %>
             <td><font color="green">Approved</font></td>
           <% } %>
-          <% if (visualization.rejected) { %>
+          <% if (analytic.rejected) { %>
             <td><font color="red">Rejected</font></td>
           <% } %>
-          <% if (!visualization.approved && !visualization.rejected) { %>
+          <% if (!analytic.approved && !analytic.rejected) { %>
             <td><font color="orange">Pending</font></td>
           <% } %>
-          <td><a href="/visualization/approve/<%= visualization.id %>" class="btn btn-sm btn-success">Approve</a></td>
+          <td><a href="/analytic/approve/<%= analytic.id %>" class="btn btn-sm btn-success">Approve</a></td>
           <td>
-            <form action="/visualization/reject/<%= visualization.id %>" method="POST">
-            <input type="hidden" name="_method" value="deny"/>
+            <form action="/analytic/reject/<%= analytic.id %>" method="POST">
+            <input type="hidden" name="_method" value="reject"/>
             <input type="submit" class="btn btn-sm btn-danger" value="Reject"/>
             <input type="hidden" name="_csrf" value="<%= _csrf %>" />
             </form>
@@ -138,6 +138,6 @@
   // Table pagination
   $(document).ready(function() {
       $('#requests-table').dataTable();
-      $('#visualizations-table').dataTable();
+      $('#analytics-table').dataTable();
   });
 </script>

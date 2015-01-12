@@ -109,25 +109,25 @@
 						<div class="panel-body">
 							<h5>Pending Requests</h5>
 							<% _.each(requests, function(request) { %>
-								<% if (!request.granted && !request.denied) { %>
+								<% if (!request.approved && !request.rejected) { %>
 								<b><%= request.dataModel.displayName %>:</b> <%= request.dataset %> <font color="orange" class="pull-right">PENDING</font><br>
 								<% } %>
 							<% }) %>
 							<hr>
 
-							<h5>Granted Requests</h5>
+							<h5>Approved Requests</h5>
 							<% _.each(requests, function(request) { %>
-								<% if (request.granted) { %>
-								<b><%= request.dataModel.displayName %>:</b> <%= request.dataset %>: <font color="green" class="pull-right">GRANTED</font><br>
+								<% if (request.approved) { %>
+								<b><%= request.dataModel.displayName %>:</b> <%= request.dataset %>: <font color="green" class="pull-right">APPROVED</font><br>
 								<% } %>
 							<% }) %>
 							<hr>
 
-							<h5>Denied Requests</h5>
+							<h5>Rejected Requests</h5>
 							<% count = 0 %>
 							<% _.each(requests, function(request) { %>
-								<% if (request.denied && count < maxCount) { %>
-								<b><%= request.dataModel.displayName %>:</b> <%= request.dataset %>: <font color="red" class="pull-right">DENIED</font><br>
+								<% if (request.rejected && count < maxCount) { %>
+								<b><%= request.dataModel.displayName %>:</b> <%= request.dataset %>: <font color="red" class="pull-right">REJECTED</font><br>
 								<% count += 1%>
 								<% } %>
 							<% }) %>
@@ -137,7 +137,7 @@
 							<form action="/request/download" method="POST">
 								<select class="form-control limit-width" name="request_id">
 									<% _.each(requests, function(request) { %>
-										<% if (request.granted && !request.downloaded) { %>
+										<% if (request.approved && !request.downloaded) { %>
 										<option value="<%= request.id %>"><b><%= request.dataModel.displayName %>:</b> <%= request.dataset %></option>
 										<% } %>
 									<% }) %>
@@ -258,7 +258,7 @@
 			<div class="col-md-5 col-md-offset-1">
 				<h3 class="section">Request Data</h3>
 				<form action="/request/create" method="POST">
-					<p>Please select the dataset and the type of dataset to request below. Once a dataset request has been approved or denied, your status update window will be updated to reflect changes. 
+					<p>Please select the dataset and the type of dataset to request below. Once a dataset request has been approved or rejected, your status update window will be updated to reflect changes. 
 					<br><br>
 					Note that a dataset can only be downloaded once for security reasons, and you must provide your GPG public key for encrypting your download. Your GPG key is saved in your profile. For instructions on how to find your GPG key, see <a href="#">here</a>.</p>
 					<label>Request Type:</label><br>
