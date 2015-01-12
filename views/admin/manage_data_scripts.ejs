@@ -66,7 +66,7 @@
 
       <!-- DATA DISTRIBUTION SCRIPTS -->
       <h3>Data Distribution Scripts</h3>
-      <p>The scripts below allow you to archive the data files for each dataset in the form moocRP needs it to be in. <a href="#">(?)</a></p>
+      <p>The scripts below allow you to archive the data files for each dataset in the form moocRP needs it to be in. These scripts are built into moocRP to facilitate the data distribution process. <a href="#">(?)</a></p>
       <table class='table table-striped'>
         <thead>
           <tr>
@@ -110,7 +110,8 @@
     <div class="col-md-6">
       <!-- NEW SCRIPT -->
       <div class="box">
-        <h3>Import Script</h3>
+        <h3>Import Transformation Script</h3>
+        <p>The data script should take the path of a single course's file path as the argument. The file path will be to the folder that holds the contents of the course's datasets for a particular data model. To see the files associated with a data model, see the <a href="/admin/manage_data_models#associated-files" target="_blank">data models page</a>.</p>
         <p>
           <form method="POST">
             <label for="name">Script Name:</label>
@@ -119,10 +120,18 @@
 
             <label for="type">Script Type:</label>
             <select class="form-control" name="type">
-              <option value="distribution">Data Distribution</option>
               <option value="transformation">Data Transformation</option>
+              <option value="distribution" disabled>Data Distribution (disabled)</option>
             </select>
             <br>
+
+            <label for="type">Data Model To Apply On:</label>
+            <select class="form-control" name="type">
+            <% _.each(dataModels, function (dataModel) { %>
+              <option value="<%= dataModel.displayName %>"><%= dataModel.displayName %></option>
+            <%  }); %>
+            </select>
+            <br>            
 
             <label for="description">Script Description</label>
             <textarea name="description" rows="6" class="form-control"></textarea>
