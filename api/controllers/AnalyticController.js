@@ -453,7 +453,7 @@ module.exports = {
     }
 
     var params = req.params.all(),
-        type = req.param('type').toLowerCase(),
+        type = 'd3', // TODO: (possibly don't need the type) req.param('type').toLowerCase(),
         seededFileName = UtilService.generateSID(),
         dirPath = path.join(UPLOAD_PATH, type, req.session.user.id, seededFileName);
 
