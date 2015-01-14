@@ -70,6 +70,7 @@ Once the setup script is run, the file structure setup should be in this format:
 -------- /available
 ---------- /non_pii
 ---------- /pii
+---------- /data_drop
 -------- /extracted
 -------- /encrypted
 ---- /analytics

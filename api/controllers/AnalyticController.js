@@ -168,7 +168,7 @@ function linkAssets(html, type, userID, analyticID) {
  * /analytics/tmp/<type>/<userID>/<analyticID>/js
  * to /assets/analytics/<type>/<userID>/<analyticID>/css (or js)
  */
-function scaffoldanalytics(pathToFile, type, fileName, userID, analyticID, next) {
+function scaffoldAnalytics(pathToFile, type, fileName, userID, analyticID, next) {
   sails.log.debug('Scaffolding analytic from ' + pathToFile + '/' + fileName + ' for user ' + userID);
   var analyticFiles = shell.ls(pathToFile);
 
@@ -283,7 +283,7 @@ module.exports = {
       }
 
       var pathToExtractedFile = path.join(EXTRACT_PATH, type, userID, noExtFileName);
-      scaffoldanalytics(pathToExtractedFile, type, MAIN_FILE, userID, analytic.id, function (err, success) {
+      scaffoldAnalytics(pathToExtractedFile, type, MAIN_FILE, userID, analytic.id, function (err, success) {
         if (success) {
           sails.log('Success during scaffold');
           analytic.approved = true;
