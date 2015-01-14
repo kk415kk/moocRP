@@ -38,6 +38,14 @@ var dataFiles = {}
 
 Each data model will have its own associated files. To access a particular file in your script, you can simply call ````dataFiles[some_file_name]```` to access the raw contents of the file. To know what associated files there are for each model, see [the data models page](data_models.md). (under construction)
 
+Important Notes
+---
+* Please do NOT use external JS sources in your module. Download the JS sources you need to use and place them into the `````js/```` folder. Link to the JS source using ````<script src="js/your_source.js">````.
+* If you have a "main" ````div```` where you display your visualizations, please use the class or ID name "module-main" to label the ````div````, i.e. ````<div class="main-module">...</div>```` or ````<div id="main-module">...</div>````. This is to prevent class/ID clashes with existing moocRP CSS styling. Some common class names to avoid:
+  * ````container````
+  * ````wrapper````
+* Do not label your body tags with class or ID names and use it to identify where to place new content, i.e. with JavaScript. Instead, use a main ````div```` tag to wrap around your content.
+
 FAQs
 ---
 TODO
