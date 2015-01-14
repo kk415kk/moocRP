@@ -52,7 +52,7 @@ TODO
 
 Basic Template
 ---
-<b>main.html</b><br>
+<b>main.html</b>
 ````
 <script src="js/d3.min.js">
 <script src="js/myMainJS.js">
@@ -72,7 +72,7 @@ createMyGraph(dataFiles["course_structure.json"]);
 </script>
 ````
 
-`myMainJS.js`
+<b>myMainJS.js</b>
 
 ````
 var createMyGraph = function(data) {
