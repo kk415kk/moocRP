@@ -54,6 +54,7 @@ Basic Template
 ---
 
 ````main.html````
+
 ````
 <script src="js/d3.min.js">
 <script src="js/myMainJS.js">
@@ -74,6 +75,7 @@ createMyGraph(dataFiles["course_structure.json"]);
 ````
 
 ````myMainJS.js````
+
 ````
 var createMyGraph = function(data) {
   <!-- do something with data, generate a graph -->
