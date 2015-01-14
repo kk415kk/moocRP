@@ -40,22 +40,34 @@ Each data model will have its own associated files. To access a particular file 
 
 Important Notes
 ---
-* Please do NOT use external JS sources in your module. Download the JS sources you need to use and place them into the `````js/```` folder. Link to the JS source using ````<script src="js/your_source.js">````.
+* Please do NOT use external JS sources in your module. Download the JS sources you need to use and place them into the ````js/```` folder. Link to the JS source using ````<script src="js/your_source.js">````.
 * If you have a "main" ````div```` where you display your visualizations, please use the class or ID name "module-main" to label the ````div````, i.e. ````<div class="main-module">...</div>```` or ````<div id="main-module">...</div>````. This is to prevent class/ID clashes with existing moocRP CSS styling. Some common class names to avoid:
   * ````container````
   * ````wrapper````
 * Do not label your body tags with class or ID names and use it to identify where to place new content, i.e. with JavaScript. Instead, use a main ````div```` tag to wrap around your content.
 
-FAQs
----
-TODO
-
 Pre-processing Data
 ---
 TODO
 
+Basic Template
+---
+````
+<script src="js/d3.min.js">
+<script src="js/myMainJS.js">
+
+<div class="module-main">
+  <!-- some content -->
+</div>
+````
+
 Sample Analytics Modules
 ---
 See [some sample moocRP modules here](http://www.github.com/kk415kk/moocrp_visualizations).
+
+FAQs
+---
+TODO
+
 
 Under construction.
