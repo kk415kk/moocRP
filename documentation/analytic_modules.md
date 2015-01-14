@@ -72,7 +72,7 @@ createMyGraph(dataFiles["course_structure.json"]);
 </script>
 ````
 
-````myMainJS.js````
+`myMainJS.js`
 
 ````
 var createMyGraph = function(data) {
