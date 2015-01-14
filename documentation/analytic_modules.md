@@ -52,13 +52,32 @@ TODO
 
 Basic Template
 ---
+
+````main.html````
 ````
 <script src="js/d3.min.js">
 <script src="js/myMainJS.js">
 
 <div class="module-main">
-  <!-- some content -->
 </div>
+
+<script>
+var dataFiles = {}
+<% for (var dataFile in dataset) { %>
+  <% if (dataset.hasOwnProperty(dataFile)) { %>
+    dataFiles["<%= dataFile %>"] = <%- JSON.stringify(dataset[dataFile]) %>;
+  <% } %>
+<% } %>
+
+createMyGraph(dataFiles["course_structure.json"]);
+</script>
+````
+
+````myMainJS.js````
+````
+var createMyGraph = function(data) {
+  <!-- do something with data, generate a graph -->
+}
 ````
 
 Sample Analytics Modules
