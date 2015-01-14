@@ -35,25 +35,55 @@
     <h2>Guide for contributing analytics modules</h2>
   </div>
 </div>
+
 <div class="container wrapper">
   <div class="row">
     <div class="col-md-12">
-      <p>Welcome to the Developer's Guide for moocRP.</p>
+      <h2>Welcome to the Developer's Guide for moocRP.</h2>
+      <p>This page contains information about each data model: its files, the file schemas, and other information. Basic module development resources can also be found here. If anything is out of date, please contact us below.</p>
     </div>
   </div>
+
   <div class="row">
     <div class="col-md-5">
-      <h3>Data Models</h3>
-        <ul>
-        <% _.each(dataModels, function(dataModel) { %>
-          <li><%= dataModel.displayName %></li>
-        <% }) %>
-        </ul>
+      <h2>Data Models</h2>
+      <% _.each(dataModels, function(dataModel) { %>
+        <div class="row-item"><%= dataModel.displayName %></div>
+      <% }) %>
     </div>
 
     <div class="col-md-7">
-      <h3>Descriptions</h3>
-      <p>Under construction.</p>
+      <h2>Data Model Description</h2>
+      <div id="description-box" class="description-box">
+        <p>Click on a data model to view its description.</p>
+      </div>
     </div>
   </div>
 </div>
+
+<script>
+var dataModels = {}
+
+<% for (var dataModelNum in dataModels) { %>
+  <% if (dataModels.hasOwnProperty(dataModelNum)) { %>
+    dataModels["<%= dataModels[dataModelNum].displayName %>"] = <%- JSON.stringify(dataModels[dataModelNum]) %>;
+  <% } %>
+<% } %>
+
+$('.row-item').click(function () {
+  var dataModel = $(this).text();
+  var dataModelInfo = dataModels[dataModel];
+
+  var text = "<h3>" + dataModel + "</h3><hr>";
+  text += "<h5>Files</h5>";
+
+  if (dataModelInfo.files.length == 0) {
+    text += "No file information available.";
+  }
+  for (var i = 0; i < dataModelInfo.files.length; i++) {
+    text += dataModelInfo.files;
+  }
+
+  $('#description-box').html(text);
+});
+</script>

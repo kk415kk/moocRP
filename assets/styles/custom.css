@@ -47,6 +47,15 @@ h5 {
 
 /** End Tables **/
 
+.row-item {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.row-item:hover {
+  border-color: black;
+}
+
 .notification {
   font-size: 8px;
   color: red;
@@ -527,6 +536,7 @@ a.btn.btn-default.btn-sm.navbar-btn:hover {
 }
 /** End Banner Styling **/
 
+.description-box,
 #analytics-description {
   border: 1px solid black;
   padding: 15px;
