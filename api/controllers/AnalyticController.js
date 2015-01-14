@@ -447,7 +447,8 @@ module.exports = {
 
   // Handles upload of analytic archive to server.
   upload: function(req, res) {
-    if (req.param('type') == null || req.param('dataModels') == null) {
+    //if (req.param('type') == null || req.param('dataModels') == null) {
+    if (req.param('dataModels') == null) {
       FlashService.error(req, 'Please fill in all fields.');
       return res.redirect('/dashboard');
     }
