@@ -53,7 +53,7 @@ TODO
 Basic Template
 ---
 
-```main.html```
+```main.html```:
 
 ````
 <script src="js/d3.min.js">
