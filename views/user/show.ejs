@@ -48,7 +48,7 @@
   <br><br>
 
   <!-- Request Information -->
-  <h2>Requests</h2>
+  <h2>Data Requests</h2>
   <table class="table table-striped table-hover" id="requests-table">
     <thead>
       <tr>
@@ -99,6 +99,7 @@
         <th>Name</th>
         <th>Type</th>
         <th>Date Uploaded</th>
+        <th>Description</th>
         <th>Status</th>
         <th>Approve</th>
         <th>Reject</th>
@@ -111,6 +112,7 @@
           <td><%= analytic.name %></td>
           <td><%= analytic.type %></td>
           <td><%= analytic.createdAt %></td>
+          <td><a class="btn btn-sm btn-primary" data-toggle="modal" href="#analyticDescriptionModal-<%= analytic.id %>">Description</a></td>
           <% if (analytic.approved) { %>
             <td><font color="green">Approved</font></td>
           <% } %>
@@ -129,6 +131,27 @@
             </form>
             </td>
         </tr> 
+
+        <!-- Modal for Analytic Module Descriptions-->
+        <div class="modal fade" id="analyticDescriptionModal-<%= analytic.id %>" tabindex="-1" role="dialog" aria-labelledby="analyticDescriptionLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h3 class="modal-title" id="analyticDescriptionLabel"><b>Module Description</b></h3>
+              </div>
+
+              <div class="modal-body">
+                <p><%= analytic.description %></p>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Modal -->
       <% }); %>
     </tbody>
   </table>

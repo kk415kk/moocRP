@@ -222,20 +222,33 @@
 				<h3 class="section">Share Analytics</h3>
 				<p>Please place your main visualization code inside a "main.html" file inside your archive. Our system detects the code through that file only. Read our <a href="/privacy" target="_blank">privacy policy</a> for more information on how we use your analytics.</p>
 				<form action="/analytic/upload" enctype="multipart/form-data" method="POST">
-	    		<label>Analytic: </label><input type="text" class="form-control" placeholder="module name" name="name">
+	    		<label for="name">Analytic: </label><input type="text" class="form-control" placeholder="module name" name="name">
 	    		<br>
-					<label>Description: </label><textarea rows="7" type="text" class="form-control" name="description"></textarea>
+					<label for="description">Description: </label><textarea rows="5" type="text" class="form-control" name="description"></textarea>
 					<br>
-					<label>Data Model Support:</label>
+					<label for="dataModels">Data Model Support:</label>
 					<select class="form-control limit-width" size="4" name="dataModels">
 						<% _.each(dataModels, function(dataModel) { %>
 							<option value="<%= dataModel %>"><%= dataModel %></option>
 						<% }) %>
 					</select>
 					<br>
-					<label>Module Type:</label><br>
-					<label class="undecorated"><input type="radio" name="type" value="D3"> D3.js</label><br>
-					<label class="undecorated"><input type="radio" name="type" value="Other" disabled> Other</label><br><br>
+
+					<!-- Data Pre-Processing -->
+					<label for="preprocess">External Data Transformation Script:</label><br>
+					<p>Check <i>yes</i> if your upload includes a data pre-processing script to be run on the data model's files before applying the analytic module.</p>
+					<input id="preprocess-yes" type="radio" name="preprocess" value="Yes" disabled> Yes<br>
+					<input id="preprocess-no" type="radio" name="preprocess" value="No" checked> No<br><br>
+
+					<div id="dataScriptFields" style="display:none;">
+						<label for="dataFiles">Data Script Filepath Inputs:</label><br>
+						<p>Check the files that your data script will take in as input.</p>
+						<input type="checkbox" name="dataFile">Placeholder #1<br>
+						<input type="checkbox" name="dataFile">Placeholder #2<br>
+						<br>
+					</div>
+
+					<!-- Misc -->
 					<input type="hidden" name="_csrf" value="<%= _csrf %>" />
 					<input type="hidden" name="owner" value="<%= user.id %>" />
 
@@ -347,6 +360,21 @@ $(document).ready( function() {
     } 
   });
 });
+</script>
+
+<script>
+// Handle the radio button for data pre-processing
+$('#preprocess-yes').click(function () {
+	$('#dataScriptFields').fadeIn();
+});
+
+$('#preprocess-no').click(function () {
+	$('#dataScriptFields').fadeOut();
+});
+
+var addDataOutputField = function () {
+
+};
 </script>
 
 <script>

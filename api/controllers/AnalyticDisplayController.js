@@ -99,6 +99,14 @@ module.exports = {
     });
   },
 
+  // For viewing a page describing a single analytic module
+  show: function(req, res) {
+    Analytic.findOne(req.param('id')).populateAll().exec(function (err, analytic) {
+      return res.view({ title: 'Module Description', analytic: analytic });
+    });
+  },
+
+  // For displaying the actual analytic module
   view: function(req, res) {
 
     var fs = require('fs');

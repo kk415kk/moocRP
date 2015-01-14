@@ -447,13 +447,14 @@ module.exports = {
 
   // Handles upload of analytic archive to server.
   upload: function(req, res) {
-    if (req.param('type') == null || req.param('dataModels') == null) {
+    //if (req.param('type') == null || req.param('dataModels') == null) {
+    if (req.param('dataModels') == null) {
       FlashService.error(req, 'Please fill in all fields.');
       return res.redirect('/dashboard');
     }
 
     var params = req.params.all(),
-        type = req.param('type').toLowerCase(),
+        type = 'd3', // TODO: (possibly don't need the type) req.param('type').toLowerCase(),
         seededFileName = UtilService.generateSID(),
         dirPath = path.join(UPLOAD_PATH, type, req.session.user.id, seededFileName);
 
