@@ -5,7 +5,7 @@ Analytic Modules
 
 One main functionality of moocRP is the ability for researchers to upload analytics modules that they've created and share it with other researchers. This allows other researchers to view what's already been done and apply the same analytics module to various datasets and possibly alternative data types.
 
-A <strong>data type</strong> could be something like MOOCdb.
+A <strong>data model</strong> could be something like MOOCdb, or X-API.
 
 A <strong>dataset</strong> could be the data for a specific offering of a course during a specific term.
 
