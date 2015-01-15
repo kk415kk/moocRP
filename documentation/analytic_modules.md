@@ -24,7 +24,7 @@ Uploaded files should be archived in a ZIP archive. The structure of the analyti
 
 Reading Data
 ---
-moocRP uses a templating system called EJS. EJS allows moocRP to pass data from the server to the client through special variables using their syntax of bracket. This allows your visualization to access the string-represented version of the dataset, which you can then process into any format you'd like.
+moocRP uses a templating system called EJS. EJS allows moocRP to pass data from the server to the client through special variables using their syntax of bracket. This allows your visualization to access the string-represented version of the dataset, which you can then process into any format you'd like. Note that JSON datasets are handled differently and not passed as raw strings: they get parsed into a Javascript object and get passed as such, so there's no need to call `JSON.parse()` on a JSON dataset.
 
 Here is a template for accessing the data for a particular data model that you should put in your script code:
 ````
@@ -36,7 +36,7 @@ var dataFiles = {}
 <% } %>
 ````
 
-Each data model will have its own associated files. To access a particular file in your script, you can simply call ````dataFiles[some_file_name]```` to access the raw contents of the file. To know what associated files there are for each model, see [the data models page](data_models.md). (under construction)
+Each data model will have its own associated files. To access a particular file in your script, you can simply call ````dataFiles[some_file_name]```` to access the raw contents of the file. To know what associated files there are for each model, see [the data models page](data_models.md), or view the "Developer" tab on your institution's local instance of moocRP.
 
 Important Notes
 ---
