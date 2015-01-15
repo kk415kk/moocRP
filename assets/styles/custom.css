@@ -3,6 +3,15 @@
  ***********/
 @gray: #777574;
 
+.carousel-inner {
+  background: url('/images/banner.jpg');
+}
+
+.jumbotron {
+  filter: alpha(opacity=75);
+  opacity: 0.75;
+}
+
 /******************
  * Bootstrap Edits
  ******************/
