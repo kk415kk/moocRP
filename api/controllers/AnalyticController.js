@@ -264,6 +264,20 @@ module.exports = {
    */
   _config: {},
 
+  // For viewing a page describing a single analytic module
+  show: function(req, res) {
+    Analytic.findOne(req.param('id')).populateAll().exec(function (err, analytic) {
+      return res.view({ title: 'Module Description', analytic: analytic });
+    });
+  },
+
+  // TODO
+  edit: function(req, res) {
+    Analytic.findOne(req.param('id')).populateAll().exec(function (err, analytic) {
+      return res.view({ title: 'Module Edit', analytic: analytic });
+    });
+  },
+
   // Approve an analytic module
   approve: function(req, res) {
     Analytic.findOne(req.param('id')).populate('owner').exec(function (err, analytic) {
