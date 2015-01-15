@@ -55,6 +55,12 @@ module.exports = {
     })
   },
 
+  license: function(req, res) {
+    res.view({
+      title: 'MIT License'
+    })
+  },
+
   contact: function(req, res) {
     res.view({
       title: 'Contact'

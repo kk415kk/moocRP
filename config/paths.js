@@ -7,6 +7,9 @@ module.exports.paths = {
     EXTRACT_PATH: path.resolve('..', 'analytics', 'tmp'),
     PUBLIC_SHARE_PATH: path.resolve('views', 'analyticdisplay', 'share'),
 
+    // Data scripts
+    ANALYTICS_SCRIPTS_PATH: path.resolve('..', 'data_scripts', 'analytics'),
+
     // Stored Scaffolds Folder
     STORED_SCAFFOLDS_PATH: path.resolve('assets', 'scaffolds'),
 

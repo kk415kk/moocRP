@@ -38,6 +38,7 @@ var UPLOAD_PATH = sails.config.paths.UPLOAD_PATH,
     STORED_SCAFFOLDS_PATH = sails.config.paths.STORED_SCAFFOLDS_PATH,
     ANALYTICS_ASSETS_PATH = sails.config.paths.ANALYTICS_ASSETS_PATH,
     ANALYTICS_REWRITE_PATH = sails.config.paths.ANALYTICS_REWRITE_PATH,
+    ANALYTICS_DATA_SCRIPTS_PATH = sails.config.paths.ANALYTICS_SCRIPT_PATH,
     MAIN_FILE = 'main.html',
     ARCHIVE_TYPES = ['zip'];
 
@@ -149,6 +150,8 @@ function linkAssets(html, type, userID, analyticID) {
       }
     }
   }
+
+  // TODO: Parse and remove common classes, such as "container" or "wrapper" or "banner"
   return $.html();
 }
 
@@ -248,6 +251,11 @@ function scaffoldAnalytics(pathToFile, type, fileName, userID, analyticID, next)
   }
 }
 
+// TODO
+function moveDataScripts(pathToExtractedFile, moveToFolder) {
+  // Move the "preprocessing" folder to "moveToFolder"
+}
+
 module.exports = {
 
   /**
@@ -256,7 +264,7 @@ module.exports = {
    */
   _config: {},
 
-  // Approve a analytic
+  // Approve an analytic module
   approve: function(req, res) {
     Analytic.findOne(req.param('id')).populate('owner').exec(function (err, analytic) {
       if (err) {
@@ -283,6 +291,10 @@ module.exports = {
       }
 
       var pathToExtractedFile = path.join(EXTRACT_PATH, type, userID, noExtFileName);
+
+      // TODO: Move data scripts to run, include a README for data scripts
+      //moveDataScripts(pathToExtractedFile, ANALYTICS_DATA_SCRIPTS_PATH)
+
       scaffoldAnalytics(pathToExtractedFile, type, MAIN_FILE, userID, analytic.id, function (err, success) {
         if (success) {
           sails.log('Success during scaffold');

@@ -12,8 +12,9 @@ echo ""
 SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 DATASET_FOLDERS=( "encrypted" "extracted" "available" "available/non_pii" "available/pii" )
-ANALYTIC_FOLDERS=(tmp archives)
+ANALYTIC_FOLDERS=("tmp" "archives")
 LOG_FILES=(production.log development.log)
+DATA_SCRIPTS=( "analytics" )
 
 DATABASE_SETUP=db_setup.sql
 
@@ -21,6 +22,8 @@ ERRORS=0
 
 for folder in "${DATASET_FOLDERS[@]}"; do CREATE="$SCRIPT_PATH/../../../datasets/${folder}"; echo "[x] Creating $CREATE"; mkdir -p "$CREATE"; done
 for folder in "${ANALYTIC_FOLDERS[@]}"; do CREATE="$SCRIPT_PATH/../../../analytics/${folder}"; echo "[x] Creating $CREATE"; mkdir -p "$CREATE"; done
+for folder in "${DATA_SCRIPTS[@]}"; do CREATE="$SCRIPT_PATH/../../../data_scripts/${folder}"; echo "[x] Creating $CREATE"; mkdir -p "$CREATE"; done
+
 
 mkdir -p "$SCRIPT_PATH/../../logs"
 

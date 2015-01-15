@@ -52,6 +52,11 @@ module.exports.routes = {
     action: 'privacy'
   },
 
+  '/license': {
+    controller: 'home',
+    action: 'license'
+  },
+
   '/contact': {
     controller: 'home',
     action: 'contact'
