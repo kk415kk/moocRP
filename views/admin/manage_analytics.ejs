@@ -137,7 +137,7 @@
       <% if (analytic.approved) { %>
         <tr data-id="<%= analytic.id %>" data-model="analytic">
           <td><a href="/user/show/<%= analytic.owner.id %>" target="_blank"><%= analytic.owner.id %></a></td>
-          <td><%= analytic.name %></td>
+          <td><a href="/analytic/show/<%= analytic.id %>"><%= analytic.name %></a></td>
           <td><%= analytic.type %></td>
           <td><%= analytic.fileName %></td>
           <td><a class="btn btn-sm btn-primary" data-toggle="modal" href="#approvedDescriptionModal-<%= analytic.id %>">Description</a></td>

@@ -8,7 +8,6 @@
         <br>
       <% }); %>
       </div>
-      <br>
     <% } %>
     <% if (messages && messages['warning'].length > 0) { %>
       <div class="alert alert-warning">
@@ -17,7 +16,6 @@
         <br>
       <% }); %>
       </div>
-      <br>
     <% } %>
     <% if (messages && messages['success'].length > 0) { %>
       <div class="alert alert-success">
@@ -26,8 +24,133 @@
         <br>
       <% }); %>
       </div>
-      <br>
     <% } %> 
   </div>
 </div>
 
+<div class="sub-banner">
+  <div class="container">
+    <h2>Module Information</h2>
+  </div>
+</div>
+<div class="container wrapper">
+  <div class="row">
+    <div class="col-md-12">
+      <h2><b><%= analytic.name %></b> by <%= analytic.owner.firstName %> <%= analytic.owner.lastName %></h2>
+      <hr>
+    </div>
+
+    <div class="col-md-6">
+      <h3>Description</h3>
+      <p><%= analytic.description %></p>
+
+      <h3>Data Model</h3>
+      <p><%= analytic.dataModels[0] %></p>
+
+      <h3>Download</h3>
+      <p>The latest version of the module is provided for download below.</p>
+      <a class="btn btn-sm btn-primary" href="/analytic/download/<%= analytic.id %>">Download</a>
+
+      <!-- Update Controls -->
+      <% if (req.session.user.id || req.session.user.admin) { %>
+        <h3>Manage Module</h3>
+        <p>Basic controls for managing your analytic module can be found here. This is also where you can update your module to a newer version.</p>
+        <div id="buttons">
+          <a href="#" id="rename-button" class="btn btn-warning btn-sm">Rename</a>
+          <a href="#" id="description-button" class="btn btn-warning btn-sm">Edit Description</a> 
+          <a href="#" id="update-button" class="btn btn-primary btn-sm">Update Module</a>
+        </div>
+
+        <div id="rename-form" style="display:none;">
+          <form action="/analytic/save/<%= analytic.id %>" method="POST">
+            <input type="text" name="name" placeholder="module name" value="<%= analytic.name %>" class="form-control"><br>
+            <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+            <input type="submit" value="Rename" class="btn btn-sm btn-primary">
+            <button class="back-button btn btn-primary btn-sm">Back</button>
+          </form>
+        </div>
+
+        <div id="description-form" style="display:none;">
+          <form action="/analytic/save/<%= analytic.id %>" method="POST">
+            <textarea name="description" placeholder="please enter a short description on the module." class="form-control"><%= analytic.description %></textarea><br>
+            <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+            <input type="submit" value="Save Description" class="btn btn-sm btn-primary">
+            <button class="back-button btn btn-primary btn-sm">Back</button>
+          </form>
+        </div>
+
+        <div id="update-form" style="display:none;">
+          <p>This feature will be coming soon!</p>
+          <button class="back-button btn btn-primary btn-sm">Back</button>
+        </div>
+      <% } %>
+    </div>
+
+    <div class="col-md-6">
+      <h3>Statistics</h3>
+      <b>Date Approved:</b> <%= analytic.updatedAt %><br>
+      <b>Number of Users Starred:</b> <%= analytic.usersWhoStarred.length %><br>
+      <b>View Count:</b> N/A<br>
+
+      <br><br>
+      
+      <div id="display-box" class="box">
+        <h3>Display</h3>
+        <form action="/analytics/display">
+          <select id="select-<%= analytic.id %>" class="form-control" name="requestedData" onchange="addDataset(<%= analytic.id %>);" style="width:100%;">
+            <option value="select">select</option>
+            <!-- Key: the safe file name of the data type, 
+                 Value: an array where the 0th element is the display name of the data type, the 1st element is the actual dataset filename minus ext -->
+            <% for (var dataModelSafeName in datasets) { %>
+              <% if (datasets.hasOwnProperty(dataModelSafeName)) { %>
+                <% var currDataset = datasets[dataModelSafeName] %>
+                <% for (i = 0; i < currDataset.length; i++) { %>
+                  <% var dataModelDisplayName = currDataset[i][0], datasetName = currDataset[i][1] %>
+                  <% if (analytic.dataModels.indexOf(dataModelDisplayName) > -1) { %>
+                    <option value="<%= dataModelSafeName %>__<%= datasetName %>"><%= dataModelDisplayName %>: <%= datasetName %></option>
+                  <% } %>
+                <% } %>
+              <% } %>
+            <% } %>
+          </select>
+          <br>
+          <a id="a-<%= analytic.id %>" class="btn btn-sm btn-primary" href="/analyticdisplay/share/<%= analytic.type %>/<%= analytic.owner.id %>/<%= analytic.id %>/select">Display</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$('#rename-button').click(function () {
+  $('#buttons').fadeOut();
+  $('#rename-form').fadeIn();
+});
+
+$('#update-button').click(function () {
+  $('#buttons').fadeOut();
+  $('#update-form').fadeIn();
+});
+
+$('#description-button').click(function () {
+  $('#buttons').fadeOut();
+  $('#description-form').fadeIn();
+});
+
+$('.back-button').click(function () {
+  $('#buttons').fadeIn();
+  $('#rename-form').fadeOut();
+  $('#update-form').fadeOut();
+})
+</script>
+
+<!-- Handling the module display form -->
+<script>
+function addDataset(analyticID) {
+  var selectField = document.getElementById("select-" + analyticID);
+  var dataset = selectField.options[selectField.selectedIndex].value;
+
+  var analyticLink = document.getElementById("a-" + analyticID).href.split("/").slice(0, -1).join("/");
+  document.getElementById("a-" + analyticID).href = analyticLink + "/" + dataset;
+}
+</script>

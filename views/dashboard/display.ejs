@@ -110,7 +110,7 @@
 							<h5>Pending Requests</h5>
 							<% _.each(requests, function(request) { %>
 								<% if (!request.approved && !request.rejected) { %>
-								<b><%= request.dataModel.displayName %>:</b> <%= request.dataset %> <font color="orange" class="pull-right">PENDING</font><br>
+								<b><%= request.dataModel.displayName %>:</b> <%= request.dataset %>: <font color="orange" class="pull-right">PENDING</font><br>
 								<% } %>
 							<% }) %>
 							<hr>
@@ -158,40 +158,7 @@
 		<div class="col-md-6" id="rightDashboard">
 			<div class="panel-group">
 
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h1 class="panel-title">Shared Analytic Modules</h1>
-						<a data-toggle="collapse" data-parent="#rightDashboard" data-target="#analyticRequests" class="pull-right">+</a>
-					</div>
-					<div id="analyticRequests" class="panel-collapse collapse">
-						<div class="panel-body">
-						<h5>Approved Modules</h5>
-						<% _.each(analytics, function(analytic) { %>
-							<% if (analytic.approved) { %>
-								<%= analytic.name %>
-								<br>
-							<% } %>
-						<% }); %>
-						<hr>
-						<h5>Pending Modules</h5>
-						<% _.each(analytics, function(analytic) { %>
-							<% if (!analytic.approved && !analytic.rejected) { %>
-								<%= analytic.name %>
-								<br>
-							<% } %>
-						<% }); %>
-						<hr>
-						<h5>Rejected Modules</h5>
-						<% _.each(analytics, function(analytic) { %>
-							<% if (analytic.rejected) { %>
-								<%= analytic.name %>
-								<br>
-							<% } %>
-						<% }); %>
-						</div>
-					</div>
-				</div>
-
+				<!-- Starred Analytics -->
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h1 class="panel-title">Starred Analytic Modules</h1>
@@ -201,8 +168,45 @@
 						<div class="panel-body">
 							<p>This is where your starred analytic modules will appear.</p>
 							<% starredAnalytics.forEach(function (starred) { %>
-								<p><a href="/analyticdisplay/#"><%= starred.name %></a></p> <!-- TODO -->
+								<a href="/analytic/show/<%= starred.id %>"><%= starred.name %></a><br><!-- TODO -->
 							<% }); %>
+						</div>
+					</div>
+				</div>
+
+				<!-- Uploaded Analytics -->
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h1 class="panel-title">Shared Analytic Modules</h1>
+						<a data-toggle="collapse" data-parent="#rightDashboard" data-target="#analyticRequests" class="pull-right">+</a>
+					</div>
+					<div id="analyticRequests" class="panel-collapse collapse">
+						<div class="panel-body">
+						<h5>Pending Modules</h5>
+						<% _.each(analytics, function(analytic) { %>
+							<% if (!analytic.approved && !analytic.rejected) { %>
+								<%= analytic.name %>: <font color="orange" class="pull-right">PENDING</font>
+								<br>
+							<% } %>
+						<% }); %>
+						<hr>
+						<h5>Approved Modules</h5>
+						<% _.each(analytics, function(analytic) { %>
+							<% if (analytic.approved) { %>
+								<a href="/analytic/show/<%= analytic.id %>"><%= analytic.name %></a>: <font color="green" class="pull-right">APPROVED</font>
+								<br>
+							<% } %>
+						<% }); %>
+						<hr>
+						<h5>Rejected Modules</h5>
+						<% count = 0 %>
+						<% _.each(analytics, function(analytic) { %>
+							<% if (analytic.rejected && count < maxCount) { %>
+								<%= analytic.name %>: <font color="red" class="pull-right">REJECTED</font>
+								<% count += 1 %>
+								<br>
+							<% } %>
+						<% }); %>
 						</div>
 					</div>
 				</div>
