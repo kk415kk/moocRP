@@ -61,6 +61,10 @@ module.exports = {
   
   script_move: function(req, res) {
     return res.redirect('/admin/manage_data_scripts');
+  },
+
+  upload: function(req, res) {
+    return res.redirect('/admin/manage_data_scripts');
   }
 };
 

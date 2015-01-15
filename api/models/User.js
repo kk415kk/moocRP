@@ -31,8 +31,7 @@ module.exports = {
       required: true
     },
     email: {
-    	type: 'STRING',
-    	email: true,
+    	type: 'EMAIL',
       unique: true,
     },
     registered: {

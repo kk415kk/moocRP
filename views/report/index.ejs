@@ -10,19 +10,49 @@
   </div>
 </div>
 
-<div class="container">
+<div class="container wrapper">
   <div class="row">
     <div class="col-md-6">
-      <h2>Unresolved Reports</h2>
-      <p>8/13/14 - Under development</p>
+      <h2>Reports</h2>
+      <p>All reports by users (and non-users) will appear here, as well as in the inbox of the email address registered with this moocRP instance. Currently, messages can only be responded to through external email inboxes. Integration of replies, etc. is currently being developed. - 1/16/15</p>
+      <% _.each(reports, function(report) { %>
+        <div class="row-item" id="<%= report.id %>" onclick='displayReport(<%- JSON.stringify(report) %>);'>
+          <% if (report.type == 'Bug') { %>
+            <b><font color="red">[<%= report.type %>]</font></b>
+          <% } else if (report.type == 'Inquiry'){ %>
+            <b><font color="orange">[<%= report.type %>]</font></b>
+          <% } else { %>
+            <b><font color="green">[<%= report.type %>]</font></b>
+          <% } %>
+          <b><%= report.createdAt %>:</b> [Report ID: <%= report.id %>]
+        </div>
+      <% }); %>
 
-      <h2>Resolved Reports</h2>
-      <p>8/13/14 - Under development</p>
     </div>
 
     <div class="col-md-6">
-      <h2>Notices</h2>
-      <p>8/13/14 - Under development</p>
+      <h2>Message</h2>
+      <div id="message-box" class="description-box">
+      </div>
     </div>
   </div>
 </div>
+
+
+<script>
+
+function displayReport (report) {
+  var text = "<h4>Report Type: [" + report.type + "] [Report ID: " + report.id + " ]</h4>";
+  text += report.createdAt;
+  text += "<hr>";
+  text += "<p><b>moocRP User ID:</b> " + report.user + "</p>"; 
+  text += "<p><b>First Name:</b> " + report.firstName + "</p>";
+  text += "<p><b>Last Name:</b> " + report.lastName + "</p>";
+  text += "<p><b>Email Address:</b> <a href='mailto:" + report.emailAddress + "'>" + report.emailAddress + "</a></p>";
+  text += "<p><b>Message:</b><br> " + report.emailMessage + "</p>";
+  text += "<button class='btn btn-primary btn-sm' id='reply-button'>Reply</button> ";
+  text += "<button class='btn btn-success btn-sm' id='resolve-button'>Resolve</button> ";
+  text += "<button class='btn btn-danger btn-sm' id='close-button'>Close</button> ";
+  $('#message-box').html(text);
+};
+</script>

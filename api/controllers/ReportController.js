@@ -11,19 +11,22 @@
  */
 
 module.exports = {
+
   index: function(req, res) {
-    return res.view({ title: 'Reports' });
+    Report.find(function (err, reports) {
+      return res.view({ title: 'Reports', reports: reports});
+    });
   },
 
   send: function(req, res) {
     var nodemailer = require('nodemailer');
     var transporter = nodemailer.createTransport(sails.config.transporter);
-    var mailOptions = sails.config.mailOptions;
+    var mailOptions = JSON.parse(JSON.stringify(sails.config.mailOptions));
 
     var params = req.params.all();
     var firstName = params['firstName'],
         lastName = params['lastName'],
-        type = params['requestType'],
+        type = params['type'],
         emailAddress = params['emailAddress'],
         emailMessage = params['emailMessage']
 
@@ -38,17 +41,36 @@ module.exports = {
     mailOptions['text'] = HTMLtext;
     mailOptions['html'] = HTMLtext;
 
-    transporter.sendMail(mailOptions, function(error, info) {
-      if (error) {
-        sails.log(error)
-        FlashService.error(req, "Unable to send message at this time. Please try again later.");
-        return res.redirect('/contact');
-      } else {
-        sails.log('Message sent: ' +  info.response);
-        FlashService.success(req, "Successfully sent message. Please allow 1-2 business days for a response.");
-        return res.redirect('/contact');
-      }
+    if (req.session.user && req.session.user.id) params['user'] = req.session.user.id;
+    Report.create(params, function (err, report) {
+
+      transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+          sails.log(error)
+          FlashService.error(req, "Unable to send message at this time. Please try again later.");
+          return res.redirect('/contact');
+        } else {
+          sails.log('Message sent: ' +  info.response);
+          FlashService.success(req, "Successfully sent message. Please allow 1-2 business days for a response.");
+          return res.redirect('/contact');
+        }
+      });
     });
+  },
+
+  destroy: function(req, res) {
+    Report.destroy(req.param('id'), function (err, report) {
+      FlashService.success(req, 'Successfully deleted report.');
+      return res.redirect('/report');
+    });
+  },
+
+  reply: function (req, res) {
+    //TODO
+  },
+
+  update_status: function (req, res) {
+    //TODO
   }
 	
 };
