@@ -137,7 +137,8 @@ $('#description-button').click(function () {
   $('#description-form').fadeIn();
 });
 
-$('.back-button').click(function () {
+$('.back-button').click(function (event) {
+  event.preventDefault();
   $('#buttons').fadeIn();
   $('#rename-form').fadeOut();
   $('#update-form').fadeOut();

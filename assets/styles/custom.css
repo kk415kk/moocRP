@@ -7,11 +7,6 @@
   background: url('/images/banner.jpg');
 }
 
-.jumbotron {
-  filter: alpha(opacity=75);
-  opacity: 0.75;
-}
-
 /******************
  * Bootstrap Edits
  ******************/
@@ -199,7 +194,11 @@ input[readonly] {
 
 .panel-heading a:hover {
   text-decoration: none;
-  color: #428bca;
+  color: inherit;
+  cursor: pointer;
+}
+
+.panel-heading.link:hover {
   cursor: pointer;
 }
 
@@ -560,6 +559,8 @@ a.btn.btn-default.btn-sm.navbar-btn:hover {
 	text-align: center;
 }
 
+.jumbotron .container,
+.container .jumbotron,
 .jumbotron {
   text-align: center;
 	font-size: 1.5em;
@@ -569,6 +570,9 @@ a.btn.btn-default.btn-sm.navbar-btn:hover {
 	font-weight: normal;
 	color: gray;
   padding-bottom: 20px;
+  filter: alpha(opacity=75);
+  opacity: 0.75;
+  border-radius: 0px;
 }
 
 .container .gray {

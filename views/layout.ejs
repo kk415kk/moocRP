@@ -99,7 +99,7 @@
           <ul class="nav navbar-nav navbar-right">
             <% if (session.authenticated) { %>
             <!-- Logout button -->
-              <li><p class="navbar-text">Logged in as <a href="/dashboard"><font color="#5cb85c"><%= session.user.firstName %> <%= session.user.lastName %></font></a></p></li>
+              <li><p class="navbar-text">Logged in as <a href="/user/edit/<%= session.user.id %>"><font color="#5cb85c"><%= session.user.firstName %> <%= session.user.lastName %></font></a></p></li>
               <li><a class="btn btn-default btn-sm navbar-btn" href="/" onclick="window.open('/logout')">Logout</a></li>
             <% } %>
 

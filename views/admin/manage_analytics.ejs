@@ -203,7 +203,6 @@
         <th>Type</th>
         <th>File</th>
         <th>Description</th>
-        <th>Download</th>
         <th>Destroy</th>
       </tr>
     </thead>
@@ -216,8 +215,7 @@
           <td><%= analytic.name %></td>
           <td><%= analytic.type %></td>
           <td><%= analytic.fileName %></td>
-          <td><a class="btn btn-sm btn-primary" data-toggle="modal" href="#approvedDescriptionModal-<%= analytic.id %>">Description</a></td>
-          <td><a href="/analytic/download/<%= analytic.id %>" class="btn btn-sm btn-primary">Download</a></td>
+          <td><a class="btn btn-sm btn-primary" data-toggle="modal" href="#rejectedDescriptionModal-<%= analytic.id %>">Description</a></td>
           <td><a href="#destroyModal-<%= analytic.id %>" data-toggle="modal" class="btn btn-sm btn-danger">Destroy</a></td>
 
           <!-- Modal for Rejected Module Descriptions-->

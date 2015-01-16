@@ -87,9 +87,9 @@
 			<div class="panel-group">
 
 				<div class="panel panel-default">
-					<div class="panel-heading">
+					<div class="panel-heading link" data-toggle="collapse" data-parent="#leftDashboard" data-target="#notices">
 						<h1 class="panel-title">Notices</h1>
-						<a data-toggle="collapse" data-parent="#leftDashboard" data-target="#notices" class="pull-right">+</a>
+						<a class="pull-right">+</a>
 					</div>
 					<div id="notices" class="panel-collapse collapse">
 						<div class="panel-body">
@@ -100,9 +100,9 @@
 
 				<!-- Start Panel -->
 				<div class="panel panel-default">
-					<div class="panel-heading">
+					<div class="panel-heading link" data-toggle="collapse" data-parent="#leftDashboard" data-target="#dataRequests" >
 						<h1 class="panel-title">Data Requests<div id="reqNotif" class="notification"></div></h1>
-						<a data-toggle="collapse" data-parent="#leftDashboard" data-target="#dataRequests" class="pull-right">+</a>
+						<a class="pull-right">+</a>
 					</div>
 					<div id="dataRequests" class="panel-collapse collapse">
 						<!-- Start Panel Body -->
@@ -160,9 +160,9 @@
 
 				<!-- Starred Analytics -->
 				<div class="panel panel-default">
-					<div class="panel-heading">
+					<div class="panel-heading link" data-toggle="collapse" data-parent="#rightDashboard" data-target="#starredAnalytics">
 						<h1 class="panel-title">Starred Analytic Modules</h1>
-						<a data-toggle="collapse" data-parent="#rightDashboard" data-target="#starredAnalytics" class="pull-right">+</a>
+						<a class="pull-right">+</a>
 					</div>
 					<div id="starredAnalytics" class="panel-collapse collapse">
 						<div class="panel-body">
@@ -176,9 +176,9 @@
 
 				<!-- Uploaded Analytics -->
 				<div class="panel panel-default">
-					<div class="panel-heading">
+					<div class="panel-heading link" data-toggle="collapse" data-parent="#rightDashboard" data-target="#analyticRequests">
 						<h1 class="panel-title">Shared Analytic Modules</h1>
-						<a data-toggle="collapse" data-parent="#rightDashboard" data-target="#analyticRequests" class="pull-right">+</a>
+						<a class="pull-right">+</a>
 					</div>
 					<div id="analyticRequests" class="panel-collapse collapse">
 						<div class="panel-body">
@@ -226,9 +226,10 @@
 				<h3 class="section">Share Analytics</h3>
 				<p>Please place your main visualization code inside a "main.html" file inside your archive. Our system detects the code through that file only. Read our <a href="/privacy" target="_blank">privacy policy</a> for more information on how we use your analytics.</p>
 				<form action="/analytic/upload" enctype="multipart/form-data" method="POST">
-	    		<label for="name">Analytic: </label><input type="text" class="form-control" placeholder="module name" name="name">
+	    		<label for="name">Analytic: </label><input type="text" class="form-control" placeholder="Module name" name="name">
 	    		<br>
-					<label for="description">Description: </label><textarea rows="5" type="text" class="form-control" name="description"></textarea>
+					<label for="description">Description: </label>
+					<textarea rows="5" type="text" class="form-control" name="description" placeholder="A description of the module."></textarea>
 					<br>
 					<label for="dataModels">Data Model Support:</label>
 					<select class="form-control limit-width" size="4" name="dataModels">
