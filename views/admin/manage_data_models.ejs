@@ -46,10 +46,14 @@
         <h3>Import</h3>
         <p>Note that the names cannot include "__".</p>
         <div class="form-group">
-          <label for="displayName">Display Name: </label><input type="text" id="displayName" class="form-control" placeholder="HarvardX" name="displayName" tabindex="2">
+          <label for="displayName">Display Name: </label><input type="text" id="displayName" class="form-control" placeholder="X-API" name="displayName" tabindex="2">
         </div>
         <div class="form-group">
-          <label for="fileSafeName">Folder Name: </label><input type="text" id="fileSafeName" class="form-control" placeholder="harvardx_output" name="fileSafeName" tabindex="2">
+          <label for="fileSafeName">Folder Name: </label><input type="text" id="fileSafeName" class="form-control" placeholder="xapi_output" name="fileSafeName" tabindex="2">
+        </div>
+        <div class="form-group">
+          <label for="description">Description: </label>
+          <textarea id="description" class="form-control" placeholder="Please enter a description of the data model." name="description" tabindex="3"></textarea>
         </div>
         <input type="submit" class="btn btn-md btn-primary btn-block" value="Import" tabindex="1">
         <input type="hidden" name="_csrf" value="<%= _csrf %>" />
@@ -86,12 +90,13 @@
                   </div>
 
                   <div class="modal-body">
-                    <p>This is under construction</p>
                     <form id='editModalForm-<%= dataModel.id %>' action='/datamodel/save/<%= dataModel.id %>'>
                       <label for="displayName">Display Name: </label><input class='form-control' type='text' name='displayName' placeholder='<%= dataModel.displayName %>' value='<%= dataModel.displayName %>'>
                       <br>
                       <label for="folderName">Folder Name: </label><input class='form-control' type='text' name='folderName' placeholder='<%= dataModel.fileSafeName %>' value='<%= dataModel.fileSafeName %>'>
                       <br>
+                      <label for="description">Description: </label>
+                      <textarea id="description" class="form-control" placeholder="<%= dataModel.description %>" value="<%= dataModel.description %>" name="description"></textarea>
                       <input type="hidden" name="_csrf" value="<%= _csrf %>">
                     </form>
                   </div>

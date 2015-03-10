@@ -127,6 +127,10 @@ module.exports = {
         updateParams['displayName'] = params['displayName'];
       }
 
+      if (params['description'] != '' && params['description'] != datamodel.description) {
+        updateParams['description'] = params['description'];
+      }
+
       if (params['folderName'] != '' && params['folderName'] != datamodel.fileSafeName) {
         var fs = require('fs-extra');
         var path = require('path');

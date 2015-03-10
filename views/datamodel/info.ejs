@@ -75,6 +75,10 @@ $('.row-item').click(function () {
   var dataModelInfo = dataModels[dataModel];
 
   var text = "<h3>" + dataModel + "</h3><hr>";
+  text += "<p>"
+  text += dataModelInfo.description;
+  text += "</p><br>"
+
   text += "<h5>Files</h5>";
 
   if (dataModelInfo.files.length == 0) {

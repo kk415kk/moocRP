@@ -25,6 +25,9 @@ module.exports = {
     request: {
       collection: 'request',
       via: 'dataModel'
+    },
+    description: {
+      type: 'TEXT'
     }
   },
 
@@ -34,6 +37,9 @@ module.exports = {
     if (prohibit.test(values.displayName) || prohibit.test(values.fileSafeName)) {
       // Handle somehow
       return next(new Error('Please use a filename that does not have __ in it.'));
+    }
+    if (!values.description || values.description == '') {
+      values.description = 'No description available.'
     }
     return next();
   }
