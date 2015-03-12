@@ -1,5 +1,16 @@
 <img src="https://travis-ci.org/kk415kk/moocRP.svg?branch=master"/>
 # moocRP: Learning Analytics Platform
+For the main page of the lab behind moocRP, see the [CAHLR repository](http://www.github.com/cahlr).
+
+Upcoming moocRP webinars (held on Google Hangouts):
+* TBD
+* TBD
+* TBD
+
+To RSVP, please fill out this Google form: TBD
+
+<hr>
+
 Research platform for University of California, Berkeley researchers built by Kevin Kao in collaboration with Professor Zachary Pardos. To contribute to this project, please fork the project and make pull requests, or create Github issues.
 
 Built on Node.js server with Sails.js framework for an MVC architecture. Python/Bash scripts and D3 visualizations mixed in.
@@ -8,7 +19,7 @@ Releases will be numbered as ````< major version >.< minor version >.< patch num
 
 ## Current Release
 The current release version is:  ````0.1.5````<br>
-<b>Last update:</b> 1/12/15
+<b>Last update:</b> 3/11/15
 
 ## Author
 Kevin Kao
