@@ -33,6 +33,10 @@ module.exports = {
       type: 'TEXT',
       required: true
     },
+    url: {
+      type: 'STRING',
+      url: true
+    },
     approved: {
       type: 'BOOLEAN',
       defaultsTo: false

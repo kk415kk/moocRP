@@ -72,7 +72,10 @@
 
         <div id="description-form" style="display:none;">
           <form action="/analytic/save/<%= analytic.id %>" method="POST">
+            <label for="description">Description:</label>
             <textarea name="description" placeholder="please enter a short description on the module." class="form-control"><%= analytic.description %></textarea><br>
+            <label for="url">URL: </label>
+            <input type="text" name="url" value="<%= analytic.url %>" class="form-control"><br>
             <input type="hidden" name="_csrf" value="<%= _csrf %>" />
             <input type="submit" value="Save Description" class="btn btn-sm btn-primary">
             <button class="back-button btn btn-primary btn-sm">Back</button>

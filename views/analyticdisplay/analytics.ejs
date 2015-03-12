@@ -89,7 +89,7 @@
   					<% _.each(analytics, function(analytic) {%>
   						<% if (analytic.approved) { %>
   							<% var author = analytic.owner %>
-  							<tr id="<%= analytic.name %>-<%= analytic.owner.id %>" name="<%= analytic.name %>" owner="<%= analytic.owner.firstName %> <%=analytic.owner.lastName %>" description="<%=analytic.description%>">
+  							<tr id="<%= analytic.name %>-<%= analytic.owner.id %>" name="<%= analytic.name %>" owner="<%= analytic.owner.firstName %> <%=analytic.owner.lastName %>" url="<%= analytic.url %>" description="<%=analytic.description%>">
                   <!-- Implement on click to be glyphicon-star -->
                   <td class="star-wrap">
                     <% if (starredIds.indexOf(analytic.id) > -1) {%>
@@ -187,9 +187,11 @@ function loadVisual(analyticID, analyticType, userID) {
   });
 }
 
-function description(name, owner, d) {
+function description(name, owner, d, url) {
   if (name !== undefined) {
-    $("#analytics-description").html("<h4><u>" + name + " by " + owner + "</u></h4>" + "<p>" + d + "</p>");
+    text = "<h4><u>" + name + " by " + owner + "</u></h4>" + "<p>" + d + "</p>";
+    text += "<p><b>URL: </b>" + url + "</p>";
+    $("#analytics-description").html(text);
   }
 }
 </script>
@@ -203,7 +205,8 @@ function description(name, owner, d) {
         var owner = $(this).attr('owner');
         var name = $(this).attr('name');
         var d = $(this).attr('description');
-        description(name,owner,d);
+        var url = $(this).attr('url');
+        description(name,owner,d,url);
       },
       function() {
         
