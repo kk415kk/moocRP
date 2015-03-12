@@ -224,6 +224,7 @@ module.exports = {
 
       if (req.param('name') && req.param('name') != "") analytic.name = req.param('name');
       if (req.param('description') && req.param('description') != "") analytic.description = req.param('description');
+      if (req.param('url') && req.param('url') != "") analytic.url = req.param('url');
 
       analytic.save(function (err2) {
         FlashService.success(req, 'Successfully updated analytic module.')
@@ -319,6 +320,10 @@ module.exports = {
         type = 'd3', // TODO: (possibly don't need the type) req.param('type').toLowerCase(),
         seededFileName = UtilService.generateSID(),
         dirPath = path.join(UPLOAD_PATH, type, req.session.user.id, seededFileName);
+
+    if (params['url'] == '') {
+      params['url'] = 'N/A'
+    }
 
     req.file('userArchiveFile').upload({ dirname: dirPath }, function (err, files) {
       if (err) {
