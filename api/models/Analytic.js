@@ -34,8 +34,7 @@ module.exports = {
       required: true
     },
     url: {
-      type: 'STRING',
-      url: true
+      type: 'STRING'
     },
     approved: {
       type: 'BOOLEAN',
