@@ -1,6 +1,6 @@
 <img src="https://travis-ci.org/kk415kk/moocRP.svg?branch=master"/>
 # moocRP: Learning Analytics Platform
-For the main page of the lab behind moocRP, see the [CAHLR repository](http://www.github.com/cahlr).
+For the main page of the lab behind moocRP, see the [CAHLR repository](http://www.github.com/cahlr). Note that the latest stable version of moocRP will be hosted on [CAHLR](http://www.github.com/cahlr/moocRP), while development will continue in the [original repository](http://www.github.com/kk415kk/moocRP).
 
 Upcoming moocRP webinars (held on Google Hangouts):
 * TBD
