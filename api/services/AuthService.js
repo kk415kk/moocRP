@@ -44,5 +44,5 @@ module.exports = {
     });
   },
 
-  serviceURL: settings.protocol + settings.appEnvMap[settings.environment]
+  serviceURL: settings.protocol + settings.appEnvMap[settings.environment] + settings.port
 }
