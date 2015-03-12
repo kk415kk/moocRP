@@ -356,6 +356,7 @@ module.exports = {
         if (error || !success) {
           // TODO: Cleanup and delete archive
           FlashService.error(req, 'Error while uploading analytic');
+          sails.log.debug(error);
           return res.redirect('/dashboard');
         }
 

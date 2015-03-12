@@ -12,7 +12,7 @@ var SUCCESS = sails.config.constants.SUCCESS,
     FAILURE = sails.config.constants.FAILURE;
 
 // Randomized Seeding - currently unused
-sid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
+sid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+@');
 sid.seed(42);
 
 module.exports = {
