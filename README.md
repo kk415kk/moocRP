@@ -2,12 +2,8 @@
 # moocRP: Learning Analytics Platform
 For the main page of the lab behind moocRP, see the [CAHLR repository](http://www.github.com/cahlr). Note that the latest stable version of moocRP will be hosted on [CAHLR](http://www.github.com/cahlr/moocRP), while development will continue in the [original repository](http://www.github.com/kk415kk/moocRP).
 
-Upcoming moocRP webinars (held on Google Hangouts):
-* TBD
-* TBD
-* TBD
-
-To RSVP, please fill out this Google form: TBD
+We will be holding weekly office hours on moocRP every Wednesday in April (Starting April 1st) at 9:30-10:30am PDT. Join us:
+<a target="_blank" href="https://www.google.com/calendar/event?action=TEMPLATE&tmeid=N3ZhdG43ZzJ2dWYyZWxuMXFlbnBtbDhlYmdfMjAxNTA0MDFUMTYzMDAwWiBwYXJkb3NAYmVya2VsZXkuZWR1&tmsrc=pardos%40berkeley.edu"><img border="0" src="https://www.google.com/calendar/images/ext/gc_button1_en.gif"></a>
 
 <hr>
 
