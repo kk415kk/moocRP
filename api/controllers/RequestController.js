@@ -139,7 +139,7 @@ module.exports = {
         return res.redirect('/admin/manage_requests');
       }
       EncryptionService.encrypt(request.requestingUser, request.dataModel, request.dataset, request.requestType, function(error, stdout, stderr, cmd) {
-        if (error || stderr) {
+        if (error) {
           sails.log.error('Command: ' + cmd + '\t [Error: ' + error + ']');
           sails.log.debug('stdout: ' + stdout);
           sails.log.debug('stderr: ' + stderr);
