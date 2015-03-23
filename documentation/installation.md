@@ -83,7 +83,24 @@ Then, we need to install all npm package dependencies before launch:
 sudo npm install
 ````
 
-To launch the application, simply run:
+Configuration
+================
+See the (../configuration.md)[configuration documentation] to configure moocRP before launch. Most importantly, note that `local.js` must be created before launching.
+
+
+Launching moocRP
+================
+To launch the application, first launch the Redis server:
+````
+redis-server
+````
+
+Then, launch moocRP in a new command window:
 ````
 sails lift
+````
+
+Note that if you configure moocRP to use SSL, you will need to run moocRP as admin:
+````
+sudo sails lift
 ````
