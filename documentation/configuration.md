@@ -66,7 +66,7 @@ module.exports = {
    * CAS Settings                                                            *
    ***************************************************************************/
   appEnvMap: {
-    test: 'localhost:1337',
+    test: 'localhost',
     development: 'YOUR_SERVER_URL'
   },
 
