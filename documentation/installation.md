@@ -85,7 +85,7 @@ sudo npm install
 
 Configuration
 ================
-See the [configuration documentation](../configuration.md) to configure moocRP before launch. Most importantly, note that `local.js` must be created before launching.
+See the [configuration documentation](configuration.md) to configure moocRP before launch. Most importantly, note that `local.js` must be created before launching.
 
 
 Launching moocRP
