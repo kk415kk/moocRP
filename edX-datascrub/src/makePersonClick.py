@@ -72,6 +72,9 @@ def main():
     limit = int(sys.argv[5]) if len(sys.argv) >= 6 else -1
 
     makePersonClick(axis, log, output, discards, limit)
+ 
+def getName(x):
+    return x[:x.rfind('.')]
 
 def parse_time(time_string):
     if(len(time_string) > 5 and time_string[-6:] == "+00:00"): time_string = time_string[:-6]
@@ -160,7 +163,19 @@ def makePersonClick(axis, log, outpath, outpath_discards=None, limit=-1):
     # write remaining activities without durations (will have empty "secs_to_next")
     for k,v in activities_without_durations.items():
         outcsv.writerow([v["time"], None, v["actor"], v["verb"], v["object"]["object_name"], v["object"]["object_type"], v["result"], v["meta"], v["ip"], v["event"], v["event_type"], v["page"], v["agent"]])
-    
+
+    sum_out = open(getName(outpath) + '.summary','w')
+    print >>sum_out,"\nSUMMARY\n-------"
+    print >>sum_out,"total_log_items: " + str(line_num)
+    print >>sum_out,"total_activities: " + str(total_activities)
+    print >>sum_out,"total_discards: " + str(total_discards)
+    for d in discard_counts:
+        print >>sum_out,"discard_" + d + ": " + str(discard_counts[d])
+    print >>sum_out,"discard_other: " + str(discard_other)
+    print >>sum_out,"pct_discarded: " + str(100.0 * total_discards / line_num) + "%"
+    print >>sum_out,"unique_users: " + str(len(unique_users.keys()))
+    sum_out.close()
+
     print ""
     print "\nSUMMARY\n-------"
     print "total_log_items: " + str(line_num)
