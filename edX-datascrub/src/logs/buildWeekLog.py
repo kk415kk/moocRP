@@ -71,7 +71,7 @@ if __name__ == '__main__':
 
     print 'about to process logs for', cl
     prodLogs = []
-    logFiles = glob.glob('*/' + cl + '-*')
+    logFiles = glob.glob('prod*/' + cl + '-*')
     print logFiles
     for f in logFiles:
       print 'processing log', f
