@@ -1,3 +1,3 @@
 #!/bin/bash
-#redis-server
+redis-server&
 NODE_ENV=development pm2 start app.js
