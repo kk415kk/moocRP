@@ -9,6 +9,7 @@ module.exports = {
     kue.app.listen(3000);
     sails.log.info('====> Jobs queue launched!');
     sails.log.info('====> Listening on port 3000');
+    sails.log.info('====> BETA IMPLEMENTATION');
     sails.log.info('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
   },
 
