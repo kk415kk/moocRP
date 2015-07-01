@@ -39,7 +39,7 @@
     "rc": "~0.5.0",
     "request": "latest",
     "rimraf": "latest",
-    "sails": "~0.10.5",
+    "sails": "~0.11",
     "sails-disk": "~0.10.0",
     "sails-mysql": "latest",
     "shelljs": "latest",
@@ -47,7 +47,7 @@
     "winston": "^0.8.3"
   },
   "bin": {
-    "setup": "./bin/setup.sh"
+    "setup": "./bin/setup/setup.sh"
   },
   "scripts": {
     "start": "node app.js",
