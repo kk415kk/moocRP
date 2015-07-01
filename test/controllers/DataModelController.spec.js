@@ -24,7 +24,10 @@ describe('DataModel', function() {
       sails.config.bypassLogin = true;
       sails.config.bypassUserId = 111111;
       agent = request.agent(sails.hooks.http.app);
-      agent.get('/user/login').end(done);
+      agent.get('/user/login')
+            .end(function (err, res) {
+              done(); 
+            });
     });
   })
 
