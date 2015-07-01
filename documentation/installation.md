@@ -80,7 +80,14 @@ Once the setup script is run, the file structure setup should be in this format:
 
 Then, we need to install all npm package dependencies before launch:
 ````
+cd moocRP_base/moocRP
 sudo npm install
+````
+
+There is also a bug where Grunt is not installed properly. To fix this:
+````
+cd moocRP_base/moocRP/node_modules/sails
+sudo npm install grunt-cli
 ````
 
 Configuration
@@ -92,11 +99,12 @@ Launching moocRP
 ================
 To launch the application, first launch the Redis server:
 ````
-redis-server
+redis-server&
 ````
 
 Then, launch moocRP in a new command window:
 ````
+cd moocRP_base/moocRP
 sails lift
 ````
 
