@@ -7,6 +7,7 @@ We will be holding weekly office hours on moocRP every Wednesday in April (Start
 
 <hr>
 
+
 Research platform for University of California, Berkeley researchers built by Kevin Kao in collaboration with Professor Zachary Pardos. See our Learning@Scale ACM publication for more information: <a href='http://dl.acm.org/citation.cfm?id=2724683' target='_blank'>http://dl.acm.org/citation.cfm?id=2724683</a>
 
 To contribute to this project, please fork the project and make pull requests, or create Github issues.
