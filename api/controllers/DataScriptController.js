@@ -39,7 +39,7 @@ module.exports = {
 
   // BUILT-IN DATA MANAGEMENT TOOLS
   // http://blog.thesparktree.com/post/92465942639/ducktyping-sailsjs-core-for-background-tasks-via
-	script_archive: function(req, res) {
+  script_archive: function(req, res) {
     var jobs = QueueService.getQueue();
     var job = QueueService.createJob('test job', { user: 1, test: 'testparam' });
 
